@@ -2,10 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MovieFolex</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>Welcome to MovieFolex!</h1>
-  <p>This is my movie website built with GitHub Pages.</p>
+  <header>
+    <div class="logo">MOVIEFOLEX</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Movies</a>
+      <a href="#">Categories</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="search-container">
+      <input type="text" placeholder="Search for movies..." />
+      <button><i>🔍</i></button>
+    </div>
+
+    <h2>Popular Movies</h2>
+    <div class="movies-grid">
+      <div class="movie-card">
+        <img src="https://m.media-amazon.com/images/I/71niXI3lxlL._AC_SY679_.jpg" alt="Inception">
+        <p>Inception</p>
+      </div>
+      <div class="movie-card">
+        <img src="https://m.media-amazon.com/images/I/81D+KJkO9gL._AC_SY679_.jpg" alt="The Dark Knight">
+        <p>The Dark Knight</p>
+      </div>
+      <div class="movie-card">
+        <img src="https://m.media-amazon.com/images/I/51s+G7iz8rL._AC_SY679_.jpg" alt="Interstellar">
+        <p>Interstellar</p>
+      </div>
+      <div class="movie-card">
+        <img src="https://m.media-amazon.com/images/I/81nC6RfXe7L._AC_SY679_.jpg" alt="Avengers: Endgame">
+        <p>Avengers: Endgame</p>
+      </div>
+    </div>
+  </main>
 </body>
 </html>

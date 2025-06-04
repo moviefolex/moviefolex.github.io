@@ -2,48 +2,220 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MovieFolex</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://wallpaperaccess.com/full/3295837.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #ffffff;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: -1;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(26, 26, 26, 0.85);
+      padding: 15px 30px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .navbar h1 {
+      color: #ff3c3c;
+      font-size: 24px;
+    }
+
+    .nav-links a {
+      color: #ffffff;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #ff3c3c;
+    }
+
+    .search-container {
+      margin-top: 100px;
+      text-align: center;
+    }
+
+    .search-container form {
+      display: inline-flex;
+      width: 60%;
+      max-width: 500px;
+    }
+
+    .search-container input[type="text"] {
+      flex: 1;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px 0 0 5px;
+      outline: none;
+    }
+
+    .search-container button {
+      padding: 12px 20px;
+      background-color: #ff3c3c;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 0 5px 5px 0;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .search-container button:hover {
+      background-color: #e63636;
+    }
+
+    .section-title {
+      text-align: center;
+      margin: 40px 0 20px;
+      font-size: 28px;
+      font-weight: 700;
+      color: #ff3c3c;
+    }
+
+    .movie-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 20px;
+      padding: 0 40px 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .movie-card {
+      background-color: rgba(0, 0, 0, 0.7);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+      cursor: pointer;
+    }
+
+    .movie-card:hover {
+      transform: scale(1.05);
+    }
+
+    .movie-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+
+    .movie-card h3 {
+      padding: 10px;
+      font-size: 18px;
+    }
+
+    @media screen and (max-width: 768px) {
+      .search-container {
+        margin-top: 40px;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .search-container form {
+        width: 100%;
+      }
+
+      .movie-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        padding: 0 20px 20px;
+      }
+
+      .movie-card img {
+        height: 200px;
+      }
+
+      .movie-card h3 {
+        font-size: 16px;
+        padding: 8px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <div class="logo">MOVIEFOLEX</div>
-    <nav>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <h1>MOVIEFOLEX</h1>
+    <div class="nav-links">
       <a href="#">Home</a>
       <a href="#">Movies</a>
       <a href="#">Categories</a>
-    </nav>
-  </header>
-
-  <main>
-    <div class="search-box">
-      <input type="text" placeholder="Search for movies..." />
-      <button>🔍</button>
     </div>
+  </div>
 
-    <h2>Popular Movies</h2>
+  <!-- Search -->
+  <div class="search-container">
+    <form onsubmit="return handleSearch(event)">
+      <input type="text" id="searchInput" placeholder="Search for movies..." required />
+      <button type="submit">🔍</button>
+    </form>
+  </div>
 
-    <div class="card-container">
-      <div class="card">
-        <img src="https://m.media-amazon.com/images/I/81nC6RfXe7L._AC_SY679_.jpg" alt="Avengers: Endgame">
-        <p>Avengers: Endgame</p>
-      </div>
-      <div class="card">
-        <img src="https://m.media-amazon.com/images/I/71niXI3lxlL._AC_SY679_.jpg" alt="Inception">
-        <p>Inception</p>
-      </div>
-      <div class="card">
-        <img src="https://m.media-amazon.com/images/I/81D+KJkO9gL._AC_SY679_.jpg" alt="The Dark Knight">
-        <p>The Dark Knight</p>
-      </div>
-      <div class="card">
-        <img src="https://m.media-amazon.com/images/I/51s+G7iz8rL._AC_SY679_.jpg" alt="Interstellar">
-        <p>Interstellar</p>
-      </div>
-    </div>
-  </main>
+  <!-- Popular Movies -->
+  <h2 class="section-title">Popular Movies</h2>
+
+  <div class="movie-grid">
+    <a class="movie-card" href="download.html?id=avengers">
+      <img src="https://lumiere-a.akamaihd.net/v1/images/p_avengersendgame_19751_e14a0104.jpeg" alt="Avengers Endgame" />
+      <h3>Avengers: Endgame</h3>
+    </a>
+    <a class="movie-card" href="download.html?id=inception">
+      <img src="https://m.media-amazon.com/images/I/51k0qa6zY-L._AC_UF894,1000_QL80_.jpg" alt="Inception" />
+      <h3>Inception</h3>
+    </a>
+    <a class="movie-card" href="download.html?id=interstellar">
+      <img src="https://flxt.tmsimg.com/assets/p10701949_p_v8_aa.jpg" alt="Interstellar" />
+      <h3>Interstellar</h3>
+    </a>
+    <a class="movie-card" href="download.html?id=avatar">
+      <img src="https://upload.wikimedia.org/wikipedia/en/b/b0/Avatar-Teaser-Poster.jpg" alt="Avatar" />
+      <h3>Avatar</h3>
+    </a>
+  </div>
+
+  <script>
+    function handleSearch(event) {
+      event.preventDefault();
+      const query = document.getElementById("searchInput").value.trim();
+      if (query !== "") {
+        window.location.href = `search.html?q=${encodeURIComponent(query)}`;
+      }
+    }
+  </script>
+
 </body>
 </html>

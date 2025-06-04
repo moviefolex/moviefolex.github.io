@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Search Results - MovieFolex</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://wallpaperaccess.com/full/3295837.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #ffffff;
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: -1;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(26, 26, 26, 0.85);
+      padding: 15px 30px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .navbar h1 {
+      color: #ff3c3c;
+      font-size: 24px;
+    }
+
+    .nav-links a {
+      color: #ffffff;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #ff3c3c;
+    }
+
+    .search-heading {
+      text-align: center;
+      margin: 40px 20px 20px;
+      font-size: 24px;
+      color: #ff3c3c;
+    }
+
+    .movie-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 20px;
+      padding: 0 40px 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .movie-card {
+      background-color: rgba(0, 0, 0, 0.7);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+      cursor: pointer;
+    }
+
+    .movie-card:hover {
+      transform: scale(1.05);
+    }
+
+    .movie-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+
+    .movie-card h3 {
+      padding: 10px;
+      font-size: 18px;
+    }
+
+    .no-results {
+      text-align: center;
+      color: #ccc;
+      font-size: 18px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <h1>MOVIEFOLEX</h1>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="#">Movies</a>
+      <a href="#">Categories</a>
+    </div>
+  </div>
+
+  <!-- Search Heading -->
+  <h2 class="search-heading" id="searchTitle">Search Results</h2>
+
+  <!-- Movie Results -->
+  <div class="movie-grid" id="resultsGrid"></div>
+  <p class="no-results" id="noResults" style="display: none;">No results found for your search.</p>
+
+  <script>
+    const movies = [
+      {
+        id: "avengers",
+        title: "Avengers: Endgame",
+        poster: "https://lumiere-a.akamaihd.net/v1/images/p_avengersendgame_19751_e14a0104.jpeg"
+      },
+      {
+        id: "inception",
+        title: "Inception",
+        poster: "https://m.media-amazon.com/images/I/51k0qa6zY-L._AC_UF894,1000_QL80_.jpg"
+      },
+      {
+        id: "interstellar",
+        title: "Interstellar",
+        poster: "https://flxt.tmsimg.com/assets/p10701949_p_v8_aa.jpg"
+      },
+      {
+        id: "avatar",
+        title: "Avatar",
+        poster: "https://upload.wikimedia.org/wikipedia/en/b/b0/Avatar-Teaser-Poster.jpg"
+      }
+    ];
+
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    function renderResults(query) {
+      const results = movies.filter(movie =>
+        movie.title.toLowerCase().includes(query.toLowerCase())
+      );
+
+      const resultsGrid = document.getElementById('resultsGrid');
+      const noResults = document.getElementById('noResults');
+      const searchTitle = document.getElementById('searchTitle');
+
+      searchTitle.textContent = `Search Results for "${query}"`;
+
+      if (results.length === 0) {
+        noResults.style.display = 'block';
+        return;
+      }
+
+      results.forEach(movie => {
+        const card = document.createElement('a');
+        card.className = 'movie-card';
+        card.href = `download.html?id=${movie.id}`;
+        card.innerHTML = `
+          <img src="${movie.poster}" alt="${movie.title}" />
+          <h3>${movie.title}</h3>
+        `;
+        resultsGrid.appendChild(card);
+      });
+    }
+
+    const query = getQueryParam('q');
+    if (query) {
+      renderResults(query);
+    }
+  </script>
+
+</body>
+</html>

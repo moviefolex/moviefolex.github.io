@@ -6,41 +6,322 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MovieFolex</title>
   <style>
-    /* Same CSS from your current code, unchanged for homepage */
-    /* (Refer to your full code above) */
+    /* ───────────────────────────────────────────────────────────────────────────
+       BASE RESET & BOX-SIZING
+       ────────────────────────────────────────────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      color: #f5f5f5;
+      background-color: #111111;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       TOP BAR (“Join Our Telegram”)
+       ────────────────────────────────────────────────────────────────────────── */
+    .top-bar {
+      background-color: #e60023; /* Hot pink / red */
+      color: white;
+      text-align: center;
+      padding: 8px 0;
+      font-size: 14px;
+    }
+    .top-bar a {
+      background-color: #ffffff22;
+      border: 1px solid #ffffff55;
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-left: 8px;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .top-bar a:hover {
+      background-color: rgba(255, 255, 255, 0.35);
+    }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       NAVBAR
+       ────────────────────────────────────────────────────────────────────────── */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #1a1a1a;
+      padding: 12px 24px;
+      border-bottom: 1px solid #333333;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .navbar-logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #ff3c3c;
+    }
+    .navbar-links {
+      display: flex;
+      gap: 20px;
+    }
+    .navbar-links a {
+      font-size: 15px;
+      font-weight: 500;
+      color: #f5f5f5;
+      transition: color 0.3s;
+    }
+    .navbar-links a:hover {
+      color: #ff3c3c;
+    }
+    .menu-toggle {
+      display: none; /* will show on mobile */
+      font-size: 24px;
+      color: #ff3c3c;
+      cursor: pointer;
+    }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       SEARCH BAR
+       ────────────────────────────────────────────────────────────────────────── */
+    .search-section {
+      background-color: #131313;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid #333333;
+    }
+    .search-section input[type="text"] {
+      width: 60%;
+      max-width: 400px;
+      padding: 10px 14px;
+      border: none;
+      border-radius: 4px 0 0 4px;
+      font-size: 15px;
+      outline: none;
+    }
+    .search-section button {
+      padding: 10px 14px;
+      background-color: #ff3c3c;
+      border: none;
+      border-radius: 0 4px 4px 0;
+      font-size: 15px;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .search-section button:hover {
+      background-color: #e23232;
+    }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       CATEGORY BUTTONS ROW
+       ────────────────────────────────────────────────────────────────────────── */
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      background-color: #181818;
+      padding: 12px 0;
+      border-bottom: 1px solid #333333;
+    }
+    .categories a {
+      background-color: #ff3c3c;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      transition: background 0.3s;
+    }
+    .categories a:hover {
+      background-color: #e23232;
+    }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       MOVIE GRID
+       ────────────────────────────────────────────────────────────────────────── */
+    .movie-grid {
+      max-width: 1200px;
+      margin: 20px auto 40px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 20px;
+    }
+    .movie-card {
+      background-color: #212121;
+      border: 2px solid #333333;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+      transition: transform 0.3s ease, border 0.3s;
+      text-align: center;
+    }
+    .movie-card:hover {
+      transform: scale(1.03);
+      border-color: #ff3c3c;
+    }
+    .movie-card img {
+      height: 270px;
+      object-fit: cover;
+      width: 100%;
+    }
+    .movie-card h3 {
+      font-size: 16px;
+      padding: 10px;
+      color: #f5f5f5;
+      background-color: #171717;
+    }
+    .movie-card h3:hover {
+      color: #ff3c3c;
+    }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       RESPONSIVE ADJUSTMENTS
+       ────────────────────────────────────────────────────────────────────────── */
+    @media screen and (max-width: 768px) {
+      .navbar-links {
+        display: none;
+        flex-direction: column;
+        background-color: #1a1a1a;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        width: 200px;
+        border: 1px solid #333333;
+      }
+      .navbar-links.show {
+        display: flex;
+      }
+      .menu-toggle {
+        display: block;
+      }
+      .search-section input[type="text"] {
+        width: 80%;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="navbar">
-    <h1>MovieFolex</h1>
+
+  <!-- ─────────────────────────────────────────────────────────────────────────
+       TOP BAR (“Join Our Telegram”)
+       ─────────────────────────────────────────────────────────────────────── -->
+  <div class="top-bar">
+    Join our MovieFolex Telegram for Latest Updates!
+    <a href="#" target="_blank">Join</a>
+  </div>
+
+  <!-- ─────────────────────────────────────────────────────────────────────────
+       NAVBAR
+       ─────────────────────────────────────────────────────────────────────── -->
+  <header class="navbar">
+    <div class="navbar-logo">MovieFolex</div>
     <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-    <div class="nav-links" id="navLinks">
+    <nav class="navbar-links" id="navLinks">
       <a href="index.html">Home</a>
       <a href="movies.html">Movies</a>
       <a href="category.html">Categories</a>
-    </div>
-  </div>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
 
-  <div class="search-container">
+  <!-- ─────────────────────────────────────────────────────────────────────────
+       SEARCH BAR
+       ─────────────────────────────────────────────────────────────────────── -->
+  <section class="search-section">
     <form onsubmit="return handleSearch(event)">
-      <input type="text" id="searchInput" placeholder="Search for movies..." required />
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search Movies or Web Series..."
+        required
+      />
       <button type="submit">🔍</button>
     </form>
+  </section>
+
+  <!-- ─────────────────────────────────────────────────────────────────────────
+       CATEGORY BUTTONS ROW
+       ─────────────────────────────────────────────────────────────────────── -->
+  <div class="categories">
+    <a href="category.html?quality=480p">480p</a>
+    <a href="category.html?quality=720p">720p</a>
+    <a href="category.html?quality=1080p">1080p</a>
+    <a href="category.html?genre=Action">Action</a>
+    <a href="category.html?genre=Drama">Drama</a>
+    <a href="category.html?lang=English">English</a>
+    <a href="category.html?lang=Hindi">Hindi</a>
+    <a href="category.html?genre=Comedy">Comedy</a>
+    <!-- Add or remove categories as needed -->
   </div>
 
-  <h2 class="popular-heading">Popular Movies</h2>
-  <div class="anime-grid" id="animeGrid">
-    <!-- Sample movie cards -->
-    <a class="anime-card" href="download.html?id=1">
-      <img src="https://m.media-amazon.com/images/I/51zUbui+gbL._AC_SY679_.jpg" alt="Inception" />
+  <!-- ─────────────────────────────────────────────────────────────────────────
+       MOVIE GRID
+       ─────────────────────────────────────────────────────────────────────── -->
+  <main class="movie-grid" id="movieGrid">
+    <!-- Example Movie Card #1 -->
+    <a class="movie-card" href="download.html?id=1">
+      <img
+        src="https://m.media-amazon.com/images/I/51zUbui+gbL._AC_SY679_.jpg"
+        alt="Inception"
+      />
       <h3>Inception</h3>
     </a>
-    <a class="anime-card" href="download.html?id=2">
-      <img src="https://i.pinimg.com/736x/2f/6c/74/2f6c745376fe03d434cad1c58e7c67f9.jpg" />
-      <h3>The Royalst</h3>
-    </a>
-  </div>
 
+    <!-- Example Movie Card #2 -->
+    <a class="movie-card" href="download.html?id=2">
+      <img
+        src="https://m.media-amazon.com/images/I/71pVzqZJX8L._AC_SY679_.jpg"
+        alt="The Dark Knight"
+      />
+      <h3>The Dark Knight</h3>
+    </a>
+
+    <!-- Example Movie Card #3 -->
+    <a class="movie-card" href="download.html?id=3">
+      <img
+        src="https://m.media-amazon.com/images/I/91kFYg4fX3L._AC_SY679_.jpg"
+        alt="Interstellar"
+      />
+      <h3>Interstellar</h3>
+    </a>
+
+    <!-- Example Movie Card #4 -->
+    <a class="movie-card" href="download.html?id=4">
+      <img
+        src="https://m.media-amazon.com/images/I/51EG732BV3L.jpg"
+        alt="The Matrix"
+      />
+      <h3>The Matrix</h3>
+    </a>
+
+    <!-- Add more <a class="movie-card" href="download.html?id=5">…</a> blocks here -->
+  </main>
+
+  <!-- ─────────────────────────────────────────────────────────────────────────
+       SCRIPTS FOR NAVIGATION + SEARCH
+       ─────────────────────────────────────────────────────────────────────── -->
   <script>
     function toggleMenu() {
       document.getElementById('navLinks').classList.toggle('show');
@@ -48,9 +329,9 @@
 
     function handleSearch(event) {
       event.preventDefault();
-      const query = document.getElementById("searchInput").value.trim();
-      if (query !== "") {
-        window.location.href = `search.html?q=${encodeURIComponent(query)}`;
+      const q = document.getElementById('searchInput').value.trim();
+      if (q) {
+        window.location.href = `search.html?q=${encodeURIComponent(q)}`;
       }
     }
   </script>

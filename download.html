@@ -2,222 +2,40 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Download | MovieFolex</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #1c1c1c, #2a2a2a);
-      color: #f4f4f4;
-    }
-
-    header {
-      background: #111;
-      padding: 20px;
-      text-align: center;
-    }
-
-    header h1 {
-      color: #ff3c3c;
-      margin: 0;
-    }
-
-    .container {
-      max-width: 960px;
-      margin: 40px auto;
-      padding: 20px;
-      background: #1f1f1f;
-      border-radius: 10px;
-    }
-
-    .poster-box {
-      text-align: center;
-    }
-
-    .poster-box img {
-      width: 280px;
-      border-radius: 10px;
-    }
-
-    .movie-info {
-      margin-top: 20px;
-    }
-
-    .movie-info p {
-      font-size: 16px;
-      color: #ccc;
-    }
-
-    .movie-info strong {
-      color: #ff3c3c;
-    }
-
-    .plot-section {
-      margin-top: 30px;
-      padding: 20px;
-      background: #292929;
-      border-radius: 8px;
-    }
-
-    .plot-section h3 {
-      margin-bottom: 10px;
-      color: #ff3c3c;
-    }
-
-    .download-links {
-      text-align: center;
-      margin-top: 30px;
-    }
-
-    .download-links a {
-      display: inline-block;
-      background: #ff3c3c;
-      color: white;
-      text-decoration: none;
-      padding: 12px 20px;
-      margin: 10px;
-      border-radius: 6px;
-      font-size: 16px;
-    }
-
-    .download-links a:hover {
-      background: #e63636;
-    }
-
-    .back-link {
-      text-align: center;
-      margin-top: 30px;
-    }
-
-    .back-link a {
-      color: #ccc;
-      text-decoration: none;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MovieFolex Downloads</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
-
-  <header>
-    <h1>MovieFolex Downloads</h1>
-  </header>
-
-  <div class="container">
-    <div class="poster-box">
-      <img id="moviePoster" src="" alt="Movie Poster">
-    </div>
-
-    <div class="movie-info">
-      <p><strong>Title:</strong> <span id="movieTitle"></span></p>
-      <p><strong>Languages:</strong> <span id="movieLang"></span></p>
-      <p><strong>Resolution:</strong> <span id="movieQuality"></span></p>
-      <p><strong>Genre:</strong> <span id="movieGenre"></span></p>
-    </div>
-
-    <div class="plot-section">
-      <h3>Movie Review</h3>
-      <p id="moviePlot"></p>
-    </div>
-
-    <div class="download-links" id="downloadLinks"></div>
-
-    <div class="back-link">
-      <p><a href="index.html">&larr; Back to Home</a></p>
-    </div>
-  </div>
-
+<body class="dark-mode">
+  <h1>MovieFolex Downloads</h1>
+  <div id="movieDetails" class="movie-detail-container"></div>
+  <script src="movies.js"></script>
   <script>
-    const movies = {
-      1: {
-        title: "Inception",
-        lang: "English",
-        quality: "720p, 1080p",
-        genre: "Sci-Fi, Thriller",
-        plot: "A thief who steals corporate secrets through dream-sharing technology is given a chance at redemption.",
-        poster: "https://m.media-amazon.com/images/I/51zUbui+gbL._AC_SY679_.jpg",
-        links: [
-          { label: "Download 720p (600MB)", url: "#" },
-          { label: "Download 1080p (1.2GB)", url: "#" }
-        ]
-      },
-      2: {
-        title: "The Dark Knight",
-        lang: "English",
-        quality: "720p, 1080p",
-        genre: "Action, Crime, Drama",
-        plot: "Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
-        poster: "https://m.media-amazon.com/images/I/71pVzqZJX8L._AC_SY679_.jpg",
-        links: [
-          { label: "Download 720p (800MB)", url: "#" },
-          { label: "Download 1080p (1.5GB)", url: "#" }
-        ]
-      },
-      3: {
-        title: "Interstellar",
-        lang: "English",
-        quality: "720p, 1080p",
-        genre: "Adventure, Drama, Sci-Fi",
-        plot: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-        poster: "https://m.media-amazon.com/images/I/91kFYg4fX3L._AC_SY679_.jpg",
-        links: [
-          { label: "Download 720p (950MB)", url: "#" },
-          { label: "Download 1080p (2GB)", url: "#" }
-        ]
-      },
-      4: {
-        title: "Poker Face – Season 2",
-        lang: "Hindi + English",
-        quality: "720p, 1080p",
-        genre: "Mystery, Thriller",
-        plot: "A human lie detector solves crimes as she travels across the country in Season 2 of this hit mystery series.",
-        poster: "https://m.media-amazon.com/images/M/MV5BNzAzZDdiZDAtYjZmOS00NGE1LWJlZjAtZjAzYTZhZjk4OWZjXkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_.jpg",
-        links: [
-          { label: "Download 720p (450MB)", url: "#" },
-          { label: "Download 1080p (950MB)", url: "#" }
-        ]
-      }
-      5: {
-        title: "The Royals",
-        lang: "Hindi + Telgu",
-        quality: "480p,720p, 1080p",
-        genre: "ROMANCE, DRAMA, COMEDY",
-        plot: "The Royals" follows the lives of a fictional British royal family, blending glamour, scandal, and intrigue. At the center of the story is Queen Helena (played by Elizabeth Hurley), a cunning and image-conscious matriarch determined to preserve the monarchy’s dignity amidst chaos. After the sudden death of the heir to the throne, Prince Robert, the monarchy is thrown into disarray.
-          His younger brother, Prince Liam, unexpectedly becomes the next in line, and he struggles with the burden of royal expectations while also dealing with romantic entanglements and personal demons. His twin sister, Princess Eleanor, is a rebellious royal known for her wild lifestyle, constantly attracting tabloid attention.
-          Meanwhile, King Simon seeks to reform the monarchy and make it more transparent and democratic, but his ideals put him at odds with others within the palace—including Helena and the manipulative Lord Chamberlain, Cyrus, who harbors ambitions of his own.
-          The show dives deep into palace conspiracies, secret romances, betrayal, and power plays, presenting a darker, sexier, and more tumultuous view of royalty.
-          ,
-        poster: "https://i.pinimg.com/736x/2f/6c/74/2f6c745376fe03d434cad1c58e7c67f9.jpg",
-        links: [
-           { label: "Download 480p ", url: "https://gplinks.co/dKmudBh" },
-          { label: "Download 720p ", url: "https://gplinks.co/VJ7awz" },
-          { label: "Download 1080p ", url: "https://gplinks.co/0MR82q" }
-        ]
-      }
-    };
-
     const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
+    const movieId = parseInt(params.get("id"));
+    const movie = movies.find(m => m.id === movieId);
 
-    if (movies[id]) {
-      const movie = movies[id];
-      document.getElementById("movieTitle").textContent = movie.title;
-      document.getElementById("movieLang").textContent = movie.lang;
-      document.getElementById("movieQuality").textContent = movie.quality;
-      document.getElementById("movieGenre").textContent = movie.genre;
-      document.getElementById("moviePlot").textContent = movie.plot;
-      document.getElementById("moviePoster").src = movie.poster;
-
-      const linksDiv = document.getElementById("downloadLinks");
-      movie.links.forEach(link => {
-        const a = document.createElement("a");
-        a.href = link.url;
-        a.textContent = link.label;
-        linksDiv.appendChild(a);
-      });
-    } else {
-      document.querySelector(".container").innerHTML = "<h2 style='text-align:center;'>Movie not found!</h2>";
+    if (movie) {
+      document.getElementById("movieDetails").innerHTML = `
+        <img src="${movie.image}" alt="Poster" class="poster" />
+        <div class="info">
+          <p><strong>Title:</strong> ${movie.title}</p>
+          <p><strong>Languages:</strong> ${movie.language}</p>
+          <p><strong>Resolution:</strong> ${movie.resolution}</p>
+          <p><strong>Genre:</strong> ${movie.genre}</p>
+          <div class="review-section">
+            <h2>Movie Review</h2>
+            <p>${movie.review}</p>
+          </div>
+          <div class="downloads">
+            ${movie.downloadLinks.map(link => 
+              `<a href="${link.url}" class="download-btn">${link.label} Download</a>`
+            ).join("")}
+          </div>
+        </div>
+        <a href="index.html" class="back-link">← Back to Home</a>
+      `;
     }
   </script>
-
 </body>
 </html>

@@ -2,28 +2,61 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MovieFolex</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="dark-mode">
-  <header>
+<body>
+  <div class="navbar">
     <h1>MovieFolex</h1>
-    <div class="controls">
-      <input type="text" id="searchInput" placeholder="Search movies..." />
-      <select id="genreFilter">
-        <option value="">All Genres</option>
-        <option value="Drama">Drama</option>
-        <option value="Action">Action</option>
-        <option value="Sci-Fi">Sci-Fi</option>
-      </select>
-      <button id="toggleMode">🌙</button>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="movies.html">Movies</a>
+      <a href="category.html">Categories</a>
     </div>
-  </header>
+  </div>
 
-  <main id="movieList" class="grid"></main>
+  <div class="search-container">
+    <form onsubmit="return handleSearch(event)">
+      <input type="text" id="searchInput" placeholder="Search for movies..." required />
+      <button type="submit">🔍</button>
+    </form>
+  </div>
 
-  <script src="movies.js"></script>
-  <script src="main.js"></script>
+  <h2 class="popular-heading">Popular Movies</h2>
+
+  <div class="anime-grid" id="animeGrid">
+    <a class="anime-card" href="download.html?id=1">
+      <img src="https://m.media-amazon.com/images/I/51zUbui+gbL._AC_SY679_.jpg" alt="Inception" />
+      <h3>Inception</h3>
+    </a>
+    <a class="anime-card" href="download.html?id=2">
+      <img src="https://m.media-amazon.com/images/I/71pVzqZJX8L._AC_SY679_.jpg" alt="The Dark Knight" />
+      <h3>The Dark Knight</h3>
+    </a>
+    <a class="anime-card" href="download.html?id=3">
+      <img src="https://m.media-amazon.com/images/I/91kFYg4fX3L._AC_SY679_.jpg" alt="Interstellar" />
+      <h3>Interstellar</h3>
+    </a>
+    <a class="anime-card" href="download.html?id=4">
+      <img src="https://m.media-amazon.com/images/I/51EG732BV3L.jpg" alt="The Matrix" />
+      <h3>The Matrix</h3>
+    </a>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('show');
+    }
+
+    function handleSearch(event) {
+      event.preventDefault();
+      const query = document.getElementById("searchInput").value.trim();
+      if (query !== "") {
+        window.location.href = `search.html?q=${encodeURIComponent(query)}`;
+      }
+    }
+  </script>
 </body>
 </html>

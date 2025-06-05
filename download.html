@@ -6,152 +6,216 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Movie Download - MovieFolex</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
+    /* ───────────────────────────────────────────────────────────────────────────
+       PAGE-WIDE STYLES
+       ────────────────────────────────────────────────────────────────────────── */
+    * {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
+    }
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
       background: url('https://images.unsplash.com/photo-1495567720989-cebdbdd97913') no-repeat center center fixed;
       background-size: cover;
       color: #fff;
+      position: relative;
     }
     body::before {
-      content: '';
+      content: "";
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.85);
       z-index: -1;
     }
 
+    /* ───────────────────────────────────────────────────────────────────────────
+       CONTAINER
+       ────────────────────────────────────────────────────────────────────────── */
     .container {
       max-width: 900px;
-      margin: auto;
+      margin: 0 auto;
       padding: 30px 20px;
     }
 
+    /* ───────────────────────────────────────────────────────────────────────────
+       MOVIE INFO SECTION
+       ────────────────────────────────────────────────────────────────────────── */
     .movie-info {
       display: flex;
       flex-wrap: wrap;
       gap: 30px;
-      align-items: flex-start;
-      background: rgba(0, 0, 0, 0.6);
+      background-color: rgba(0, 0, 0, 0.7);
       border-radius: 10px;
       padding: 20px;
     }
-
     .poster {
       flex: 1 1 250px;
     }
-
     .poster img {
       width: 100%;
       border-radius: 10px;
     }
-
     .details {
       flex: 2;
     }
-
     .details h1 {
       color: #ff3c3c;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      font-size: 28px;
     }
-
     .details p {
+      margin-bottom: 8px;
       line-height: 1.6;
+      font-size: 15px;
+    }
+    .details p span {
+      color: #ddd;
     }
 
+    /* ───────────────────────────────────────────────────────────────────────────
+       DOWNLOAD BUTTON SECTION
+       ────────────────────────────────────────────────────────────────────────── */
     .download-section {
-      text-align: center;
       margin-top: 30px;
+      text-align: center;
     }
-
     .download-section h2 {
-      margin-bottom: 15px;
+      margin-bottom: 16px;
       color: #ff3c3c;
+      font-size: 22px;
     }
-
     .download-buttons a {
       display: inline-block;
+      margin: 8px 12px;
+      padding: 12px 24px;
       background-color: #ff3c3c;
-      color: white;
-      padding: 12px 25px;
+      color: #fff;
+      font-weight: 600;
       border-radius: 5px;
       text-decoration: none;
-      margin: 10px;
-      font-weight: bold;
-      transition: background 0.3s;
+      transition: background 0.3s ease;
+      font-size: 15px;
     }
-
     .download-buttons a:hover {
       background-color: #e23232;
     }
 
+    /* ───────────────────────────────────────────────────────────────────────────
+       RESPONSIVE
+       ────────────────────────────────────────────────────────────────────────── */
     @media (max-width: 768px) {
       .movie-info {
         flex-direction: column;
         align-items: center;
       }
-
       .details h1 {
         text-align: center;
+      }
+      .download-buttons a {
+        margin: 6px;
+        padding: 10px 20px;
       }
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <!-- MOVIE INFO (Poster + Details) -->
     <div class="movie-info">
       <div class="poster">
-        <img id="poster" src="" alt="Movie Poster">
+        <img id="poster" src="" alt="Movie Poster" />
       </div>
       <div class="details">
         <h1 id="title">Movie Title</h1>
-        <p id="plot">Plot goes here.</p>
+        <p id="plot">Plot goes here…</p>
         <p><strong>Language:</strong> <span id="language">English</span></p>
         <p><strong>Genre:</strong> <span id="genre">Action</span></p>
         <p><strong>Resolution:</strong> 1080p, 720p, 480p</p>
       </div>
     </div>
 
+    <!-- DOWNLOAD BUTTONS SECTION -->
     <div class="download-section">
       <h2>Download Links</h2>
       <div class="download-buttons" id="downloadLinks">
-        <!-- Buttons are populated dynamically -->
+        <!-- Buttons are inserted via JavaScript below -->
       </div>
     </div>
   </div>
 
   <script>
+    /* ───────────────────────────────────────────────────────────────────────────
+       MOVIE DATA OBJECT
+       Add a new movie by copying one of these blocks and using a new numeric ID.
+       ────────────────────────────────────────────────────────────────────────── */
     const movies = {
       "1": {
         title: "Inception",
-        plot: "A thief who steals corporate secrets through dream-sharing is given the inverse task of planting an idea.",
+        plot: "A thief who steals corporate secrets through dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.",
         poster: "https://m.media-amazon.com/images/I/51zUbui+gbL._AC_SY679_.jpg",
         language: "English",
         genre: "Sci-Fi, Action",
+        downloads: {
+          "1080p": "#",  /* Replace # with your actual 1080p link */
+          "720p": "#",   /* Replace # with your actual 720p link */
+          "480p": "#"    /* Replace # with your actual 480p link */
+        }
+      },
+      "2": {
+        title: "The Dark Knight",
+        plot: "Batman raises the stakes in his war on crime when a sadistic criminal mastermind known as The Joker emerges in Gotham City.",
+        poster: "https://m.media-amazon.com/images/I/71pVzqZJX8L._AC_SY679_.jpg",
+        language: "English",
+        genre: "Action, Crime",
         downloads: {
           "1080p": "#",
           "720p": "#",
           "480p": "#"
         }
       },
-      "2": {
-        title: "The Royals",
-        plot: "Batman faces the Joker, a criminal mastermind spreading chaos in Gotham.",
-        poster: "https://i.pinimg.com/736x/2f/6c/74/2f6c745376fe03d434cad1c58e7c67f9.jpg",
+      "3": {
+        title: "Interstellar",
+        plot: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
+        poster: "https://m.media-amazon.com/images/I/91kFYg4fX3L._AC_SY679_.jpg",
         language: "English",
-        genre: "Action, Crime",
+        genre: "Adventure, Drama, Sci-Fi",
         downloads: {
-          "1080p": "https://gplinks.co/0MR82q",
+          "1080p": "#",
+          "720p": "#",
+          "480p": "#"
+        }
+      },
+      "4": {
+        title: "The Matrix",
+        plot: "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
+        poster: "https://m.media-amazon.com/images/I/51EG732BV3L.jpg",
+        language: "English",
+        genre: "Action, Sci-Fi",
+        downloads: {
+          "1080p": "#",
           "720p": "#",
           "480p": "#"
         }
       }
+      /* ─────────────────────────────────────────────────────────────────────────
+         To add movie #5, copy one of the above blocks, change "4": { … } to "5": { … },
+         then customize title, plot, poster URL, language, genre, and your download links.
+         ───────────────────────────────────────────────────────────────────────── */
     };
 
+    /* ───────────────────────────────────────────────────────────────────────────
+       FETCH MOVIE ID FROM URL
+       ────────────────────────────────────────────────────────────────────────── */
     const params = new URLSearchParams(window.location.search);
     const movieId = params.get("id");
 
+    /* ───────────────────────────────────────────────────────────────────────────
+       IF MOVIE FOUND: POPULATE PAGE FIELDS + DOWNLOAD BUTTONS
+       ELSE: SHOW “NOT FOUND”
+       ────────────────────────────────────────────────────────────────────────── */
     if (movies[movieId]) {
       const movie = movies[movieId];
       document.getElementById("title").textContent = movie.title;
@@ -162,13 +226,17 @@
 
       const downloadDiv = document.getElementById("downloadLinks");
       for (let quality in movie.downloads) {
-        const btn = document.createElement("a");
-        btn.href = movie.downloads[quality];
-        btn.textContent = `Download ${quality}`;
-        downloadDiv.appendChild(btn);
+        const a = document.createElement("a");
+        a.href = movie.downloads[quality];
+        a.textContent = `Download ${quality}`;
+        downloadDiv.appendChild(a);
       }
     } else {
-      document.querySelector(".container").innerHTML = "<h2 style='text-align:center;'>Movie not found</h2>";
+      document.body.innerHTML = `
+        <div style="height:100vh; display:flex; align-items:center; justify-content:center; color:#fff; background-color:#000;">
+          <h2>Movie Not Found</h2>
+        </div>
+      `;
     }
   </script>
 </body>

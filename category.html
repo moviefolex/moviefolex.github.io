@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MovieFolex</title>
+  <title>MovieFolex – Category</title>
   <style>
     /* ───────────────────────────────────────────────────────────────────────────
        RESET & BOX‐SIZING
@@ -90,7 +90,7 @@
       color: #ff3b3f;
     }
 
-    /* Dropdown container */
+    /* DROPDOWNS */
     .dropdown {
       position: relative;
     }
@@ -128,10 +128,16 @@
     }
 
     /* ───────────────────────────────────────────────────────────────────────────
-       MAIN / MOVIE GRID
+       MAIN / FILTERED MOVIE GRID
        ────────────────────────────────────────────────────────────────────────── */
     main {
       padding: 2rem;
+    }
+    .category-title {
+      font-size: 1.75rem;
+      margin-bottom: 1.2rem;
+      color: #f5f5f5;
+      text-transform: capitalize;
     }
     .movie-grid {
       display: grid;
@@ -169,7 +175,7 @@
       margin-bottom: 0.6rem;
     }
 
-    /* SMALL RED BADGE (TOP‐RIGHT CORNER) */
+    /* SMALL RED BADGE (TOP‐RIGHT) */
     .badge {
       position: absolute;
       top: 0.6rem;
@@ -232,7 +238,7 @@
         width: 100%;
         text-align: left;
       }
-      /* Ensure dropdown contents within mobile menu adapt: */
+      /* Adapt dropdown contents to mobile layout */
       .dropdown-content {
         position: static;
         border: none;
@@ -247,7 +253,7 @@
 </head>
 <body>
 
-  <!-- HEADER -->
+  <!-- HEADER NAV -->
   <header>
     <h1>MovieFolex</h1>
     <div class="nav-container">
@@ -294,11 +300,10 @@
     </div>
   </header>
 
-  <!-- MAIN: GRID OF ALL MOVIES -->
+  <!-- MAIN: Filtered Movies by GENRE/YEAR/QUALITY -->
   <main>
-    <div class="movie-grid" id="movieGrid">
-      <!-- JavaScript will inject cards here -->
-    </div>
+    <h2 class="category-title" id="categoryTitle">Category: </h2>
+    <div class="movie-grid" id="movieGrid"></div>
   </main>
 
   <!-- FOOTER -->
@@ -318,7 +323,7 @@
     });
 
     // ───────────────────────────────────────────────────────────────────────────
-    // MOVIES ARRAY (must be identical in index.html, download.html, category.html)
+    // MOVIES ARRAY (must be identical in index.html & download.html)
     // ───────────────────────────────────────────────────────────────────────────
     const movies = [
       {
@@ -379,11 +384,20 @@
           "480p": "links/joker-2019-480p.mp4"
         }
       }
-      /* … add more movies here if desired … */
+      /* … add more movie objects here … */
     ];
 
     // ───────────────────────────────────────────────────────────────────────────
-    // CREATE A MOVIE CARD & RETURN AN <a> WRAPPING THE CARD
+    // UTILITY: GET URL HASH (e.g. "#genre=Comedy" or "#year=2025" or "#quality=720p")
+    // ───────────────────────────────────────────────────────────────────────────
+    function parseHash() {
+      const hash = window.location.hash.substring(1); // e.g. "genre=Comedy"
+      const [type, value] = hash.split("=");
+      return { type: type?.toLowerCase(), value: value || "" };
+    }
+
+    // ───────────────────────────────────────────────────────────────────────────
+    // CREATE A MOVIE CARD & RETURN <a> WRAPPING THE CARD
     // ───────────────────────────────────────────────────────────────────────────
     function createMovieCard(movie) {
       const cardAnchor = document.createElement("a");
@@ -393,19 +407,19 @@
       const card = document.createElement("div");
       card.className = "movie-card";
 
-      // 1) RED BADGE (top-right) showing primary quality
+      // Red badge (top-right) showing primary quality
       const badge = document.createElement("div");
       badge.className = "badge";
       badge.innerText = movie.qualities[0].toUpperCase();
       card.appendChild(badge);
 
-      // 2) POSTER IMAGE
+      // Poster
       const img = document.createElement("img");
       img.src = movie.poster;
       img.alt = movie.title + " Poster";
       card.appendChild(img);
 
-      // 3) INFO PANEL UNDER THE POSTER
+      // Info box under poster
       const info = document.createElement("div");
       info.className = "movie-info";
 
@@ -431,19 +445,60 @@
     }
 
     // ───────────────────────────────────────────────────────────────────────────
-    // RENDER ALL MOVIES INTO THE GRID (index.html)
+    // RENDER FILTERED MOVIES BASED ON HASH PARAMETER
     // ───────────────────────────────────────────────────────────────────────────
-    function renderAllMovies() {
+    function renderFilteredMovies() {
+      const { type, value } = parseHash();
+      const displayTitleEl = document.getElementById("categoryTitle");
       const grid = document.getElementById("movieGrid");
       grid.innerHTML = "";
-      movies.forEach(m => {
-        const card = createMovieCard(m);
-        grid.appendChild(card);
+
+      if (!type || !value) {
+        displayTitleEl.textContent = "Category: All";
+        movies.forEach(m => {
+          grid.appendChild(createMovieCard(m));
+        });
+        return;
+      }
+
+      let filtered = [];
+
+      if (type === "genre") {
+        displayTitleEl.textContent = `Genre: ${value}`;
+        filtered = movies.filter(m =>
+          m.genres.some(g => g.toLowerCase() === value.toLowerCase())
+        );
+      } else if (type === "year") {
+        displayTitleEl.textContent = `Year: ${value}`;
+        filtered = movies.filter(m => m.year === value);
+      } else if (type === "quality") {
+        displayTitleEl.textContent = `Quality: ${value.toUpperCase()}`;
+        filtered = movies.filter(m =>
+          m.qualities.some(q => q.toLowerCase() === value.toLowerCase())
+        );
+      } else {
+        displayTitleEl.textContent = "Category: All";
+        filtered = movies.slice();
+      }
+
+      if (filtered.length === 0) {
+        const p = document.createElement("p");
+        p.style.color = "#ccc";
+        p.textContent = "No movies found for this category.";
+        grid.appendChild(p);
+        return;
+      }
+
+      filtered.forEach(m => {
+        grid.appendChild(createMovieCard(m));
       });
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-      renderAllMovies();
+      renderFilteredMovies();
+      window.addEventListener("hashchange", () => {
+        renderFilteredMovies();
+      });
     });
   </script>
 </body>

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MovieFolex – By Qualities</title>
+  <style>
+    /* ───────────────────────────────────────────────────────────────────────────
+       BASE RESET & BOX-SIZING
+       ────────────────────────────────────────────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      color: #f5f5f5;
+      background-color: #111111;
+      overflow-x: hidden;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       TOP BAR (“Join Our Telegram”)
+       ────────────────────────────────────────────────────────────────────────── */
+    .top-bar {
+      background-color: #e60023; /* Hot pink / red */
+      color: white;
+      text-align: center;
+      padding: 8px 0;
+      font-size: 14px;
+    }
+    .top-bar a {
+      background-color: #ffffff22;
+      border: 1px solid #ffffff55;
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-left: 8px;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .top-bar a:hover {
+      background-color: rgba(255, 255, 255, 0.35);
+    }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       NAVBAR
+       ────────────────────────────────────────────────────────────────────────── */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #1a1a1a;
+      padding: 12px 24px;
+      border-bottom: 1px solid #333333;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .navbar-logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #ff3c3c;
+    }
+    .navbar-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .navbar-links > a,
+    .navbar-links .dropbtn {
+      font-size: 15px;
+      font-weight: 500;
+      color: #f5f5f5;
+      padding: 8px 12px;
+      transition: color 0.3s, background 0.3s;
+      position: relative;
+    }
+    .navbar-links > a:hover,
+    .navbar-links .dropbtn:hover {
+      color: #ff3c3c;
+      background-color: rgba(255, 60, 60, 0.1);
+      border-radius: 4px;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+    .dropdown .dropbtn::after {
+      content: '▼';
+      font-size: 10px;
+      margin-left: 4px;
+      vertical-align: middle;
+      transition: transform 0.3s;
+    }
+    .dropdown:hover .dropbtn::after {
+      transform: rotate(-180deg);
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #1a1a1a;
+      min-width: 160px;
+      border: 1px solid #333333;
+      border-radius: 4px;
+      z-index: 200;
+    }
+    .dropdown-content a {
+      display: block;
+      padding: 10px 16px;
+      font-size: 14px;
+      color: #f5f5f5;
+      transition: background 0.2s;
+    }
+    .dropdown-content a:hover {
+      background-color: #2a2a2a;
+      color: #ff3c3c;
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       SEARCH BAR
+       ────────────────────────────────────────────────────────────────────────── */
+    .search-section {
+      background-color: #131313;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid #333333;
+    }
+    .search-section input[type="text"] {
+      width: 60%;
+      max-width: 400px;
+      padding: 10px 14px;
+      border: none;
+      border-radius: 4px 0 0 4px;
+      font-size: 15px;
+      outline: none;
+    }
+    .search-section button {
+      padding: 10px 14px;
+      background-color: #ff3c3c;
+      border: none;
+      border-radius: 0 4px 4px 0;
+      font-size: 15px;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .search-section button:hover {
+      background-color: #e23232;
+    }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       QUALITY SECTIONS (each resolution has its own heading + grid)
+       ────────────────────────────────────────────────────────────────────────── */
+    .quality-section {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .quality-section h2 {
+      font-size: 24px;
+      margin-bottom: 16px;
+      color: #ff3c3c;
+      border-bottom: 2px solid #333333;
+      padding-bottom: 8px;
+    }
+    .quality-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 20px;
+    }
+    .movie-card {
+      background-color: #212121;
+      border: 2px solid #333333;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+      transition: transform 0.3s ease, border 0.3s;
+      text-align: center;
+    }
+    .movie-card:hover {
+      transform: scale(1.03);
+      border-color: #ff3c3c;
+    }
+    .movie-card img {
+      height: 270px;
+      object-fit: cover;
+      width: 100%;
+    }
+    .movie-card h3 {
+      font-size: 16px;
+      padding: 10px;
+      color: #f5f5f5;
+      background-color: #171717;
+    }
+    .movie-card h3:hover {
+      color: #ff3c3c;
+    }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       RESPONSIVE ADJUSTMENTS
+       ────────────────────────────────────────────────────────────────────────── */
+    @media screen and (max-width: 768px) {
+      .navbar-links {
+        display: none;
+        flex-direction: column;
+        background-color: #1a1a1a;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        width: 200px;
+        border: 1px solid #333333;
+      }
+      .navbar-links.show {
+        display: flex;
+      }
+      .menu-toggle {
+        display: block;
+      }
+      .search-section input[type="text"] {
+        width: 80%;
+      }
+      .dropdown-content {
+        position: static;
+        border: none;
+        box-shadow: none;
+      }
+      .dropdown-content a {
+        padding-left: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ─────────────────────────────────────────────────────────────────────────
+     TOP BAR (“Join Our Telegram”)
+     ───────────────────────────────────────────────────────────────────────── -->
+  <div class="top-bar">
+    Join our MovieFolex Telegram for Latest Updates!
+    <a href="https://t.me/movie_folex" target="_blank">Join</a>
+  </div>
+
+  <!-- ─────────────────────────────────────────────────────────────────────────
+     NAVBAR
+     ───────────────────────────────────────────────────────────────────────── -->
+  <header class="navbar">
+    <div class="navbar-logo">MovieFolex</div>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <nav class="navbar-links" id="navLinks">
+      <a href="index.html">Home</a>
+
+      <!-- GENRE DROPDOWN -->
+      <div class="dropdown">
+        <a href="genre.html" class="dropbtn">Genre</a>
+        <div class="dropdown-content">
+          <a href="genre.html#Action">Action</a>
+          <a href="genre.html#Drama">Drama</a>
+          <a href="genre.html#Comedy">Comedy</a>
+          <!-- Add more sub-genres here -->
+        </div>
+      </div>
+
+      <!-- BY YEAR DROPDOWN -->
+      <div class="dropdown">
+        <a href="by-year.html" class="dropbtn">By Year</a>
+        <div class="dropdown-content">
+          <a href="by-year.html#2025">2025</a>
+          <a href="by-year.html#2024">2024</a>
+          <a href="by-year.html#2023">2023</a>
+          <!-- Add more years here -->
+        </div>
+      </div>
+
+      <!-- BY QUALITIES DROPDOWN -->
+      <div class="dropdown">
+        <a href="by-qualities.html" class="dropbtn">By Qualities</a>
+        <div class="dropdown-content">
+          <a href="by-qualities.html#480p">480p</a>
+          <a href="by-qualities.html#720p">720p</a>
+          <a href="by-qualities.html#1080p">1080p</a>
+          <!-- Add more resolutions here -->
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ─────────────────────────────────────────────────────────────────────────
+     SEARCH BAR
+     ───────────────────────────────────────────────────────────────────────── -->
+  <section class="search-section">
+    <form onsubmit="return handleSearch(event)">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search Movies or Web Series..."
+        required
+      />
+      <button type="submit">🔍</button>
+    </form>
+  </section>
+
+  <!-- ─────────────────────────────────────────────────────────────────────────
+     BY QUALITIES CONTENT
+     ───────────────────────────────────────────────────────────────────────── -->
+
+  <!-- ─── 480p SECTION ─── -->
+  <section class="quality-section" id="480p">
+    <h2>480p</h2>
+    <div class="quality-grid">
+      <!-- Example Movie Card in 480p -->
+      <a class="movie-card" href="download.html?id=8">
+        <img
+          src="https://example.com/poster-480p.jpg"
+          alt="Classic 480p"
+        />
+        <h3>Classic 480p</h3>
+      </a>
+      <!-- Add more <a class="movie-card" href="download.html?id=...">…</a> blocks here -->
+    </div>
+  </section>
+
+  <!-- ─── 720p SECTION ─── -->
+  <section class="quality-section" id="720p">
+    <h2>720p</h2>
+    <div class="quality-grid">
+      <!-- Example Movie Card in 720p -->
+      <a class="movie-card" href="download.html?id=9">
+        <img
+          src="https://example.com/poster-720p.jpg"
+          alt="HD 720p"
+        />
+        <h3>HD 720p</h3>
+      </a>
+      <!-- Add more movie cards under 720p here -->
+    </div>
+  </section>
+
+  <!-- ─── 1080p SECTION ─── -->
+  <section class="quality-section" id="1080p">
+    <h2>1080p</h2>
+    <div class="quality-grid">
+      <!-- Example Movie Card in 1080p -->
+      <a class="movie-card" href="download.html?id=10">
+        <img
+          src="https://example.com/poster-1080p.jpg"
+          alt="Full HD 1080p"
+        />
+        <h3>Full HD 1080p</h3>
+      </a>
+      <!-- Add more movie cards under 1080p here -->
+    </div>
+  </section>
+
+  <!-- Add more resolution sections as needed -->
+
+  <!-- ─────────────────────────────────────────────────────────────────────────
+     SCRIPTS FOR NAVIGATION + SEARCH
+     ───────────────────────────────────────────────────────────────────────── -->
+  <script>
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('show');
+    }
+    function handleSearch(event) {
+      event.preventDefault();
+      const q = document.getElementById('searchInput').value.trim();
+      if (q) {
+        window.location.href = `search.html?q=${encodeURIComponent(q)}`;
+      }
+    }
+  </script>
+</body>
+</html>

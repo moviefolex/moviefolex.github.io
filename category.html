@@ -46,28 +46,51 @@
       text-transform: uppercase;
       letter-spacing: 1px;
     }
-    nav {
+
+    /* Navigation container */
+    .nav-container {
       display: flex;
-      gap: 2rem;
       align-items: center;
     }
-    nav a,
-    nav button {
+
+    /* Hamburger icon (hidden on desktop, shown on mobile) */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: #fff;
+    }
+
+    /* The actual navigation links */
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+    .nav-links li {
+      position: relative;
+    }
+    .nav-links a,
+    .nav-links button {
       background: none;
       border: none;
       color: #fff;
       font-size: 1rem;
       cursor: pointer;
-      position: relative;
       text-decoration: none;
       transition: color 0.2s;
     }
-    nav a:hover,
-    nav button:hover {
+    .nav-links a:hover,
+    .nav-links button:hover {
       color: #ff3b3f;
     }
 
-    /* DROPDOWN MENU (visibility + opacity + transition) */
+    /* DROPDOWNS */
     .dropdown {
       position: relative;
     }
@@ -82,7 +105,7 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
       z-index: 200;
 
-      /* Hide by default */
+      /* Hide by default, fade in/out */
       visibility: hidden;
       opacity: 0;
       transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -151,7 +174,6 @@
       color: #bbb;
       margin-bottom: 0.6rem;
     }
-    /* Entire card is clickable—wrapped in <a> */
 
     /* SMALL RED BADGE (TOP‐RIGHT) */
     .badge {
@@ -178,45 +200,104 @@
       margin-top: 2rem;
       font-size: 0.9rem;
     }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       RESPONSIVE: PHONE VIEW (max‐width 768px)
+       ────────────────────────────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+      .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #1a0000;
+        flex-direction: column;
+        gap: 0;
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+      }
+      .nav-links.open {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .nav-links li {
+        border-top: 1px solid #660000;
+      }
+      .nav-links li:first-child {
+        border-top: none;
+      }
+      .nav-links a,
+      .nav-links button {
+        padding: 1rem 2rem;
+        width: 100%;
+        text-align: left;
+      }
+      /* Adapt dropdown contents to mobile layout */
+      .dropdown-content {
+        position: static;
+        border: none;
+        box-shadow: none;
+        background-color: #222;
+        margin-left: 1rem;
+        margin-right: 1rem;
+        border-top: 1px solid #333;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
+  <!-- HEADER NAV -->
   <header>
     <h1>MovieFolex</h1>
-    <nav>
-      <a href="index.html">Home</a>
+    <div class="nav-container">
+      <!-- Hamburger icon for mobile -->
+      <div class="hamburger" id="hamburger">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <!-- Navigation links -->
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
 
-   
+        <li class="dropdown">
+          <button>Genre ▾</button>
+          <div class="dropdown-content">
+            <a href="category.html#genre=Action">Action</a>
+            <a href="category.html#genre=Drama">Drama</a>
+            <a href="category.html#genre=Comedy">Comedy</a>
+            <a href="category.html#genre=Romance">Romance</a>
+            <a href="category.html#genre=Crime">Crime</a>
+          </div>
+        </li>
 
-      <button class="dropdown">Genre ▾
-        <div class="dropdown-content">
-          <a href="category.html#genre=Action">Action</a>
-          <a href="category.html#genre=Drama">Drama</a>
-          <a href="category.html#genre=Comedy">Comedy</a>
-          <a href="category.html#genre=Romance">Romance</a>
-          <a href="category.html#genre=Crime">Crime</a>
-        </div>
-      </button>
+        <li class="dropdown">
+          <button>By Year ▾</button>
+          <div class="dropdown-content">
+            <a href="category.html#year=2025">2025</a>
+            <a href="category.html#year=2024">2024</a>
+            <a href="category.html#year=2023">2023</a>
+          </div>
+        </li>
 
-      <button class="dropdown">By Year ▾
-        <div class="dropdown-content">
-          <a href="category.html#year=2025">2025</a>
-          <a href="category.html#year=2024">2024</a>
-          <a href="category.html#year=2023">2023</a>
-        </div>
-      </button>
-
-      <button class="dropdown">By Qualities ▾
-        <div class="dropdown-content">
-          <a href="category.html#quality=1080p">1080p</a>
-          <a href="category.html#quality=720p">720p</a>
-          <a href="category.html#quality=480p">480p</a>
-          <a href="category.html#quality=2160p">2160p</a>
-        </div>
-      </button>
-    </nav>
+        <li class="dropdown">
+          <button>By Qualities ▾</button>
+          <div class="dropdown-content">
+            <a href="category.html#quality=1080p">1080p</a>
+            <a href="category.html#quality=720p">720p</a>
+            <a href="category.html#quality=480p">480p</a>
+            <a href="category.html#quality=2160p">2160p</a>
+          </div>
+        </li>
+      </ul>
+    </div>
   </header>
 
   <!-- MAIN: Filtered Movies by GENRE/YEAR/QUALITY -->
@@ -232,7 +313,17 @@
 
   <script>
     // ───────────────────────────────────────────────────────────────────────────
-    // MOVIES ARRAY (must match index.html & download.html)
+    // TOGGLE MOBILE MENU
+    // ───────────────────────────────────────────────────────────────────────────
+    const hamburger = document.getElementById("hamburger");
+    const navLinks = document.getElementById("navLinks");
+
+    hamburger.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
+    });
+
+    // ───────────────────────────────────────────────────────────────────────────
+    // MOVIES ARRAY (must be identical in index.html & download.html)
     // ───────────────────────────────────────────────────────────────────────────
     const movies = [
       {
@@ -293,11 +384,11 @@
           "480p": "links/joker-2019-480p.mp4"
         }
       }
-      /* … you can add more movie objects here … */
+      /* … add more movie objects here … */
     ];
 
     // ───────────────────────────────────────────────────────────────────────────
-    // UTILITY: PARSE URL HASH (e.g. "genre=Comedy" or "year=2025" or "quality=720p")
+    // UTILITY: GET URL HASH (e.g. "#genre=Comedy" or "#year=2025" or "#quality=720p")
     // ───────────────────────────────────────────────────────────────────────────
     function parseHash() {
       const hash = window.location.hash.substring(1); // e.g. "genre=Comedy"
@@ -316,19 +407,19 @@
       const card = document.createElement("div");
       card.className = "movie-card";
 
-      // RED BADGE (top-right) → primary quality
+      // Red badge (top-right) showing primary quality
       const badge = document.createElement("div");
       badge.className = "badge";
       badge.innerText = movie.qualities[0].toUpperCase();
       card.appendChild(badge);
 
-      // POSTER IMAGE
+      // Poster
       const img = document.createElement("img");
       img.src = movie.poster;
       img.alt = movie.title + " Poster";
       card.appendChild(img);
 
-      // INFO PANEL
+      // Info box under poster
       const info = document.createElement("div");
       info.className = "movie-info";
 

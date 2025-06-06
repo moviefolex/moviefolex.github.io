@@ -59,14 +59,11 @@
       color: #ff3b3f;
     }
 
-    /* ───────────────────────────────────────────────────────────────────────────
-       DROPDOWNS (GENRE / YEAR / QUALITIES)
-       ────────────────────────────────────────────────────────────────────────── */
+    /* DROPDOWNS (GENRE / YEAR / QUALITIES) */
     .dropdown {
       position: relative;
     }
     .dropdown-content {
-      display: none;
       position: absolute;
       top: 1.8rem;
       left: 0;
@@ -76,6 +73,15 @@
       min-width: 140px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
       z-index: 200;
+
+      /* Hide by default (visibility + opacity) */
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .dropdown:hover .dropdown-content {
+      visibility: visible;
+      opacity: 1;
     }
     .dropdown-content a {
       display: block;
@@ -88,9 +94,6 @@
     .dropdown-content a:hover {
       background-color: #333;
       color: #ff3b3f;
-    }
-    .dropdown:hover .dropdown-content {
-      display: block;
     }
 
     /* ───────────────────────────────────────────────────────────────────────────
@@ -113,7 +116,7 @@
       position: relative;
       z-index: 2;
       max-width: 800px;
-      margin: 6rem auto; /* leave room for fixed header */
+      margin: 6rem auto; /* leave room for header */
       background-color: #222;
       border-radius: 8px;
       overflow: hidden;

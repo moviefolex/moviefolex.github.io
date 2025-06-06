@@ -6,7 +6,7 @@
   <title>MovieFolex – By Year</title>
   <style>
     /* ───────────────────────────────────────────────────────────────────────────
-       BASE RESET & BOX-SIZING
+       RESET & BOX-SIZING
        ────────────────────────────────────────────────────────────────────────── */
     *,
     *::before,
@@ -15,67 +15,92 @@
       padding: 0;
       box-sizing: border-box;
     }
+    html {
+      scroll-behavior: smooth;
+    }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #111;
       color: #eee;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       min-height: 100vh;
+      line-height: 1.4;
     }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       HEADER / NAV
+       ────────────────────────────────────────────────────────────────────────── */
     header {
-      background-color: rgba(0, 0, 0, 0.85);
-      padding: 1rem 2rem;
       position: sticky;
       top: 0;
+      background-color: rgba(20, 20, 20, 0.95);
       z-index: 100;
+      padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      border-bottom: 1px solid #333;
     }
     header h1 {
       font-size: 1.5rem;
+      color: #f5f5f5;
     }
     nav {
       display: flex;
-      gap: 1.5rem;
+      gap: 2rem;
+      align-items: center;
+    }
+    nav a,
+    nav button {
+      background: none;
+      border: none;
+      color: #f5f5f5;
+      font-size: 1rem;
+      cursor: pointer;
+      position: relative;
+    }
+    nav a:hover,
+    nav button:hover {
+      color: #ff3b3f;
     }
     .dropdown {
       position: relative;
     }
-    .dropdown > button {
-      background: none;
-      border: none;
-      color: #eee;
-      font-size: 1rem;
-      cursor: pointer;
-    }
     .dropdown-content {
       display: none;
       position: absolute;
+      top: 1.8rem;
+      left: 0;
       background-color: #222;
-      min-width: 140px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-      z-index: 200;
+      border: 1px solid #333;
       border-radius: 4px;
+      min-width: 140px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      z-index: 200;
     }
     .dropdown-content a {
-      color: #eee;
-      padding: 0.75rem 1rem;
-      text-decoration: none;
       display: block;
+      padding: 0.75rem 1rem;
       font-size: 0.95rem;
+      color: #eee;
+      text-decoration: none;
     }
     .dropdown-content a:hover {
       background-color: #333;
+      color: #ff3b3f;
     }
     .dropdown:hover .dropdown-content {
       display: block;
     }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       MAIN / MOVIE GRID
+       ────────────────────────────────────────────────────────────────────────── */
     main {
       padding: 2rem;
     }
     .year-title {
-      margin-bottom: 1.5rem;
       font-size: 1.75rem;
+      margin-bottom: 1.2rem;
       color: #f5f5f5;
     }
     .movie-grid {
@@ -87,18 +112,21 @@
       background-color: #222;
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-      transition: transform 0.2s;
+      position: relative;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
     .movie-card:hover {
-      transform: translateY(-5px);
+      transform: translateY(-6px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.7);
     }
     .movie-card img {
-      width: 100%;
       display: block;
+      width: 100%;
+      height: auto;
     }
     .movie-info {
-      padding: 0.75rem;
+      padding: 0.8rem 0.75rem;
     }
     .movie-title {
       font-size: 1rem;
@@ -108,85 +136,125 @@
     .movie-meta {
       font-size: 0.85rem;
       color: #bbb;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.8rem;
     }
-    a.download-btn {
+    .download-btn {
       display: inline-block;
-      padding: 0.5rem 0.75rem;
-      background-color: #d62828;
+      font-size: 0.9rem;
+      background-color: #ff3b3f;
       color: #fff;
       text-decoration: none;
+      padding: 0.5rem 0.8rem;
       border-radius: 4px;
-      font-size: 0.9rem;
       transition: background 0.2s;
     }
-    a.download-btn:hover {
-      background-color: #b21b1b;
+    .download-btn:hover {
+      background-color: #e03235;
     }
+
+    /* SMALL RED BADGE (top right) */
+    .badge {
+      position: absolute;
+      top: 0.6rem;
+      right: 0.6rem;
+      background-color: #d62828;
+      color: #fff;
+      font-size: 0.75rem;
+      padding: 0.3rem 0.5rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+      z-index: 10;
+    }
+
+    /* YELLOW STAR ICON (bottom-left) */
+    .star-icon {
+      position: absolute;
+      bottom: 0.6rem;
+      left: 0.6rem;
+      width: 24px;
+      height: 24px;
+      background-color: #f0c419;
+      mask: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 17.27l6.18 3.73-5.02-6.27L21 9.24l-6.36-.55L12 3 9.36 8.69 3 9.24l4.84 5.49-5.02 6.27z"/></svg>') no-repeat center;
+      mask-size: contain;
+    }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       FOOTER
+       ────────────────────────────────────────────────────────────────────────── */
     footer {
-      text-align: center;
-      padding: 1rem;
       background-color: #000;
       color: #777;
+      text-align: center;
+      padding: 1rem 0;
       margin-top: 2rem;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
+  <!-- HEADER -->
   <header>
     <h1>MovieFolex</h1>
     <nav>
-      <a href="index.html" style="color: #eee; text-decoration: none;">Home</a>
+      <a href="index.html">Home</a>
+
       <div class="dropdown">
         <button>Genre ▾</button>
         <div class="dropdown-content">
           <a href="genre.html#Action">Action</a>
           <a href="genre.html#Drama">Drama</a>
           <a href="genre.html#Comedy">Comedy</a>
+          <a href="genre.html#Romance">Romance</a>
+          <a href="genre.html#Crime">Crime</a>
+          <!-- add more genres here -->
         </div>
       </div>
-      <div class="dropdown">
-        <button>By Qualities ▾</button>
-        <div class="dropdown-content">
-          <a href="by-qualities.html#1080p">1080p</a>
-          <a href="by-qualities.html#720p">720p</a>
-          <a href="by-qualities.html#480p">480p</a>
-        </div>
-      </div>
+
       <div class="dropdown">
         <button>By Year ▾</button>
         <div class="dropdown-content">
           <a href="by-year.html#2025">2025</a>
           <a href="by-year.html#2024">2024</a>
           <a href="by-year.html#2023">2023</a>
+          <!-- add more years here -->
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button>By Qualities ▾</button>
+        <div class="dropdown-content">
+          <a href="by-qualities.html#1080p">1080p</a>
+          <a href="by-qualities.html#720p">720p</a>
+          <a href="by-qualities.html#480p">480p</a>
+          <!-- add more qualities here -->
         </div>
       </div>
     </nav>
   </header>
 
+  <!-- MAIN: Filtered Grid by Year -->
   <main>
     <h2 class="year-title" id="yearTitle">Year: </h2>
-    <div class="movie-grid" id="movieGrid">
-      <!-- Filtered movie cards go here -->
-    </div>
+    <div class="movie-grid" id="movieGrid"></div>
   </main>
 
+  <!-- FOOTER -->
   <footer>
-    © 2025 MovieFolex. All rights reserved.
+    © 2025 MovieFolex – All Rights Reserved
   </footer>
 
   <script>
     // ───────────────────────────────────────────────────────────────────────────
-    // MOVIES ARRAY (with `genres` as an array) – keep in sync with index.html
+    // MOVIES ARRAY (must match index.html exactly)
     // ───────────────────────────────────────────────────────────────────────────
     const movies = [
       {
-        id: "the-royals",
+        id: "1",
         title: "The Royals",
         poster: "https://i.pinimg.com/736x/2f/6c/74/2f6c745376fe03d434cad1c58e7c67f9.jpg",
-        genres: ["Action", "Drama"],
-        year: "2024",
-        qualities: ["1080p", "720p", "480p"],
+        genres: ["drama","romance","comedy"],
+        year: "2025",
+        qualities: ["1080p","720p","480p"],
         language: "Hindi",
         review: "A thrilling saga of royal drama.",
         downloads: {
@@ -196,12 +264,12 @@
         }
       },
       {
-        id: "avatar-2",
+        id: "2",
         title: "Avatar: The Way of Water",
         poster: "images/avatar-2.jpg",
-        genres: ["Drama", "Adventure"],
+        genres: ["drama","adventure"],
         year: "2022",
-        qualities: ["1080p", "720p"],
+        qualities: ["1080p","720p"],
         language: "English",
         review: "Sequel to the epic 2009 fantasy adventure film.",
         downloads: {
@@ -210,12 +278,12 @@
         }
       },
       {
-        id: "fast-x",
+        id: "3",
         title: "Fast X",
         poster: "images/fast-x.jpg",
-        genres: ["Action"],
+        genres: ["action"],
         year: "2023",
-        qualities: ["1080p", "720p"],
+        qualities: ["1080p","720p"],
         language: "English",
         review: "The tenth main installment in the Fast & Furious franchise.",
         downloads: {
@@ -224,12 +292,12 @@
         }
       },
       {
-        id: "joker-2019",
+        id: "4",
         title: "Joker",
         poster: "images/joker-2019.jpg",
-        genres: ["Drama", "Crime"],
+        genres: ["drama","crime"],
         year: "2019",
-        qualities: ["1080p", "720p", "480p"],
+        qualities: ["1080p","720p","480p"],
         language: "English",
         review: "Origin story of the infamous Batman villain.",
         downloads: {
@@ -238,28 +306,41 @@
           "480p": "links/joker-2019-480p.mp4"
         }
       }
-      // … ADD MORE MOVIES HERE …
+      // … append more movies here if you wish …
     ];
 
     // ───────────────────────────────────────────────────────────────────────────
-    // UTILITY: READ URL HASH (e.g. "#2024")
+    // UTILITY: GET URL HASH (e.g. "#2025")
     // ───────────────────────────────────────────────────────────────────────────
     function getHashValue() {
       return decodeURIComponent(window.location.hash.substring(1));
     }
 
     // ───────────────────────────────────────────────────────────────────────────
-    // CREATE A MOVIE CARD (same as index.html)
+    // CREATE A MOVIE CARD (identical to index.html)
     // ───────────────────────────────────────────────────────────────────────────
     function createMovieCard(movie) {
       const card = document.createElement("div");
       card.className = "movie-card";
 
+      // Red badge: primary quality
+      const badge = document.createElement("div");
+      badge.className = "badge";
+      badge.innerText = movie.qualities[0].toUpperCase();
+      card.appendChild(badge);
+
+      // Poster
       const img = document.createElement("img");
       img.src = movie.poster;
       img.alt = movie.title + " Poster";
       card.appendChild(img);
 
+      // Star icon
+      const star = document.createElement("div");
+      star.className = "star-icon";
+      card.appendChild(star);
+
+      // Info
       const info = document.createElement("div");
       info.className = "movie-info";
 
@@ -270,46 +351,44 @@
 
       const meta = document.createElement("p");
       meta.className = "movie-meta";
-      meta.textContent = `${movie.genres.join(", ")} ⋅ ${movie.year} ⋅ ${movie.language}`;
+      const capGenres = movie.genres.map(g => g.charAt(0).toUpperCase() + g.slice(1)).join(", ");
+      meta.textContent = `${capGenres} ⋅ ${movie.year} ⋅ ${movie.language}`;
       info.appendChild(meta);
 
-      const downloadLink = document.createElement("a");
-      downloadLink.className = "download-btn";
-      downloadLink.textContent = "Download";
-      downloadLink.href = `download.html?movieId=${movie.id}`;
-      info.appendChild(downloadLink);
+      const link = document.createElement("a");
+      link.className = "download-btn";
+      link.href = `download.html?movieId=${movie.id}`;
+      link.textContent = "Download";
+      info.appendChild(link);
 
       card.appendChild(info);
       return card;
     }
 
     // ───────────────────────────────────────────────────────────────────────────
-    // RENDER FILTERED MOVIES BASED ON YEAR
+    // RENDER MOVIES FILTERED BY YEAR
     // ───────────────────────────────────────────────────────────────────────────
     function renderYearMovies() {
       const selectedYear = getHashValue();
-      const titleEl = document.getElementById("yearTitle");
-      titleEl.textContent = `Year: ${selectedYear}`;
+      document.getElementById("yearTitle").textContent = `Year: ${selectedYear}`;
 
       const grid = document.getElementById("movieGrid");
       grid.innerHTML = "";
-      const filtered = movies.filter((m) => m.year === selectedYear);
+
+      const filtered = movies.filter(m => m.year === selectedYear);
       if (filtered.length === 0) {
-        const msg = document.createElement("p");
-        msg.textContent = "No movies found for this year.";
-        msg.style.color = "#ccc";
-        grid.appendChild(msg);
+        const p = document.createElement("p");
+        p.style.color = "#ccc";
+        p.textContent = "No movies found for this year.";
+        grid.appendChild(p);
         return;
       }
-      filtered.forEach((m) => {
+      filtered.forEach(m => {
         const card = createMovieCard(m);
         grid.appendChild(card);
       });
     }
 
-    // ───────────────────────────────────────────────────────────────────────────
-    // INITIALIZATION (by-year.html)
-    // ───────────────────────────────────────────────────────────────────────────
     window.addEventListener("DOMContentLoaded", () => {
       renderYearMovies();
     });

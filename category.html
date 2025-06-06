@@ -90,7 +90,7 @@
       color: #ff3b3f;
     }
 
-    /* DROPDOWNS */
+    /* DROPDOWN MENU */
     .dropdown {
       position: relative;
     }
@@ -104,8 +104,6 @@
       min-width: 140px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
       z-index: 200;
-
-      /* Hide by default, fade in/out */
       visibility: hidden;
       opacity: 0;
       transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -172,7 +170,7 @@
     .movie-meta {
       font-size: 0.9rem;
       color: #bbb;
-      margin-bottom: 0.6rem;
+      /* We'll append “⋅ IMDb X.X” here */
     }
 
     /* SMALL RED BADGE (TOP‐RIGHT) */
@@ -253,7 +251,7 @@
 </head>
 <body>
 
-  <!-- HEADER NAV -->
+  <!-- HEADER -->
   <header>
     <h1>MovieFolex</h1>
     <div class="nav-container">
@@ -323,23 +321,28 @@
     });
 
     // ───────────────────────────────────────────────────────────────────────────
-    // MOVIES ARRAY (must be identical in index.html & download.html)
+    // MOVIES ARRAY (must match index.html & download.html)
     // ───────────────────────────────────────────────────────────────────────────
     const movies = [
       {
-         id: "3",
+        id: "3",
         title: "The Royals",
         poster: "https://i.pinimg.com/736x/2f/6c/74/2f6c745376fe03d434cad1c58e7c67f9.jpg",
-        genres: ["Drama","Romance"],
+        genres: ["drama","comedy","romance"],
         year: "2025",
         qualities: ["1080p","720p","480p"],
-        language: ["Hindi","and","Telugu"],
-        review: "'The Royals' follows the lives of a fictional British royal family",
-                    
+        language: ["Hindi","Tamil"],
+        review: `A thrilling saga of royal drama that follows two heirs vying for the throne—packed with palace intrigue,
+alliance shifts, and breathtaking twists.
+
+- The struggle for power unfolds in secret chambers.
+- Unexpected alliances alter the course of kingdoms.
+- A final revelation changes everything.`,
+        imdb: "7.5",
         downloads: {
-          "1080p": "https://gplinks.co/0MR82q",
-          "720p": "https://gplinks.co/VJ7awz",
-          "480p": "https://gplinks.co/dKmudBh"
+          "1080p": "links/the-royals-1080p.mp4",
+          "720p": "links/the-royals-720p.mp4",
+          "480p": "links/the-royals-480p.mp4"
         }
       },
       {
@@ -350,7 +353,14 @@
         year: "2022",
         qualities: ["1080p","720p"],
         language: ["English"],
-        review: "Sequel to the epic 2009 fantasy adventure film.",
+        review: `Sequel to the epic 2009 fantasy adventure film, where Jake Sully and Ney’tiri embark on an undersea journey
+to protect their family from a powerful threat.
+
+Chapters of the Saga:
+1) Underwater exploration of Pandora’s new reefs.
+2) Struggles against a ruthless biotechnological foe.
+3) The Na’vi’s fight to save their home and way of life.`,
+        imdb: "7.8",
         downloads: {
           "1080p": "links/avatar-2-1080p.mp4",
           "720p": "links/avatar-2-720p.mp4"
@@ -364,7 +374,14 @@
         year: "2023",
         qualities: ["1080p","720p"],
         language: ["English"],
-        review: "The tenth main installment in the Fast & Furious franchise.",
+        review: `The tenth installment in the Fast & Furious saga. High-speed chases, globe-trotting heists, and
+the power of family’s unbreakable bonds.
+
+Highlights:
+- A high-stakes theft in Rio de Janeiro.
+- The crew’s showdown with a vengeful villain.
+- A tribute to dearly departed characters.`,
+        imdb: "6.2",
         downloads: {
           "1080p": "links/fast-x-1080p.mp4",
           "720p": "links/fast-x-720p.mp4"
@@ -378,18 +395,25 @@
         year: "2019",
         qualities: ["1080p","720p","480p"],
         language: ["English"],
-        review: "Origin story of the infamous Batman villain.",
+        review: `A raw, unsettling origin story of Arthur Fleck—a failed comedian who spirals into madness
+and becomes the infamous Joker.
+
+Key Elements:
+1) Arthur’s descent into mental illness and societal neglect.
+2) The transformation from laughter to anarchy in Gotham City.
+3) The birth of a chaotic symbol that inspires violent uprisings.`,
+        imdb: "8.5",
         downloads: {
           "1080p": "links/joker-2019-1080p.mp4",
           "720p": "links/joker-2019-720p.mp4",
           "480p": "links/joker-2019-480p.mp4"
         }
       }
-      /* … add more movie objects here … */
+      /* … you can append more movie objects here in exactly this format … */
     ];
 
     // ───────────────────────────────────────────────────────────────────────────
-    // UTILITY: GET URL HASH (e.g. "#genre=Comedy" or "#year=2025" or "#quality=720p")
+    // UTILITY: PARSE URL HASH (e.g. "genre=Comedy" or "year=2025" or "quality=720p")
     // ───────────────────────────────────────────────────────────────────────────
     function parseHash() {
       const hash = window.location.hash.substring(1); // e.g. "genre=Comedy"
@@ -408,19 +432,19 @@
       const card = document.createElement("div");
       card.className = "movie-card";
 
-      // Red badge (top-right) showing primary quality
+      // RED BADGE (top-right) → primary quality
       const badge = document.createElement("div");
       badge.className = "badge";
       badge.innerText = movie.qualities[0].toUpperCase();
       card.appendChild(badge);
 
-      // Poster
+      // POSTER IMAGE
       const img = document.createElement("img");
       img.src = movie.poster;
       img.alt = movie.title + " Poster";
       card.appendChild(img);
 
-      // Info box under poster
+      // INFO PANEL UNDER THE POSTER
       const info = document.createElement("div");
       info.className = "movie-info";
 
@@ -437,7 +461,7 @@
       const langs = movie.language
         .map(l => l.charAt(0).toUpperCase() + l.slice(1))
         .join(", ");
-      meta.textContent = `${capGenres} ⋅ ${movie.year} ⋅ ${langs}`;
+      meta.textContent = `${capGenres} ⋅ ${movie.year} ⋅ ${langs} ⋅ IMDb ${movie.imdb}`;
       info.appendChild(meta);
 
       card.appendChild(info);

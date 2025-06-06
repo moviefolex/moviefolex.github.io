@@ -43,23 +43,51 @@
       color: #fff;
       text-transform: uppercase;
     }
-    header nav a,
-    header nav button {
-      color: #fff;
-      text-decoration: none;
-      margin-left: 2rem;
-      font-size: 1rem;
+
+    /* Navigation container */
+    .nav-container {
+      display: flex;
+      align-items: center;
+    }
+
+    /* Hamburger icon (hidden on desktop, shown on mobile) */
+    .hamburger {
+      display: none;
+      flex-direction: column;
       cursor: pointer;
+      gap: 5px;
+    }
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: #fff;
+    }
+
+    /* The actual navigation links */
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+    .nav-links li {
+      position: relative;
+    }
+    .nav-links a,
+    .nav-links button {
       background: none;
       border: none;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
       transition: color 0.2s;
     }
-    header nav a:hover,
-    header nav button:hover {
+    .nav-links a:hover,
+    .nav-links button:hover {
       color: #ff3b3f;
     }
 
-    /* DROPDOWNS (GENRE / YEAR / QUALITIES) */
+    /* DROPDOWNS */
     .dropdown {
       position: relative;
     }
@@ -74,7 +102,7 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
       z-index: 200;
 
-      /* Hide by default (visibility + opacity) */
+      /* Hide by default, fade in/out */
       visibility: hidden;
       opacity: 0;
       transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -197,21 +225,50 @@
       background-color: #e03235;
     }
 
-    /* RESPONSIVE (NARROW) */
-    @media (max-width: 700px) {
-      .download-wrapper {
-        margin: 4rem auto;
+    /* RESPONSIVE: PHONE VIEW (max‐width 768px) */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
       }
-      .info-box {
-        padding: 1rem;
+      .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #1a0000;
+        flex-direction: column;
+        gap: 0;
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
       }
-      .poster-container img {
-        width: 80%;
+      .nav-links.open {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
       }
-      .qualities button {
-        margin: 0.3rem;
-        padding: 0.5rem 1rem;
-        font-size: 0.95rem;
+      .nav-links li {
+        border-top: 1px solid #660000;
+      }
+      .nav-links li:first-child {
+        border-top: none;
+      }
+      .nav-links a,
+      .nav-links button {
+        padding: 1rem 2rem;
+        width: 100%;
+        text-align: left;
+      }
+      /* Adapt dropdown contents to mobile layout */
+      .dropdown-content {
+        position: static;
+        border: none;
+        box-shadow: none;
+        background-color: #222;
+        margin-left: 1rem;
+        margin-right: 1rem;
+        border-top: 1px solid #333;
       }
     }
   </style>
@@ -223,48 +280,66 @@
   <!-- HEADER NAV -->
   <header>
     <h1>MovieFolex</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <button class="dropdown">Featured ▾
-        <div class="dropdown-content">
-          <!-- Example items -->
-          <a href="#">Top Rated</a>
-          <a href="#">Latest Releases</a>
-        </div>
-      </button>
-      <button class="dropdown">Genre ▾
-        <div class="dropdown-content">
-          <a href="category.html#genre=Action">Action</a>
-          <a href="category.html#genre=Drama">Drama</a>
-          <a href="category.html#genre=Comedy">Comedy</a>
-          <a href="category.html#genre=Romance">Romance</a>
-          <a href="category.html#genre=Crime">Crime</a>
-        </div>
-      </button>
-      <button class="dropdown">By Year ▾
-        <div class="dropdown-content">
-          <a href="category.html#year=2025">2025</a>
-          <a href="category.html#year=2024">2024</a>
-          <a href="category.html#year=2023">2023</a>
-        </div>
-      </button>
-      <button class="dropdown">By Qualities ▾
-        <div class="dropdown-content">
-          <a href="category.html#quality=1080p">1080p</a>
-          <a href="category.html#quality=720p">720p</a>
-          <a href="category.html#quality=480p">480p</a>
-          <a href="category.html#quality=2160p">2160p</a>
-        </div>
-      </button>
-    </nav>
+    <div class="nav-container">
+      <!-- Hamburger icon for mobile -->
+      <div class="hamburger" id="hamburger">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <!-- Navigation links -->
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+
+        <li class="dropdown">
+          <button>Genre ▾</button>
+          <div class="dropdown-content">
+            <a href="category.html#genre=Action">Action</a>
+            <a href="category.html#genre=Drama">Drama</a>
+            <a href="category.html#genre=Comedy">Comedy</a>
+            <a href="category.html#genre=Romance">Romance</a>
+            <a href="category.html#genre=Crime">Crime</a>
+          </div>
+        </li>
+
+        <li class="dropdown">
+          <button>By Year ▾</button>
+          <div class="dropdown-content">
+            <a href="category.html#year=2025">2025</a>
+            <a href="category.html#year=2024">2024</a>
+            <a href="category.html#year=2023">2023</a>
+          </div>
+        </li>
+
+        <li class="dropdown">
+          <button>By Qualities ▾</button>
+          <div class="dropdown-content">
+            <a href="category.html#quality=1080p">1080p</a>
+            <a href="category.html#quality=720p">720p</a>
+            <a href="category.html#quality=480p">480p</a>
+            <a href="category.html#quality=2160p">2160p</a>
+          </div>
+        </li>
+      </ul>
+    </div>
   </header>
 
-  <!-- DOWNLOAD CONTAINER (JS INJECTS CONTENT) -->
+  <!-- MAIN: (download.js injects content) -->
   <div class="download-wrapper" id="downloadWrapper"></div>
 
   <script>
     // ───────────────────────────────────────────────────────────────────────────
-    // MOVIES ARRAY (must match index.html & category.html)
+    // TOGGLE MOBILE MENU
+    // ───────────────────────────────────────────────────────────────────────────
+    const hamburger = document.getElementById("hamburger");
+    const navLinks = document.getElementById("navLinks");
+
+    hamburger.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
+    });
+
+    // ───────────────────────────────────────────────────────────────────────────
+    // MOVIES ARRAY (must be identical in index.html & category.html)
     // ───────────────────────────────────────────────────────────────────────────
     const movies = [
       {

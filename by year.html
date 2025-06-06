@@ -17,12 +17,12 @@
     }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #1a1a1a;
-      color: #f0f0f0;
+      background-color: #111;
+      color: #eee;
       min-height: 100vh;
     }
     header {
-      background-color: rgba(0, 0, 0, 0.8);
+      background-color: rgba(0, 0, 0, 0.85);
       padding: 1rem 2rem;
       position: sticky;
       top: 0;
@@ -44,28 +44,28 @@
     .dropdown > button {
       background: none;
       border: none;
-      color: #f0f0f0;
+      color: #eee;
       font-size: 1rem;
       cursor: pointer;
     }
     .dropdown-content {
       display: none;
       position: absolute;
-      background-color: #2b2b2b;
-      min-width: 120px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      background-color: #222;
+      min-width: 140px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
       z-index: 200;
       border-radius: 4px;
     }
     .dropdown-content a {
-      color: #f0f0f0;
+      color: #eee;
       padding: 0.75rem 1rem;
       text-decoration: none;
       display: block;
       font-size: 0.95rem;
     }
     .dropdown-content a:hover {
-      background-color: #3d3d3d;
+      background-color: #333;
     }
     .dropdown:hover .dropdown-content {
       display: block;
@@ -76,6 +76,7 @@
     .year-title {
       margin-bottom: 1.5rem;
       font-size: 1.75rem;
+      color: #f5f5f5;
     }
     .movie-grid {
       display: grid;
@@ -83,10 +84,10 @@
       gap: 1.5rem;
     }
     .movie-card {
-      background-color: #2b2b2b;
+      background-color: #222;
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
       transition: transform 0.2s;
     }
     .movie-card:hover {
@@ -102,16 +103,17 @@
     .movie-title {
       font-size: 1rem;
       margin-bottom: 0.5rem;
+      color: #f5f5f5;
     }
     .movie-meta {
       font-size: 0.85rem;
-      color: #ccc;
+      color: #bbb;
+      margin-bottom: 0.75rem;
     }
     a.download-btn {
       display: inline-block;
-      margin-top: 0.75rem;
       padding: 0.5rem 0.75rem;
-      background-color: #ff3b3f;
+      background-color: #d62828;
       color: #fff;
       text-decoration: none;
       border-radius: 4px;
@@ -119,7 +121,7 @@
       transition: background 0.2s;
     }
     a.download-btn:hover {
-      background-color: #e03235;
+      background-color: #b21b1b;
     }
     footer {
       text-align: center;
@@ -134,7 +136,7 @@
   <header>
     <h1>MovieFolex</h1>
     <nav>
-      <a href="index.html" style="color: #f0f0f0; text-decoration: none;">Home</a>
+      <a href="index.html" style="color: #eee; text-decoration: none;">Home</a>
       <div class="dropdown">
         <button>Genre ▾</button>
         <div class="dropdown-content">
@@ -175,14 +177,14 @@
 
   <script>
     // ───────────────────────────────────────────────────────────────────────────
-    // SAME MOVIES ARRAY AS IN index.html (must be kept in sync)
+    // MOVIES ARRAY (with `genres` as an array) – keep in sync with index.html
     // ───────────────────────────────────────────────────────────────────────────
     const movies = [
       {
         id: "the-royals",
         title: "The Royals",
-        poster: "images/the-royals.jpg",
-        genre: "Action",
+        poster: "https://i.pinimg.com/736x/2f/6c/74/2f6c745376fe03d434cad1c58e7c67f9.jpg",
+        genres: ["Action", "Drama"],
         year: "2024",
         qualities: ["1080p", "720p", "480p"],
         language: "Hindi",
@@ -197,7 +199,7 @@
         id: "avatar-2",
         title: "Avatar: The Way of Water",
         poster: "images/avatar-2.jpg",
-        genre: "Drama",
+        genres: ["Drama", "Adventure"],
         year: "2022",
         qualities: ["1080p", "720p"],
         language: "English",
@@ -211,7 +213,7 @@
         id: "fast-x",
         title: "Fast X",
         poster: "images/fast-x.jpg",
-        genre: "Action",
+        genres: ["Action"],
         year: "2023",
         qualities: ["1080p", "720p"],
         language: "English",
@@ -225,7 +227,7 @@
         id: "joker-2019",
         title: "Joker",
         poster: "images/joker-2019.jpg",
-        genre: "Drama",
+        genres: ["Drama", "Crime"],
         year: "2019",
         qualities: ["1080p", "720p", "480p"],
         language: "English",
@@ -236,7 +238,7 @@
           "480p": "links/joker-2019-480p.mp4"
         }
       }
-      // … any other movies you already have …
+      // … ADD MORE MOVIES HERE …
     ];
 
     // ───────────────────────────────────────────────────────────────────────────
@@ -268,7 +270,7 @@
 
       const meta = document.createElement("p");
       meta.className = "movie-meta";
-      meta.textContent = `${movie.genre} ⋅ ${movie.year} ⋅ ${movie.language}`;
+      meta.textContent = `${movie.genres.join(", ")} ⋅ ${movie.year} ⋅ ${movie.language}`;
       info.appendChild(meta);
 
       const downloadLink = document.createElement("a");

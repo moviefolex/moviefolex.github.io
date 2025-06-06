@@ -6,7 +6,7 @@
   <title>MovieFolex – Download</title>
   <style>
     /* ───────────────────────────────────────────────────────────────────────────
-       OLD DOWNLOAD THEME (full-page background + dark overlay + centered box)
+       RESET & BOX-SIZING
        ────────────────────────────────────────────────────────────────────────── */
     *,
     *::before,
@@ -17,161 +17,183 @@
     }
     html, body {
       height: 100%;
-    }
-    body {
+      background-color: #111;
+      color: #eee;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      /* A dark, movie-style background gradient (you can replace with an image if desired) */
-      background: linear-gradient(135deg, #000 0%, #111 80%);
-      color: #f0f0f0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
     }
-    /* Dark overlay over the entire page */
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       OVERLAY + BACKGROUND
+       ────────────────────────────────────────────────────────────────────────── */
     #overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.75);
+      background: rgba(0, 0, 0, 0.8);
       z-index: 1;
     }
-    /* Centered container */
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       HEADER NAV (top) 
+       ────────────────────────────────────────────────────────────────────────── */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(20, 20, 20, 0.9);
+      z-index: 2;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #333;
+    }
+    header h1 {
+      font-size: 1.5rem;
+      color: #f5f5f5;
+    }
+    header nav a {
+      color: #f5f5f5;
+      text-decoration: none;
+      margin-left: 2rem;
+      font-size: 1rem;
+      transition: color 0.2s;
+    }
+    header nav a:hover {
+      color: #ff3b3f;
+    }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       CENTERED DOWNLOAD CONTAINER
+       ────────────────────────────────────────────────────────────────────────── */
     .download-wrapper {
       position: relative;
       z-index: 2;
-      max-width: 900px;
-      width: 90%;
+      max-width: 850px;
+      margin: 6rem auto; /* leave space for header */
       background-color: #222;
       border-radius: 8px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
       overflow: hidden;
       display: flex;
       flex-wrap: wrap;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
     }
+
+    /* LEFT: POSTER SECTION */
     .poster-section {
       flex: 1 1 250px;
       background-size: cover;
       background-position: center;
       min-height: 350px;
     }
+
+    /* RIGHT: INFO SECTION */
     .info-section {
       flex: 2 1 350px;
       padding: 1.5rem;
       display: flex;
       flex-direction: column;
+      justify-content: flex-start;
+      gap: 1rem;
     }
     .info-section h2 {
-      margin-bottom: 0.5rem;
-      font-size: 1.75rem;
-      color: #fff;
+      font-size: 1.8rem;
+      color: #f5f5f5;
     }
-    .info-section p {
-      margin: 0.5rem 0;
+    .info-section p.meta {
       font-size: 0.95rem;
-      line-height: 1.4;
-      color: #ddd;
-    }
-    .info-section .genres,
-    .info-section .meta {
-      font-size: 0.9rem;
       color: #aaa;
     }
-    .plot-section {
-      margin-top: 1rem;
+    .info-section p.meta span {
+      margin-right: 1rem;
     }
-    .plot-section h3 {
-      margin-bottom: 0.5rem;
-      color: #f0f0f0;
-    }
-    .plot-section p {
+    .info-section .genres {
+      margin-top: 0.2rem;
       font-size: 0.9rem;
-      line-height: 1.5;
       color: #ccc;
     }
+    .info-section .plot-title {
+      font-size: 1.2rem;
+      color: #f5f5f5;
+      margin-top: 1rem;
+    }
+    .info-section .plot-text {
+      font-size: 0.95rem;
+      color: #ddd;
+      line-height: 1.5;
+    }
+
+    /* DOWNLOAD BUTTONS */
     .qualities {
       margin-top: 1.5rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
+      text-align: center;
+      width: 100%;
     }
     .qualities button {
-      background-color: #d62828;
-      border: none;
+      background-color: #ff3b3f;
       color: #fff;
-      padding: 0.6rem 1rem;
+      border: none;
       border-radius: 4px;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      margin: 0 0.5rem 0.5rem 0.5rem;
       cursor: pointer;
       transition: background 0.2s;
-      font-size: 0.95rem;
     }
     .qualities button:hover {
-      background-color: #a81e1e;
+      background-color: #e03235;
     }
-    /* “Back to Home” link at top right */
-    .back-home {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      z-index: 3;
-    }
-    .back-home a {
-      color: #ddd;
-      text-decoration: none;
-      font-size: 0.9rem;
-      background-color: rgba(0, 0, 0, 0.4);
-      padding: 0.4rem 0.6rem;
-      border-radius: 4px;
-      transition: background 0.2s;
-    }
-    .back-home a:hover {
-      background-color: rgba(0, 0, 0, 0.6);
-    }
-    /* Responsive tweaks */
+
+    /* RESPONSIVE */
     @media (max-width: 700px) {
       .download-wrapper {
         flex-direction: column;
       }
-      .info-section {
-        padding: 1rem;
-      }
       .poster-section {
         min-height: 250px;
+      }
+      .info-section {
+        padding: 1rem;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Dark overlay -->
+  <!-- OVERLAY -->
   <div id="overlay"></div>
 
-  <!-- “Back to Home” button -->
-  <div class="back-home">
-    <a href="index.html">← Back to Home</a>
-  </div>
+  <!-- HEADER NAV -->
+  <header>
+    <h1>MovieFolex</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="genre.html#Action">Genre</a>
+      <a href="by-year.html#2025">By Year</a>
+      <a href="by-qualities.html#1080p">By Qualities</a>
+    </nav>
+  </header>
 
+  <!-- DOWNLOAD CONTAINER -->
   <div class="download-wrapper" id="downloadWrapper">
-    <!-- Poster will be set as background on .poster-section -->
     <div class="poster-section" id="posterSection"></div>
-    <div class="info-section" id="infoSection">
-      <!-- Movie Info goes here via JavaScript -->
-    </div>
+    <div class="info-section" id="infoSection"></div>
   </div>
 
   <script>
     // ───────────────────────────────────────────────────────────────────────────
-    // MOVIES ARRAY (with multiple genres, same as index.html)
+    // MOVIES ARRAY (exact same structure as index.html)
     // ───────────────────────────────────────────────────────────────────────────
     const movies = [
       {
-        id: "the-royals",
+        id: "1",
         title: "The Royals",
         poster: "https://i.pinimg.com/736x/2f/6c/74/2f6c745376fe03d434cad1c58e7c67f9.jpg",
-        genres: ["Action", "Drama"],
-        year: "2024",
-        qualities: ["1080p", "720p", "480p"],
+        genres: ["drama","romance","comedy"],
+        year: "2025",
+        qualities: ["1080p","720p","480p"],
         language: "Hindi",
         review: "A thrilling saga of royal drama.",
         downloads: {
@@ -181,12 +203,12 @@
         }
       },
       {
-        id: "avatar-2",
+        id: "2",
         title: "Avatar: The Way of Water",
         poster: "images/avatar-2.jpg",
-        genres: ["Drama", "Adventure"],
+        genres: ["drama","adventure"],
         year: "2022",
-        qualities: ["1080p", "720p"],
+        qualities: ["1080p","720p"],
         language: "English",
         review: "Sequel to the epic 2009 fantasy adventure film.",
         downloads: {
@@ -195,12 +217,12 @@
         }
       },
       {
-        id: "fast-x",
+        id: "3",
         title: "Fast X",
         poster: "images/fast-x.jpg",
-        genres: ["Action"],
+        genres: ["action"],
         year: "2023",
-        qualities: ["1080p", "720p"],
+        qualities: ["1080p","720p"],
         language: "English",
         review: "The tenth main installment in the Fast & Furious franchise.",
         downloads: {
@@ -209,12 +231,12 @@
         }
       },
       {
-        id: "joker-2019",
+        id: "4",
         title: "Joker",
         poster: "images/joker-2019.jpg",
-        genres: ["Drama", "Crime"],
+        genres: ["drama","crime"],
         year: "2019",
-        qualities: ["1080p", "720p", "480p"],
+        qualities: ["1080p","720p","480p"],
         language: "English",
         review: "Origin story of the infamous Batman villain.",
         downloads: {
@@ -223,11 +245,11 @@
           "480p": "links/joker-2019-480p.mp4"
         }
       }
-      // … ADD ANY OTHER MOVIES HERE …
+      // … replicate exactly for any additional movies …
     ];
 
     // ───────────────────────────────────────────────────────────────────────────
-    // HELPER: PARSE QUERY PARAMS (e.g., ?movieId=the-royals)
+    // UTILITY: READ QUERY PARAM ?movieId=…
     // ───────────────────────────────────────────────────────────────────────────
     function getQueryParam(param) {
       const urlParams = new URLSearchParams(window.location.search);
@@ -235,74 +257,73 @@
     }
 
     // ───────────────────────────────────────────────────────────────────────────
-    // RENDER DOWNLOAD PAGE FOR A GIVEN MOVIE OBJECT
+    // RENDER DOWNLOAD PAGE FOR SELECTED MOVIE
     // ───────────────────────────────────────────────────────────────────────────
     function renderDownloadPage(movie) {
-      // Set poster as background
+      // 1) Poster as background
       const posterDiv = document.getElementById("posterSection");
       posterDiv.style.backgroundImage = `url('${movie.poster}')`;
       posterDiv.style.backgroundSize = "cover";
       posterDiv.style.backgroundPosition = "center";
 
+      // 2) Info Section
       const infoDiv = document.getElementById("infoSection");
       infoDiv.innerHTML = ""; // clear
 
       // Title
-      const titleEl = document.createElement("h2");
-      titleEl.textContent = movie.title;
-      infoDiv.appendChild(titleEl);
+      const h2 = document.createElement("h2");
+      h2.textContent = movie.title;
+      infoDiv.appendChild(h2);
 
-      // Genres + Year + Language
-      const genresEl = document.createElement("p");
-      genresEl.className = "genres";
-      genresEl.textContent = `Genres: ${movie.genres.join(", ")}`;
-      infoDiv.appendChild(genresEl);
+      // Genres, Year, Language
+      const metaP = document.createElement("p");
+      metaP.className = "meta";
+      // Capitalize genres:
+      const capGenres = movie.genres.map(g => g.charAt(0).toUpperCase() + g.slice(1)).join(", ");
+      metaP.innerHTML = `<span><strong>Genres:</strong> ${capGenres}</span><br>
+                         <span><strong>Year:</strong> ${movie.year}</span><br>
+                         <span><strong>Language:</strong> ${movie.language}</span>`;
+      infoDiv.appendChild(metaP);
 
-      const metaEl = document.createElement("p");
-      metaEl.className = "meta";
-      metaEl.textContent = `Year: ${movie.year} ⋅ Language: ${movie.language}`;
-      infoDiv.appendChild(metaEl);
+      // Plot / Overview
+      const plotTitle = document.createElement("p");
+      plotTitle.className = "plot-title";
+      plotTitle.textContent = "Overview";
+      infoDiv.appendChild(plotTitle);
+      const plotText = document.createElement("p");
+      plotText.className = "plot-text";
+      plotText.textContent = movie.review;
+      infoDiv.appendChild(plotText);
 
-      // Plot / Review section
-      const plotDiv = document.createElement("div");
-      plotDiv.className = "plot-section";
-      const plotTitle = document.createElement("h3");
-      plotTitle.textContent = "Plot";
-      const plotPara = document.createElement("p");
-      plotPara.textContent = movie.review;
-      plotDiv.appendChild(plotTitle);
-      plotDiv.appendChild(plotPara);
-      infoDiv.appendChild(plotDiv);
-
-      // Qualities buttons
-      const qualDiv = document.createElement("div");
-      qualDiv.className = "qualities";
+      // Three centered download buttons
+      const qDiv = document.createElement("div");
+      qDiv.className = "qualities";
       movie.qualities.forEach((q) => {
         const btn = document.createElement("button");
         btn.textContent = `Download ${q}`;
         btn.addEventListener("click", () => {
           window.location.href = movie.downloads[q];
         });
-        qualDiv.appendChild(btn);
+        qDiv.appendChild(btn);
       });
-      infoDiv.appendChild(qualDiv);
+      infoDiv.appendChild(qDiv);
     }
 
     // ───────────────────────────────────────────────────────────────────────────
-    // ON PAGE LOAD: FIND movieId, LOOK UP MOVIE, AND RENDER
+    // ON PAGE LOAD: GET movieId, LOOK UP MOVIE, AND RENDER
     // ───────────────────────────────────────────────────────────────────────────
     window.addEventListener("DOMContentLoaded", () => {
       const movieId = getQueryParam("movieId");
       if (!movieId) {
-        document.getElementById("infoSection").innerHTML = "<p>Error: No movie specified.</p>";
+        alert("Error: No movieId specified in URL.");
         return;
       }
-      const chosen = movies.find((m) => m.id === movieId);
-      if (!chosen) {
-        document.getElementById("infoSection").innerHTML = "<p>Error: Movie not found.</p>";
+      const movie = movies.find(m => m.id === movieId);
+      if (!movie) {
+        alert("Error: Movie not found.");
         return;
       }
-      renderDownloadPage(chosen);
+      renderDownloadPage(movie);
     });
   </script>
 </body>

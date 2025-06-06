@@ -90,7 +90,7 @@
       color: #ff3b3f;
     }
 
-    /* Dropdown container */
+    /* DROPDOWN MENU */
     .dropdown {
       position: relative;
     }
@@ -104,8 +104,6 @@
       min-width: 140px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
       z-index: 200;
-
-      /* Hide by default, fade in/out */
       visibility: hidden;
       opacity: 0;
       transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -166,7 +164,7 @@
     .movie-meta {
       font-size: 0.9rem;
       color: #bbb;
-      margin-bottom: 0.6rem;
+      /* We'll append “⋅ IMDb X.X” here */
     }
 
     /* SMALL RED BADGE (TOP‐RIGHT CORNER) */
@@ -232,7 +230,7 @@
         width: 100%;
         text-align: left;
       }
-      /* Ensure dropdown contents within mobile menu adapt: */
+      /* Adapt dropdown contents to mobile layout */
       .dropdown-content {
         position: static;
         border: none;
@@ -325,15 +323,22 @@
         id: "3",
         title: "The Royals",
         poster: "https://i.pinimg.com/736x/2f/6c/74/2f6c745376fe03d434cad1c58e7c67f9.jpg",
-        genres: ["Drama","Romance"],
+        genres: ["drama","comedy","romance"],
         year: "2025",
         qualities: ["1080p","720p","480p"],
-        language: ["Hindi","and","Telegu"],
-        review: "'The Royals' follows the lives of a fictional British royal family",
+        language: ["Hindi","Tamil"],
+        review: `A thrilling saga of royal drama that follows two heirs vying for the throne—packed with palace intrigue,
+alliance shifts, and breathtaking twists.
+  
+The plot unfolds in multiple acts:
+1. A power struggle in the grand palace.
+2. Secret alliances forming in shadowed corridors.
+3. A climactic finale that reshapes the kingdom forever.`,
+        imdb: "7.5",  /* ← IMDb field stays the same */
         downloads: {
-          "1080p": "https://gplinks.co/0MR82q",
-          "720p": "https://gplinks.co/VJ7awz",
-          "480p": "https://gplinks.co/dKmudBh"
+          "1080p": "links/the-royals-1080p.mp4",
+          "720p": "links/the-royals-720p.mp4",
+          "480p": "links/the-royals-480p.mp4"
         }
       },
       {
@@ -344,7 +349,14 @@
         year: "2022",
         qualities: ["1080p","720p"],
         language: ["English"],
-        review: "Sequel to the epic 2009 fantasy adventure film.",
+        review: `Sequel to the epic 2009 fantasy adventure film, where Jake Sully and Ney’tiri embark on a
+new journey under the seas of Pandora, facing familiar threats and forging new alliances.
+
+Key highlights:
+- Spectacular underwater visuals.
+- A deeper look at Na’vi culture.
+- The return of familiar faces and new characters.`,
+        imdb: "7.8",
         downloads: {
           "1080p": "links/avatar-2-1080p.mp4",
           "720p": "links/avatar-2-720p.mp4"
@@ -358,7 +370,14 @@
         year: "2023",
         qualities: ["1080p","720p"],
         language: ["English"],
-        review: "The tenth main installment in the Fast & Furious franchise.",
+        review: `The tenth main installment in the Fast & Furious franchise, featuring:
+• High-stakes heists.
+• Globe-trotting adventures.
+• Unbreakable bonds of family.
+
+This chapter brings back fan-favorite characters and introduces a new antagonist
+whose plans threaten everything Dom and his crew hold dear.`,
+        imdb: "6.2",
         downloads: {
           "1080p": "links/fast-x-1080p.mp4",
           "720p": "links/fast-x-720p.mp4"
@@ -372,18 +391,25 @@
         year: "2019",
         qualities: ["1080p","720p","480p"],
         language: ["English"],
-        review: "Origin story of the infamous Batman villain.",
+        review: `Origin story of the infamous Batman villain—delving into the mind of Arthur Fleck as he
+transforms from struggling comedian to the anarchic figure known as Joker in a decaying Gotham City.
+
+The film explores:
+1. Mental illness and societal neglect.
+2. The slow descent into chaos.
+3. The creation of a legend feared by politicians and criminals alike.`,
+        imdb: "8.5",
         downloads: {
           "1080p": "links/joker-2019-1080p.mp4",
           "720p": "links/joker-2019-720p.mp4",
           "480p": "links/joker-2019-480p.mp4"
         }
       }
-      /* … add more movies here if desired … */
+      /* … you can append more movie objects here in exactly this format … */
     ];
 
     // ───────────────────────────────────────────────────────────────────────────
-    // CREATE A MOVIE CARD & RETURN AN <a> WRAPPING THE CARD
+    // UTILITY: CREATE A MOVIE CARD & APPEND TO #movieGrid
     // ───────────────────────────────────────────────────────────────────────────
     function createMovieCard(movie) {
       const cardAnchor = document.createElement("a");
@@ -416,13 +442,10 @@
 
       const meta = document.createElement("p");
       meta.className = "movie-meta";
-      const capGenres = movie.genres
-        .map(g => g.charAt(0).toUpperCase() + g.slice(1))
-        .join(", ");
-      const langs = movie.language
-        .map(l => l.charAt(0).toUpperCase() + l.slice(1))
-        .join(", ");
-      meta.textContent = `${capGenres} ⋅ ${movie.year} ⋅ ${langs}`;
+      // Capitalize each genre, join them, then show year, language, and IMDb rating
+      const capGenres = movie.genres.map(g => g.charAt(0).toUpperCase() + g.slice(1)).join(", ");
+      const langs = movie.language.map(l => l.charAt(0).toUpperCase() + l.slice(1)).join(", ");
+      meta.textContent = `${capGenres} ⋅ ${movie.year} ⋅ ${langs} ⋅ IMDb ${movie.imdb}`;
       info.appendChild(meta);
 
       card.appendChild(info);

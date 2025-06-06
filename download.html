@@ -52,7 +52,7 @@
 
     /* Hamburger icon (hidden on desktop, shown on mobile) */
     .hamburger {
-      display: false;
+      display: none;
       flex-direction: column;
       cursor: pointer;
       gap: 5px;
@@ -194,13 +194,22 @@
       margin-right: 0.5rem;
     }
 
+    /* REVIEW SECTION TITLE */
+    .review-heading {
+      text-align: center;
+      margin: 1rem 0 0.5rem 0;
+      font-size: 1.3rem;
+      color: #fff;
+      text-transform: uppercase;
+    }
+
     /* OVERVIEW / PLOT */
     .overview {
-      margin: 1rem auto;
+      margin: 0 auto 1rem auto;
       max-width: 700px;
       padding: 0 1rem;
-      text-align: left;  /* We can keep it left-aligned for multi-line */
-      white-space: pre-wrap; /* Preserve line breaks */
+      text-align: left;          /* left-align for multi-line text */
+      white-space: pre-wrap;     /* preserve line breaks */
       color: #ccc;
       line-height: 1.6;
       font-size: 1rem;
@@ -428,7 +437,7 @@ Key Elements:
           "480p": "links/joker-2019-480p.mp4"
         }
       }
-      /* … you can append more movie objects here in exactly this format … */
+      /* … you can append more movie objects here … */
     ];
 
     // ───────────────────────────────────────────────────────────────────────────
@@ -504,14 +513,20 @@ Key Elements:
 
       container.appendChild(infoBox);
 
-      // 4) OVERVIEW = Plot/Review (centered below info)
+      // 4) REVIEW SECTION TITLE (Inserted in middle)
+      const reviewHeader = document.createElement("h3");
+      reviewHeader.className = "review-heading";
+      reviewHeader.textContent = "Review";
+      container.appendChild(reviewHeader);
+
+      // 5) OVERVIEW = Plot/Review (centered below the “Review” heading)
       const plotDiv = document.createElement("div");
       plotDiv.className = "overview";
-      // Use textContent so newline characters (\n) become actual line breaks thanks to white-space: pre-wrap
+      // Use textContent so newline characters (\n) become actual line breaks (white-space: pre-wrap)
       plotDiv.textContent = movie.review;
       container.appendChild(plotDiv);
 
-      // 5) DOWNLOAD BUTTONS (three centered)
+      // 6) DOWNLOAD BUTTONS (three centered)
       const qDiv = document.createElement("div");
       qDiv.className = "qualities";
       movie.qualities.forEach(q => {

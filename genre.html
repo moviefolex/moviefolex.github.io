@@ -11,380 +11,307 @@
     *,
     *::before,
     *::after {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
-    html, body {
-      height: 100%;
-      font-family: 'Segoe UI', sans-serif;
-      color: #f5f5f5;
-      background-color: #111111;
-      overflow-x: hidden;
-    }
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-    img {
-      display: block;
-      max-width: 100%;
-      height: auto;
-    }
-
-    /* ───────────────────────────────────────────────────────────────────────────
-       TOP BAR (“Join Our Telegram”)
-       ────────────────────────────────────────────────────────────────────────── */
-    .top-bar {
-      background-color: #e60023; /* Hot pink / red */
-      color: white;
-      text-align: center;
-      padding: 8px 0;
-      font-size: 14px;
-    }
-    .top-bar a {
-      background-color: #ffffff22;
-      border: 1px solid #ffffff55;
-      color: #fff;
-      padding: 4px 10px;
-      border-radius: 4px;
-      margin-left: 8px;
-      font-weight: 600;
-      transition: background 0.2s;
-    }
-    .top-bar a:hover {
-      background-color: rgba(255, 255, 255, 0.35);
-    }
-
-    /* ───────────────────────────────────────────────────────────────────────────
-       NAVBAR
-       ────────────────────────────────────────────────────────────────────────── */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #1a1a1a;
-      padding: 12px 24px;
-      border-bottom: 1px solid #333333;
+      color: #f0f0f0;
+      min-height: 100vh;
+    }
+    header {
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 1rem 2rem;
       position: sticky;
       top: 0;
       z-index: 100;
-    }
-    .navbar-logo {
-      font-size: 24px;
-      font-weight: bold;
-      color: #ff3c3c;
-    }
-    .navbar-links {
       display: flex;
-      gap: 20px;
+      justify-content: space-between;
       align-items: center;
     }
-    .navbar-links > a,
-    .navbar-links .dropbtn {
-      font-size: 15px;
-      font-weight: 500;
-      color: #f5f5f5;
-      padding: 8px 12px;
-      transition: color 0.3s, background 0.3s;
-      position: relative;
+    header h1 {
+      font-size: 1.5rem;
     }
-    .navbar-links > a:hover,
-    .navbar-links .dropbtn:hover {
-      color: #ff3c3c;
-      background-color: rgba(255, 60, 60, 0.1);
-      border-radius: 4px;
+    nav {
+      display: flex;
+      gap: 1.5rem;
     }
-
     .dropdown {
       position: relative;
     }
-    .dropdown .dropbtn::after {
-      content: '▼';
-      font-size: 10px;
-      margin-left: 4px;
-      vertical-align: middle;
-      transition: transform 0.3s;
-    }
-    .dropdown:hover .dropbtn::after {
-      transform: rotate(-180deg);
+    .dropdown > button {
+      background: none;
+      border: none;
+      color: #f0f0f0;
+      font-size: 1rem;
+      cursor: pointer;
     }
     .dropdown-content {
       display: none;
       position: absolute;
-      top: 100%;
-      left: 0;
-      background-color: #1a1a1a;
-      min-width: 160px;
-      border: 1px solid #333333;
-      border-radius: 4px;
+      background-color: #2b2b2b;
+      min-width: 120px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
       z-index: 200;
+      border-radius: 4px;
     }
     .dropdown-content a {
+      color: #f0f0f0;
+      padding: 0.75rem 1rem;
+      text-decoration: none;
       display: block;
-      padding: 10px 16px;
-      font-size: 14px;
-      color: #f5f5f5;
-      transition: background 0.2s;
+      font-size: 0.95rem;
     }
     .dropdown-content a:hover {
-      background-color: #2a2a2a;
-      color: #ff3c3c;
+      background-color: #3d3d3d;
     }
     .dropdown:hover .dropdown-content {
       display: block;
     }
-
-    /* ───────────────────────────────────────────────────────────────────────────
-       SEARCH BAR
-       ────────────────────────────────────────────────────────────────────────── */
-    .search-section {
-      background-color: #131313;
-      padding: 20px;
-      text-align: center;
-      border-bottom: 1px solid #333333;
+    main {
+      padding: 2rem;
     }
-    .search-section input[type="text"] {
-      width: 60%;
-      max-width: 400px;
-      padding: 10px 14px;
-      border: none;
-      border-radius: 4px 0 0 4px;
-      font-size: 15px;
-      outline: none;
+    .genre-title {
+      margin-bottom: 1.5rem;
+      font-size: 1.75rem;
+      text-transform: capitalize;
     }
-    .search-section button {
-      padding: 10px 14px;
-      background-color: #ff3c3c;
-      border: none;
-      border-radius: 0 4px 4px 0;
-      font-size: 15px;
-      color: white;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .search-section button:hover {
-      background-color: #e23232;
-    }
-
-    /* ───────────────────────────────────────────────────────────────────────────
-       GENRE SECTIONS (each genre has its own heading + grid)
-       ────────────────────────────────────────────────────────────────────────── */
-    .genre-section {
-      max-width: 1200px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-    .genre-section h2 {
-      font-size: 24px;
-      margin-bottom: 16px;
-      color: #ff3c3c;
-      border-bottom: 2px solid #333333;
-      padding-bottom: 8px;
-    }
-    .genre-grid {
+    .movie-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 20px;
+      gap: 1.5rem;
     }
     .movie-card {
-      background-color: #212121;
-      border: 2px solid #333333;
+      background-color: #2b2b2b;
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-      transition: transform 0.3s ease, border 0.3s;
-      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+      transition: transform 0.2s;
     }
     .movie-card:hover {
-      transform: scale(1.03);
-      border-color: #ff3c3c;
+      transform: translateY(-5px);
     }
     .movie-card img {
-      height: 270px;
-      object-fit: cover;
       width: 100%;
+      display: block;
     }
-    .movie-card h3 {
-      font-size: 16px;
-      padding: 10px;
-      color: #f5f5f5;
-      background-color: #171717;
+    .movie-info {
+      padding: 0.75rem;
     }
-    .movie-card h3:hover {
-      color: #ff3c3c;
+    .movie-title {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
     }
-
-    /* ───────────────────────────────────────────────────────────────────────────
-       RESPONSIVE ADJUSTMENTS
-       ────────────────────────────────────────────────────────────────────────── */
-    @media screen and (max-width: 768px) {
-      .navbar-links {
-        display: none;
-        flex-direction: column;
-        background-color: #1a1a1a;
-        position: absolute;
-        top: 50px;
-        right: 0;
-        width: 200px;
-        border: 1px solid #333333;
-      }
-      .navbar-links.show {
-        display: flex;
-      }
-      .menu-toggle {
-        display: block;
-      }
-      .search-section input[type="text"] {
-        width: 80%;
-      }
-      .dropdown-content {
-        position: static;
-        border: none;
-        box-shadow: none;
-      }
-      .dropdown-content a {
-        padding-left: 32px;
-      }
+    .movie-meta {
+      font-size: 0.85rem;
+      color: #ccc;
+    }
+    a.download-btn {
+      display: inline-block;
+      margin-top: 0.75rem;
+      padding: 0.5rem 0.75rem;
+      background-color: #ff3b3f;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    a.download-btn:hover {
+      background-color: #e03235;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #000;
+      color: #777;
+      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
-  <!-- ─────────────────────────────────────────────────────────────────────────
-     TOP BAR (“Join Our Telegram”)
-     ───────────────────────────────────────────────────────────────────────── -->
-  <div class="top-bar">
-    Join our MovieFolex Telegram for Latest Updates!
-    <a href="https://t.me/movie_folex" target="_blank">Join</a>
-  </div>
-
-  <!-- ─────────────────────────────────────────────────────────────────────────
-     NAVBAR
-     ───────────────────────────────────────────────────────────────────────── -->
-  <header class="navbar">
-    <div class="navbar-logo">MovieFolex</div>
-    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-    <nav class="navbar-links" id="navLinks">
-      <a href="index.html">Home</a>
-
-      <!-- GENRE DROPDOWN -->
+  <header>
+    <h1>MovieFolex</h1>
+    <nav>
+      <a href="index.html" style="color: #f0f0f0; text-decoration: none;">Home</a>
       <div class="dropdown">
-        <a href="genre.html" class="dropbtn">Genre</a>
+        <button>Genre ▾</button>
         <div class="dropdown-content">
           <a href="genre.html#Action">Action</a>
           <a href="genre.html#Drama">Drama</a>
           <a href="genre.html#Comedy">Comedy</a>
-          <!-- Add more sub-genres here -->
         </div>
       </div>
-
-      <!-- BY YEAR DROPDOWN -->
       <div class="dropdown">
-        <a href="by-year.html" class="dropbtn">By Year</a>
+        <button>By Qualities ▾</button>
+        <div class="dropdown-content">
+          <a href="by-qualities.html#1080p">1080p</a>
+          <a href="by-qualities.html#720p">720p</a>
+          <a href="by-qualities.html#480p">480p</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button>By Year ▾</button>
         <div class="dropdown-content">
           <a href="by-year.html#2025">2025</a>
           <a href="by-year.html#2024">2024</a>
           <a href="by-year.html#2023">2023</a>
-          <!-- Add more years here -->
-        </div>
-      </div>
-
-      <!-- BY QUALITIES DROPDOWN -->
-      <div class="dropdown">
-        <a href="by-qualities.html" class="dropbtn">By Qualities</a>
-        <div class="dropdown-content">
-          <a href="by-qualities.html#480p">480p</a>
-          <a href="by-qualities.html#720p">720p</a>
-          <a href="by-qualities.html#1080p">1080p</a>
-          <!-- Add more resolutions here -->
         </div>
       </div>
     </nav>
   </header>
 
-  <!-- ─────────────────────────────────────────────────────────────────────────
-     SEARCH BAR
-     ───────────────────────────────────────────────────────────────────────── -->
-  <section class="search-section">
-    <form onsubmit="return handleSearch(event)">
-      <input
-        type="text"
-        id="searchInput"
-        placeholder="Search Movies or Web Series..."
-        required
-      />
-      <button type="submit">🔍</button>
-    </form>
-  </section>
-
-  <!-- ─────────────────────────────────────────────────────────────────────────
-     GENRE CONTENT
-     ───────────────────────────────────────────────────────────────────────── -->
-
-  <!-- ─── ACTION SECTION ─── -->
-  <section class="genre-section" id="Action">
-    <h2>Action</h2>
-    <div class="genre-grid">
-      <!-- Example Movie Card in Action -->
-      <a class="movie-card" href="download.html?id=1">
-        <img
-          src="https://i.pinimg.com/736x/2f/6c/74/2f6c745376fe03d434cad1c58e7c67f9.jpg"
-          alt="The Royals"
-        />
-        <h3>The Royals</h3>
-      </a>
-      <!-- Add more <a class="movie-card" href="download.html?id=...">…</a> here -->
+  <main>
+    <h2 class="genre-title" id="genreTitle">Genre: </h2>
+    <div class="movie-grid" id="movieGrid">
+      <!-- Filtered movie cards go here -->
     </div>
-  </section>
+  </main>
 
-  <!-- ─── DRAMA SECTION ─── -->
-  <section class="genre-section" id="Drama">
-    <h2>Drama</h2>
-    <div class="genre-grid">
-      <!-- Example Movie Card in Drama -->
-      <a class="movie-card" href="download.html?id=2">
-        <img
-          src="https://m.media-amazon.com/images/I/91kFYg4fX3L._AC_SY679_.jpg"
-          alt="Interstellar"
-        />
-        <h3>Interstellar</h3>
-      </a>
-      <!-- Add more movies under Drama here -->
-    </div>
-  </section>
+  <footer>
+    © 2025 MovieFolex. All rights reserved.
+  </footer>
 
-  <!-- ─── COMEDY SECTION ─── -->
-  <section class="genre-section" id="Comedy">
-    <h2>Comedy</h2>
-    <div class="genre-grid">
-      <!-- Example Movie Card in Comedy -->
-      <a class="movie-card" href="download.html?id=3">
-        <img
-          src="https://m.media-amazon.com/images/I/51EG732BV3L.jpg"
-          alt="The Matrix"
-        />
-        <h3>The Matrix</h3>
-      </a>
-      <!-- Add more movies under Comedy here -->
-    </div>
-  </section>
-
-  <!-- Add more genre sections below as needed -->
-
-  <!-- ─────────────────────────────────────────────────────────────────────────
-     SCRIPTS FOR NAVIGATION + SEARCH
-     ────────────────────────────────────────────────────────────────────────── -->
   <script>
-    function toggleMenu() {
-      document.getElementById('navLinks').classList.toggle('show');
-    }
-    function handleSearch(event) {
-      event.preventDefault();
-      const q = document.getElementById('searchInput').value.trim();
-      if (q) {
-        window.location.href = `search.html?q=${encodeURIComponent(q)}`;
+    // ───────────────────────────────────────────────────────────────────────────
+    // SAME MOVIES ARRAY AS IN index.html (must be kept in sync)
+    // ───────────────────────────────────────────────────────────────────────────
+    const movies = [
+      {
+        id: "the-royals",
+        title: "The Royals",
+        poster: "images/the-royals.jpg",
+        genre: "Action",
+        year: "2024",
+        qualities: ["1080p", "720p", "480p"],
+        language: "Hindi",
+        review: "A thrilling saga of royal drama.",
+        downloads: {
+          "1080p": "links/the-royals-1080p.mp4",
+          "720p": "links/the-royals-720p.mp4",
+          "480p": "links/the-royals-480p.mp4"
+        }
+      },
+      {
+        id: "avatar-2",
+        title: "Avatar: The Way of Water",
+        poster: "images/avatar-2.jpg",
+        genre: "Drama",
+        year: "2022",
+        qualities: ["1080p", "720p"],
+        language: "English",
+        review: "Sequel to the epic 2009 fantasy adventure film.",
+        downloads: {
+          "1080p": "links/avatar-2-1080p.mp4",
+          "720p": "links/avatar-2-720p.mp4"
+        }
+      },
+      {
+        id: "fast-x",
+        title: "Fast X",
+        poster: "images/fast-x.jpg",
+        genre: "Action",
+        year: "2023",
+        qualities: ["1080p", "720p"],
+        language: "English",
+        review: "The tenth main installment in the Fast & Furious franchise.",
+        downloads: {
+          "1080p": "links/fast-x-1080p.mp4",
+          "720p": "links/fast-x-720p.mp4"
+        }
+      },
+      {
+        id: "joker-2019",
+        title: "Joker",
+        poster: "images/joker-2019.jpg",
+        genre: "Drama",
+        year: "2019",
+        qualities: ["1080p", "720p", "480p"],
+        language: "English",
+        review: "Origin story of the infamous Batman villain.",
+        downloads: {
+          "1080p": "links/joker-2019-1080p.mp4",
+          "720p": "links/joker-2019-720p.mp4",
+          "480p": "links/joker-2019-480p.mp4"
+        }
       }
+      // … any other movies you already have …
+    ];
+
+    // ───────────────────────────────────────────────────────────────────────────
+    // UTILITY: READ URL HASH (e.g. "#Action")
+    // ───────────────────────────────────────────────────────────────────────────
+    function getHashValue() {
+      return decodeURIComponent(window.location.hash.substring(1));
     }
+
+    // ───────────────────────────────────────────────────────────────────────────
+    // CREATE A MOVIE CARD (same as index.html)
+    // ───────────────────────────────────────────────────────────────────────────
+    function createMovieCard(movie) {
+      const card = document.createElement("div");
+      card.className = "movie-card";
+
+      const img = document.createElement("img");
+      img.src = movie.poster;
+      img.alt = movie.title + " Poster";
+      card.appendChild(img);
+
+      const info = document.createElement("div");
+      info.className = "movie-info";
+
+      const title = document.createElement("h3");
+      title.className = "movie-title";
+      title.textContent = movie.title;
+      info.appendChild(title);
+
+      const meta = document.createElement("p");
+      meta.className = "movie-meta";
+      meta.textContent = `${movie.genre} ⋅ ${movie.year} ⋅ ${movie.language}`;
+      info.appendChild(meta);
+
+      const downloadLink = document.createElement("a");
+      downloadLink.className = "download-btn";
+      downloadLink.textContent = "Download";
+      downloadLink.href = `download.html?movieId=${movie.id}`;
+      info.appendChild(downloadLink);
+
+      card.appendChild(info);
+      return card;
+    }
+
+    // ───────────────────────────────────────────────────────────────────────────
+    // RENDER FILTERED MOVIES BASED ON GENRE
+    // ───────────────────────────────────────────────────────────────────────────
+    function renderGenreMovies() {
+      const selectedGenre = getHashValue();
+      const titleEl = document.getElementById("genreTitle");
+      titleEl.textContent = `Genre: ${selectedGenre}`;
+
+      const grid = document.getElementById("movieGrid");
+      grid.innerHTML = "";
+      const filtered = movies.filter((m) => m.genre.toLowerCase() === selectedGenre.toLowerCase());
+      if (filtered.length === 0) {
+        const msg = document.createElement("p");
+        msg.textContent = "No movies found in this genre.";
+        msg.style.color = "#ccc";
+        grid.appendChild(msg);
+        return;
+      }
+      filtered.forEach((m) => {
+        const card = createMovieCard(m);
+        grid.appendChild(card);
+      });
+    }
+
+    // ───────────────────────────────────────────────────────────────────────────
+    // INITIALIZATION (genre.html)
+    // ───────────────────────────────────────────────────────────────────────────
+    window.addEventListener("DOMContentLoaded", () => {
+      renderGenreMovies();
+    });
   </script>
 </body>
 </html>

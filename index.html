@@ -32,7 +32,7 @@
     header {
       position: sticky;
       top: 0;
-      background-color: #1a0000; /* dark red similar to Vegamovies */
+      background-color: #1a0000; /* dark red */
       z-index: 100;
       padding: 1rem 2rem;
       display: flex;
@@ -67,7 +67,7 @@
       color: #ff3b3f;
     }
 
-    /* DROPDOWN */
+    /* DROPDOWN MENU */
     .dropdown {
       position: relative;
     }
@@ -140,7 +140,7 @@
       color: #bbb;
       margin-bottom: 0.6rem;
     }
-    /* The entire card is clickable: wrap the poster + info in an <a>. */
+    /* Entire card is clickable—wrapped in <a> */
 
     /* SMALL RED BADGE (TOP‐RIGHT CORNER) */
     .badge {
@@ -154,18 +154,6 @@
       border-radius: 3px;
       text-transform: uppercase;
       z-index: 10;
-    }
-
-    /* YELLOW STAR ICON (BOTTOM‐LEFT CORNER) */
-    .star-icon {
-      position: absolute;
-      bottom: 0.6rem;
-      left: 0.6rem;
-      width: 24px;
-      height: 24px;
-      background-color: #f0c419;
-      mask: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 17.27l6.18 3.73-5.02-6.27L21 9.24l-6.36-.55L12 3 9.36 8.69 3 9.24l4.84 5.49-5.02 6.27z"/></svg>') no-repeat center;
-      mask-size: contain;
     }
 
     /* ───────────────────────────────────────────────────────────────────────────
@@ -190,27 +178,42 @@
       <a href="index.html">Home</a>
 
       <div class="dropdown">
-        <button>Category ▾</button>
+        <button>Featured ▾</button>
         <div class="dropdown-content">
-          <!-- GENRE SUB‐MENU -->
-          <strong style="color:#ff3b3f; display:block; padding:0.5rem 1rem;">Genre</strong>
+          <!-- Example featured items (add or remove as desired) -->
+          <a href="#">Top Rated</a>
+          <a href="#">Latest Releases</a>
+          <a href="#">Popular This Week</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button>Genre ▾</button>
+        <div class="dropdown-content">
           <a href="category.html#genre=Action">Action</a>
           <a href="category.html#genre=Drama">Drama</a>
           <a href="category.html#genre=Comedy">Comedy</a>
           <a href="category.html#genre=Romance">Romance</a>
           <a href="category.html#genre=Crime">Crime</a>
-          <div style="height:1px; background:#333; margin:0.4rem 0;"></div>
-          <!-- YEAR SUB‐MENU -->
-          <strong style="color:#ff3b3f; display:block; padding:0.5rem 1rem;">Year</strong>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button>By Year ▾</button>
+        <div class="dropdown-content">
           <a href="category.html#year=2025">2025</a>
           <a href="category.html#year=2024">2024</a>
           <a href="category.html#year=2023">2023</a>
-          <div style="height:1px; background:#333; margin:0.4rem 0;"></div>
-          <!-- QUALITY SUB‐MENU -->
-          <strong style="color:#ff3b3f; display:block; padding:0.5rem 1rem;">Quality</strong>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button>By Qualities ▾</button>
+        <div class="dropdown-content">
           <a href="category.html#quality=1080p">1080p</a>
           <a href="category.html#quality=720p">720p</a>
           <a href="category.html#quality=480p">480p</a>
+          <a href="category.html#quality=2160p">2160p</a>
         </div>
       </div>
     </nav>
@@ -230,7 +233,7 @@
 
   <script>
     // ───────────────────────────────────────────────────────────────────────────
-    // MOVIES ARRAY (Same format must be copied into download.html & category.html)
+    // MOVIES ARRAY (must be identical in all three files)
     // ───────────────────────────────────────────────────────────────────────────
     const movies = [
       {
@@ -242,7 +245,6 @@
         qualities: ["1080p","720p","480p"],
         language: ["Hindi","Tamil"],
         review: "A thrilling saga of royal drama.",
-        // Replace these with your actual URLs to the MP4 files.
         downloads: {
           "1080p": "links/the-royals-1080p.mp4",
           "720p": "links/the-royals-720p.mp4",
@@ -292,11 +294,11 @@
           "480p": "links/joker-2019-480p.mp4"
         }
       }
-      /* … you can append more movie objects here in the exact same format … */
+      /* … append more movies here in the exact same format … */
     ];
 
     // ───────────────────────────────────────────────────────────────────────────
-    // UTILITY: CREATE A SINGLE MOVIE CARD & APPEND TO #movieGrid
+    // CREATE A MOVIE CARD & RETURN AN <a> WRAPPING THE CARD
     // ───────────────────────────────────────────────────────────────────────────
     function createMovieCard(movie) {
       const cardAnchor = document.createElement("a");
@@ -318,12 +320,7 @@
       img.alt = movie.title + " Poster";
       card.appendChild(img);
 
-      // 3) YELLOW STAR ICON (bottom-left)
-      const star = document.createElement("div");
-      star.className = "star-icon";
-      card.appendChild(star);
-
-      // 4) INFO PANEL UNDER THE POSTER
+      // 3) INFO PANEL UNDER THE POSTER
       const info = document.createElement("div");
       info.className = "movie-info";
 
@@ -334,9 +331,12 @@
 
       const meta = document.createElement("p");
       meta.className = "movie-meta";
-      // Capitalize each genre and join, then show year & language(s)
-      const capGenres = movie.genres.map(g => g.charAt(0).toUpperCase() + g.slice(1)).join(", ");
-      const langs = movie.language.map(l => l.charAt(0).toUpperCase() + l.slice(1)).join(", ");
+      const capGenres = movie.genres
+        .map(g => g.charAt(0).toUpperCase() + g.slice(1))
+        .join(", ");
+      const langs = movie.language
+        .map(l => l.charAt(0).toUpperCase() + l.slice(1))
+        .join(", ");
       meta.textContent = `${capGenres} ⋅ ${movie.year} ⋅ ${langs}`;
       info.appendChild(meta);
 

@@ -43,15 +43,54 @@
       color: #fff;
       text-transform: uppercase;
     }
-    header nav a {
+    header nav a,
+    header nav button {
       color: #fff;
       text-decoration: none;
       margin-left: 2rem;
       font-size: 1rem;
+      cursor: pointer;
+      background: none;
+      border: none;
       transition: color 0.2s;
     }
-    header nav a:hover {
+    header nav a:hover,
+    header nav button:hover {
       color: #ff3b3f;
+    }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       DROPDOWNS (GENRE / YEAR / QUALITIES)
+       ────────────────────────────────────────────────────────────────────────── */
+    .dropdown {
+      position: relative;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 1.8rem;
+      left: 0;
+      background-color: #222;
+      border: 1px solid #333;
+      border-radius: 4px;
+      min-width: 140px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      z-index: 200;
+    }
+    .dropdown-content a {
+      display: block;
+      padding: 0.7rem 1rem;
+      font-size: 0.95rem;
+      color: #eee;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .dropdown-content a:hover {
+      background-color: #333;
+      color: #ff3b3f;
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
     }
 
     /* ───────────────────────────────────────────────────────────────────────────
@@ -91,13 +130,14 @@
       text-transform: uppercase;
     }
 
-    /* POSTER (CENTERED) */
+    /* POSTER (CENTERED, MEDIUM SIZED) */
     .poster-container {
       text-align: center;
       margin: 1rem 0;
     }
     .poster-container img {
-      max-width: 100%;
+      width: 60%;           /* medium-size */
+      max-width: 400px;     /* don’t exceed 400px */
       height: auto;
       border-radius: 4px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
@@ -154,13 +194,16 @@
       background-color: #e03235;
     }
 
-    /* RESPONSIVE (NARROW SCREEN) */
+    /* RESPONSIVE (NARROW) */
     @media (max-width: 700px) {
       .download-wrapper {
         margin: 4rem auto;
       }
       .info-box {
         padding: 1rem;
+      }
+      .poster-container img {
+        width: 80%;
       }
       .qualities button {
         margin: 0.3rem;
@@ -179,18 +222,46 @@
     <h1>MovieFolex</h1>
     <nav>
       <a href="index.html">Home</a>
-      <a href="category.html#genre=Action">Category</a>
+      <button class="dropdown">Featured ▾
+        <div class="dropdown-content">
+          <!-- Example items -->
+          <a href="#">Top Rated</a>
+          <a href="#">Latest Releases</a>
+        </div>
+      </button>
+      <button class="dropdown">Genre ▾
+        <div class="dropdown-content">
+          <a href="category.html#genre=Action">Action</a>
+          <a href="category.html#genre=Drama">Drama</a>
+          <a href="category.html#genre=Comedy">Comedy</a>
+          <a href="category.html#genre=Romance">Romance</a>
+          <a href="category.html#genre=Crime">Crime</a>
+        </div>
+      </button>
+      <button class="dropdown">By Year ▾
+        <div class="dropdown-content">
+          <a href="category.html#year=2025">2025</a>
+          <a href="category.html#year=2024">2024</a>
+          <a href="category.html#year=2023">2023</a>
+        </div>
+      </button>
+      <button class="dropdown">By Qualities ▾
+        <div class="dropdown-content">
+          <a href="category.html#quality=1080p">1080p</a>
+          <a href="category.html#quality=720p">720p</a>
+          <a href="category.html#quality=480p">480p</a>
+          <a href="category.html#quality=2160p">2160p</a>
+        </div>
+      </button>
     </nav>
   </header>
 
-  <!-- DOWNLOAD CONTAINER -->
-  <div class="download-wrapper" id="downloadWrapper">
-    <!-- JavaScript will inject: TITLE, POSTER, INFO BOX, OVERVIEW, DOWNLOAD BUTTONS -->
-  </div>
+  <!-- DOWNLOAD CONTAINER (JS INJECTS CONTENT) -->
+  <div class="download-wrapper" id="downloadWrapper"></div>
 
   <script>
     // ───────────────────────────────────────────────────────────────────────────
-    // MOVIES ARRAY (Same format as index.html & category.html)
+    // MOVIES ARRAY (must match index.html & category.html)
     // ───────────────────────────────────────────────────────────────────────────
     const movies = [
       {
@@ -251,11 +322,11 @@
           "480p": "links/joker-2019-480p.mp4"
         }
       }
-      /* … add more movies here if needed … */
+      /* … add more if needed … */
     ];
 
     // ───────────────────────────────────────────────────────────────────────────
-    // UTILITY: PARSE QUERY PARAM ?movieId=…
+    // UTILITY: GET movieId FROM QUERY PARAMS
     // ───────────────────────────────────────────────────────────────────────────
     function getQueryParam(param) {
       const urlParams = new URLSearchParams(window.location.search);
@@ -263,18 +334,18 @@
     }
 
     // ───────────────────────────────────────────────────────────────────────────
-    // RENDER THE DOWNLOAD PAGE FOR THE SELECTED MOVIE
+    // RENDER DOWNLOAD PAGE FOR SELECTED MOVIE
     // ───────────────────────────────────────────────────────────────────────────
     function renderDownloadPage(movie) {
       const container = document.getElementById("downloadWrapper");
       container.innerHTML = ""; // clear
 
-      // 1) TITLE (centered at top)
+      // 1) TITLE (centered)
       const h2 = document.createElement("h2");
       h2.textContent = movie.title;
       container.appendChild(h2);
 
-      // 2) POSTER (centered below title)
+      // 2) POSTER (centered, medium-size)
       const posterDiv = document.createElement("div");
       posterDiv.className = "poster-container";
       const posterImg = document.createElement("img");
@@ -283,47 +354,47 @@
       posterDiv.appendChild(posterImg);
       container.appendChild(posterDiv);
 
-      // 3) INFO BOX (IMDb-style) in the middle
+      // 3) INFO BOX (IMDb‐style)
       const infoBox = document.createElement("div");
       infoBox.className = "info-box";
 
-      // Movie Name (again) – optionally omit since we already have the title above
-      // But including for completeness:
       const nameP = document.createElement("p");
       nameP.innerHTML = `<span class="label">Name:</span> ${movie.title}`;
       infoBox.appendChild(nameP);
 
-      // Genres
-      const capGenres = movie.genres.map(g => g.charAt(0).toUpperCase() + g.slice(1)).join(", ");
+      const capGenres = movie.genres
+        .map(g => g.charAt(0).toUpperCase() + g.slice(1))
+        .join(", ");
       const genresP = document.createElement("p");
       genresP.innerHTML = `<span class="label">Genre:</span> ${capGenres}`;
       infoBox.appendChild(genresP);
 
-      // Qualities
       const qualP = document.createElement("p");
-      qualP.innerHTML = `<span class="label">Quality:</span> ${movie.qualities.map(q => q.toUpperCase()).join(", ")}`;
+      qualP.innerHTML = `<span class="label">Quality:</span> ${movie.qualities
+        .map(q => q.toUpperCase())
+        .join(", ")}`;
       infoBox.appendChild(qualP);
 
-      // Language
-      const langs = movie.language.map(l => l.charAt(0).toUpperCase() + l.slice(1)).join(", ");
+      const langs = movie.language
+        .map(l => l.charAt(0).toUpperCase() + l.slice(1))
+        .join(", ");
       const langP = document.createElement("p");
       langP.innerHTML = `<span class="label">Language:</span> ${langs}`;
       infoBox.appendChild(langP);
 
-      // Year
       const yearP = document.createElement("p");
       yearP.innerHTML = `<span class="label">Year:</span> ${movie.year}`;
       infoBox.appendChild(yearP);
 
       container.appendChild(infoBox);
 
-      // 4) OVERVIEW = Plot/Review (centered below info)
+      // 4) OVERVIEW
       const plotDiv = document.createElement("div");
       plotDiv.className = "overview";
       plotDiv.textContent = movie.review;
       container.appendChild(plotDiv);
 
-      // 5) DOWNLOAD BUTTONS (three centered)
+      // 5) DOWNLOAD BUTTONS
       const qDiv = document.createElement("div");
       qDiv.className = "qualities";
       movie.qualities.forEach(q => {
@@ -338,7 +409,7 @@
     }
 
     // ───────────────────────────────────────────────────────────────────────────
-    // ON PAGE LOAD: LOOK FOR ?movieId=XX, FIND MOVIE, THEN RENDER
+    // ON PAGE LOAD: FIND movieId → RENDER
     // ───────────────────────────────────────────────────────────────────────────
     window.addEventListener("DOMContentLoaded", () => {
       const movieId = getQueryParam("movieId");
@@ -356,4 +427,3 @@
   </script>
 </body>
 </html>
-

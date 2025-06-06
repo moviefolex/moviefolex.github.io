@@ -32,7 +32,7 @@
     header {
       position: sticky;
       top: 0;
-      background-color: #1a0000; /* dark red */
+      background-color: #1a0000;
       z-index: 100;
       padding: 1rem 2rem;
       display: flex;
@@ -44,6 +44,7 @@
       font-size: 1.6rem;
       color: #fff;
       text-transform: uppercase;
+      letter-spacing: 1px;
     }
     nav {
       display: flex;
@@ -145,7 +146,7 @@
       color: #bbb;
       margin-bottom: 0.6rem;
     }
-    /* Entire card is clickable—wrap in <a>. */
+    /* Entire card is clickable—wrapped in <a> */
 
     /* SMALL RED BADGE (TOP‐RIGHT) */
     .badge {
@@ -159,18 +160,6 @@
       border-radius: 3px;
       text-transform: uppercase;
       z-index: 10;
-    }
-
-    /* YELLOW STAR ICON (BOTTOM‐LEFT) */
-    .star-icon {
-      position: absolute;
-      bottom: 0.6rem;
-      left: 0.6rem;
-      width: 24px;
-      height: 24px;
-      background-color: #f0c419;
-      mask: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 17.27l6.18 3.73-5.02-6.27L21 9.24l-6.36-.55L12 3 9.36 8.69 3 9.24l4.84 5.49-5.02 6.27z"/></svg>') no-repeat center;
-      mask-size: contain;
     }
 
     /* ───────────────────────────────────────────────────────────────────────────
@@ -194,30 +183,39 @@
     <nav>
       <a href="index.html">Home</a>
 
-      <div class="dropdown">
-        <button>Category ▾</button>
+      <button class="dropdown">Featured ▾
         <div class="dropdown-content">
-          <!-- GENRE SUB‐CATEGORY -->
-          <strong style="color:#ff3b3f; display:block; padding:0.5rem 1rem;">Genre</strong>
+          <a href="#">Top Rated</a>
+          <a href="#">Latest Releases</a>
+        </div>
+      </button>
+
+      <button class="dropdown">Genre ▾
+        <div class="dropdown-content">
           <a href="category.html#genre=Action">Action</a>
           <a href="category.html#genre=Drama">Drama</a>
           <a href="category.html#genre=Comedy">Comedy</a>
           <a href="category.html#genre=Romance">Romance</a>
           <a href="category.html#genre=Crime">Crime</a>
-          <div style="height:1px; background:#333; margin:0.4rem 0;"></div>
-          <!-- YEAR SUB‐CATEGORY -->
-          <strong style="color:#ff3b3f; display:block; padding:0.5rem 1rem;">Year</strong>
+        </div>
+      </button>
+
+      <button class="dropdown">By Year ▾
+        <div class="dropdown-content">
           <a href="category.html#year=2025">2025</a>
           <a href="category.html#year=2024">2024</a>
           <a href="category.html#year=2023">2023</a>
-          <div style="height:1px; background:#333; margin:0.4rem 0;"></div>
-          <!-- QUALITY SUB‐CATEGORY -->
-          <strong style="color:#ff3b3f; display:block; padding:0.5rem 1rem;">Quality</strong>
+        </div>
+      </button>
+
+      <button class="dropdown">By Qualities ▾
+        <div class="dropdown-content">
           <a href="category.html#quality=1080p">1080p</a>
           <a href="category.html#quality=720p">720p</a>
           <a href="category.html#quality=480p">480p</a>
+          <a href="category.html#quality=2160p">2160p</a>
         </div>
-      </div>
+      </button>
     </nav>
   </header>
 
@@ -234,7 +232,7 @@
 
   <script>
     // ───────────────────────────────────────────────────────────────────────────
-    // MOVIES ARRAY (Must be identical to index.html & download.html)
+    // MOVIES ARRAY (must match index.html & download.html)
     // ───────────────────────────────────────────────────────────────────────────
     const movies = [
       {
@@ -295,21 +293,20 @@
           "480p": "links/joker-2019-480p.mp4"
         }
       }
-      /* … you can append more movies here … */
+      /* … you can add more movie objects here … */
     ];
 
     // ───────────────────────────────────────────────────────────────────────────
-    // UTILITY: GET URL HASH (e.g. "#genre=Comedy" or "#year=2025" or "#quality=720p")
+    // UTILITY: PARSE URL HASH (e.g. "genre=Comedy" or "year=2025" or "quality=720p")
     // ───────────────────────────────────────────────────────────────────────────
     function parseHash() {
-      // window.location.hash might be "#genre=Comedy"
-      const hash = window.location.hash.substring(1); // "genre=Comedy"
+      const hash = window.location.hash.substring(1); // e.g. "genre=Comedy"
       const [type, value] = hash.split("=");
       return { type: type?.toLowerCase(), value: value || "" };
     }
 
     // ───────────────────────────────────────────────────────────────────────────
-    // CREATE A MOVIE CARD & RETURN AN <a> WRAPPING THE CARD
+    // CREATE A MOVIE CARD & RETURN <a> WRAPPING THE CARD
     // ───────────────────────────────────────────────────────────────────────────
     function createMovieCard(movie) {
       const cardAnchor = document.createElement("a");
@@ -319,24 +316,19 @@
       const card = document.createElement("div");
       card.className = "movie-card";
 
-      // RED BADGE (top-right) → primary quality
+      // Red badge (top-right) showing primary quality
       const badge = document.createElement("div");
       badge.className = "badge";
       badge.innerText = movie.qualities[0].toUpperCase();
       card.appendChild(badge);
 
-      // POSTER IMAGE
+      // Poster
       const img = document.createElement("img");
       img.src = movie.poster;
       img.alt = movie.title + " Poster";
       card.appendChild(img);
 
-      // YELLOW STAR ICON (bottom-left)
-      const star = document.createElement("div");
-      star.className = "star-icon";
-      card.appendChild(star);
-
-      // INFO PANEL
+      // Info box under poster
       const info = document.createElement("div");
       info.className = "movie-info";
 
@@ -347,8 +339,12 @@
 
       const meta = document.createElement("p");
       meta.className = "movie-meta";
-      const capGenres = movie.genres.map(g => g.charAt(0).toUpperCase() + g.slice(1)).join(", ");
-      const langs = movie.language.map(l => l.charAt(0).toUpperCase() + l.slice(1)).join(", ");
+      const capGenres = movie.genres
+        .map(g => g.charAt(0).toUpperCase() + g.slice(1))
+        .join(", ");
+      const langs = movie.language
+        .map(l => l.charAt(0).toUpperCase() + l.slice(1))
+        .join(", ");
       meta.textContent = `${capGenres} ⋅ ${movie.year} ⋅ ${langs}`;
       info.appendChild(meta);
 
@@ -368,7 +364,6 @@
 
       if (!type || !value) {
         displayTitleEl.textContent = "Category: All";
-        // If no hash, show all movies:
         movies.forEach(m => {
           grid.appendChild(createMovieCard(m));
         });
@@ -392,7 +387,7 @@
         );
       } else {
         displayTitleEl.textContent = "Category: All";
-        filtered = movies.slice(); // copy all
+        filtered = movies.slice();
       }
 
       if (filtered.length === 0) {
@@ -410,7 +405,6 @@
 
     window.addEventListener("DOMContentLoaded", () => {
       renderFilteredMovies();
-      // Re‐render if the hash changes (e.g., user clicks a different dropdown)
       window.addEventListener("hashchange", () => {
         renderFilteredMovies();
       });

@@ -291,6 +291,41 @@
         margin-right: 1rem;
         border-top: 1px solid #333;
       }
+      /* ─── GLOBAL SEARCH BAR ───────────────────────────────────────────────────── */
+      .search-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex: 1; /* allow it to grow on desktop if you like */
+        max-width: 400px;
+        margin-left: 2rem;
+      }
+      .search-container input {
+        flex: 1;
+        padding: 0.5rem 0.75rem;
+        font-size: 1rem;
+        border: 1px solid #444;
+        border-radius: 4px;
+        background: #222;
+        color: #eee;
+      }
+      .search-container input::placeholder {
+        color: #888;
+      }
+      .search-container button {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        background: #ffeb3b;
+        color: #000;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      .search-container button:hover {
+        background: #fdd835;
+      }
+      /* ─────────────────────────────────────────────────────────────────────────── */
     }
   </style>
 </head>

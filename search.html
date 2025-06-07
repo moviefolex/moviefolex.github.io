@@ -1,138 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Search Results – MovieFolex</title>
+  <!-- your existing CSS link(s) -->
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Vegamovies-style search bar CSS -->
+  <style>
+    .search-box {
+      display: flex;
+      margin: 20px auto;
+      max-width: 400px;
+      border: 2px solid #FFD700;
+      border-radius: 30px;
+      background-color: #000;
+      overflow: hidden;
+    }
+    .search-box input {
+      flex: 1;
+      padding: 10px 15px;
+      border: none;
+      outline: none;
+      color: #fff;
+      background-color: transparent;
+      font-size: 14px;
+    }
+    .search-box button {
+      background-color: #FFD700;
+      color: #000;
+      padding: 10px 20px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .no-results {
+      text-align: center;
+      color: #fff;
+      margin-top: 40px;
+    }
+  </style>
+</head>
 <body>
-  <!-- header/nav -->
+  <!-- ── Header / Navigation (unchanged) ─────────────────────────────────── -->
+  <!-- your existing header/nav HTML here -->
 
+  <!-- ── Search Bar ─────────────────────────────────────────────────────── -->
   <div class="search-box">
     <input type="text" id="globalSearch" placeholder="Search ..." />
     <button id="globalSearchBtn">Search</button>
   </div>
 
-  <div id="searchResults"></div>
+  <!-- ── Search Results ─────────────────────────────────────────────────── -->
+  <div class="movies-grid" id="searchResults">
+    <!-- JS will inject matching .movie-card elements here -->
+  </div>
 
+  <!-- ── Demo Movie Data & Search Logic ───────────────────────────────── -->
   <script>
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const query = urlParams.get('query')?.toLowerCase();
-
+    // Demo movie database
     const movies = [
       {
-        id: "3",
+        id: "the-royals",
         title: "The Royals",
-        poster: "https://i.pinimg.com/736x/2f/6c/74/2f6c745376fe03d434cad1c58e7c67f9.jpg",
-        genres: ["Drama","Romance"],
+        genres: ["Drama", "Crime"],
+        quality: ["1080p", "720p"],
+        year: "2024",
+        poster: "poster-the-royals.jpg"
+      },
+      {
+        id: "poker-face",
+        title: "Poker Face",
+        genres: ["Crime", "Mystery"],
+        quality: ["1080p", "720p", "480p"],
         year: "2025",
-        qualities: ["1080p","720p","480p"],
-        language: ["Hindi","Telugu"],
-        review: `'The Royals' follows the lives of a frictional british royal family, blending glamour, scandal, and intrigue. At the center of the story is  Queen Helena (played by Elizabeth Hurley), a cunning and image- conscious matriarch determined to preserve the monarchy's dignity amidst chaos. After the sudden death of the heir to the throne, Prince Robert, the monarchy is thrown into disarray.
-       
-His Younger brother, Prince Liam, unexpectedly becomes the next in line, and he struggles with the burden of royal expectations while also dealing with romantic entanglements and personal demons. His twin sister, Princess Eleanor, is a rebellious royal known for her wild lifestyle, constantly attracting tabloid attention.
-      
-Meanwhile, King Simon seeks to reform the monarchy and make it more transparent and democratic, but his ideals put him at odds with others  within the palace—including Helena and the manipulative Lord Chamberlain, Cyrus, who harbors ambitions of his own.
-        
-The show dives deep into palace conspiracies, secret romances, betrayal, and power plays, presenting a darker, sexier, and more tumultuous view of royalty.
-         
-.`,
-        imdb: "4.8",
-        downloads: {
-          "1080p": "https://gplinks.co/0MR82q",
-          "720p": "https://gplinks.co/VJ7awz",
-          "480p": "https://gplinks.co/dKmudBh"
-      },
-      {
-        id: "1",
-        title: "Pushpa 2: The Rule",
-        poster: "https://i.pinimg.com/736x/f5/ec/3b/f5ec3b1c4430e2bd3ebe82d6e4636464.jpg",
-        genres: ["Action","Crime","Drama","Thriller"],
-        year: "2024",
-        qualities: ["1080p","720p","480p"],
-        language: ["Hindi"],
-        review: `The film opens with a dramatic scene at the Yokohama port in Japan, where Pushpa is discovered hidden inside a red sandalwood consignment. He demands payment but is shot and falls into the sea, triggering a flashback. Having humiliated SP Bhanwar Singh Shekhawat (Fahadh Faasil) in the previous installment, Pushpa's influence in the smuggling syndicate grows. Offended by the Chief Minister's refusal to be photographed with him, Pushpa vows to install Siddappa (Rao Ramesh) as the new CM, raising ₹500 crores through smuggling operations .
-
-Pushpa strikes a deal with Central Minister Kogatam Veera Pratap Reddy (Jagapathi Babu) and plans to sell 2,000 tons of red sandalwood for ₹5,000 crores. However, internal betrayals and external threats, including from Mangalam Srinu, Dakshayani, and the vengeful Shekhawat, jeopardize his ambitions .`,
-        imdb: "6.1",
-        downloads: {
-          "1080p": "https://gplinks.co/z7cj2VX8",
-          "720p": "https://gplinks.co/hO08szA4",
-          "480p": "https://gplinks.co/5rYHW"
-      },
-      {
-        id: "2",
-        title: "Raid 2",
-        poster: "https://i.pinimg.com/736x/e5/f7/14/e5f714ad5413a632155b4561c106e196.jpg",
-        genres: ["Action","Crime","Drama","Thriller"],
-        year: "2025",
-        qualities: ["1080p","720p","480p"],
-        language: ["Hindi"],
-        review: `Following the events of the first film, Rama is recruited by an anti-corruption task force to infiltrate Jakarta's criminal underworld. To gain the trust of the Bangun crime family, he is imprisoned to befriend Uco, the son of the syndicate's leader. Upon release, Rama becomes entangled in a complex web of gang rivalries, betrayals, and escalating violence. As he delves deeper, he uncovers the extent of corruption within both the criminal organizations and his own police force. The film culminates in intense confrontations that test Rama's resolve and combat skills. 
-
-.`,
-        imdb: "7.1",
-        downloads: {
-          "1080p": "https://gplinks.co/HQwp",
-          "720p": "https://gplinks.co/iWosai",
-          "480p": "https://gplinks.co/6PjlPgn"
-        }
-      },
-      {
-        id: "4",
-        title: "Do Patti",
-        poster: "https://i.pinimg.com/736x/d4/2e/3c/d42e3ce421f06816598e2bc91d01d35c.jpg",
-        genres: ["Drama","Thriller","Mystery"],
-        year: "2024",
-        qualities: ["1080p","720p","480p"],
-        language: ["Hindi"],
-        review: `'Do Patti'  is a suspense thriller set in the misty hills of northern India. The story revolves around a gripping mystery that intertwines two strong female leads in a high-stakes cat-and-mouse game. As secrets unravel and hidden motives surface, the narrative explores justice, betrayal, and the dark sides of human ambition. With a backdrop of crime and emotional intensity, Do Patti keeps viewers guessing till the very end.
-
-.`,
-        imdb: "6.3",
-        downloads: {
-          "1080p": "https://gplinks.co/6fis",
-          "720p": "https://gplinks.co/60rWC",
-          "480p": "https://gplinks.co/8pOBq"
-        }
-      },
-      {
-        id: "5",
-        title: "Sex Education",
-        poster: "https://i.pinimg.com/736x/0f/e9/99/0fe999fe923e403d95766f093a02b9fc.jpg",
-        genres: ["Drama","Comedy","Teen","Coming-of-age"],
-        year: "2024",
-        qualities: ["1080p","720p","480p"],
-        language: ["Hindi"],
-        review: `"Sex Education" is a British coming-of-age comedy-drama series that follows Otis Milburn, a socially awkward teenager who lives with his sex therapist mother. Despite his inexperience, Otis teams up with his sharp and rebellious classmate Maeve Wiley to start an underground sex therapy clinic at their school.
-`,
-        imdb: "8.2",
-        downloads: {
-          "1080p": "https://gplinks.co/6fis",
-          "720p": "https://gplinks.co/60rWC",
-          "480p": "https://gplinks.co/8pOBq"
-        }
+        poster: "poster-poker-face.jpg"
       }
-      // add more movie objects
+      // …add your other movies here
     ];
 
-    const resultsContainer = document.getElementById("searchResults");
-    if (query && resultsContainer) {
-      const results = movies.filter(movie =>
-        movie.title.toLowerCase().includes(query) ||
-        movie.genres.some(g => g.toLowerCase().includes(query)) ||
-        movie.quality.some(q => q.includes(query)) ||
-        movie.year.includes(query)
-      );
-
-      if (results.length > 0) {
-        resultsContainer.innerHTML = results.map(movie => `
-          <div class="movie-card">
-            <a href="download.html?movieId=${movie.id}">
-              <img src="${movie.poster}" alt="${movie.title}">
-              <h3>${movie.title}</h3>
-            </a>
-          </div>
-        `).join('');
-      } else {
-        resultsContainer.innerHTML = "<p>No results found.</p>";
+    document.addEventListener("DOMContentLoaded", function () {
+      // ── Global Search Functionality ────────────────────────────────
+      const searchInput = document.getElementById("globalSearch");
+      const searchButton = document.getElementById("globalSearchBtn");
+      if (searchInput && searchButton) {
+        // Redirect to this page with query param
+        function doSearch() {
+          const q = searchInput.value.trim();
+          if (q) {
+            window.location.href = `search.html?query=${encodeURIComponent(q)}`;
+          }
+        }
+        searchButton.addEventListener("click", doSearch);
+        searchInput.addEventListener("keypress", e => {
+          if (e.key === "Enter") doSearch();
+        });
       }
-    }
-  </script>
 
-  <!-- Paste shared JS here too -->
+      // ── Search Page Logic ───────────────────────────────────────────
+      const params = new URLSearchParams(window.location.search);
+      const query = params.get("query")?.toLowerCase() || "";
+      const resultsContainer = document.getElementById("searchResults");
+
+      if (resultsContainer) {
+        const matched = movies.filter(m =>
+          m.title.toLowerCase().includes(query) ||
+          m.year.includes(query) ||
+          m.genres.some(g => g.toLowerCase().includes(query)) ||
+          m.quality.some(q => q.includes(query))
+        );
+
+        if (matched.length) {
+          resultsContainer.innerHTML = matched.map(m => `
+            <div class="movie-card">
+              <a href="download.html?movieId=${m.id}">
+                <img src="${m.poster}" alt="${m.title}" />
+                <h3>${m.title}</h3>
+              </a>
+            </div>
+          `).join("");
+        } else {
+          resultsContainer.innerHTML = `
+            <p class="no-results">No results found for “${query}”.</p>
+          `;
+        }
+      }
+    });
+  </script>
 </body>
+</html>

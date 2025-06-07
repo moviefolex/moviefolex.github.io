@@ -335,10 +335,11 @@
   <header>
     <h1>MovieFolex</h1>
     <!-- inside <header> just below <h1>MovieFolex</h1> -->
-    <div class="search-container">
-      <input id="globalSearch" type="text" placeholder="Search …" />
-      <button id="searchBtn">Search</button>
-    </div>
+   <div class="search-container">
+    <input type="text" id="downloadSearchInput" placeholder="Search movies..." />
+    <button onclick="goToSearch()">Search</button>
+  </div>
+
     <div class="nav-container">
       <!-- Hamburger icon for mobile -->
       <div class="hamburger" id="hamburger">
@@ -387,6 +388,7 @@
   <div class="download-wrapper" id="downloadWrapper"></div>
 
   <script>
+    
     // ───────────────────────────────────────────────────────────────────────────
     // TOGGLE MOBILE MENU
     // ───────────────────────────────────────────────────────────────────────────
@@ -498,6 +500,13 @@ Pushpa strikes a deal with Central Minister Kogatam Veera Pratap Reddy (Jagapath
       }
       /* … you can append more movie objects here … */
     ];
+
+    function goToSearch() {
+      const query = document.getElementById("downloadSearchInput").value.trim();
+      if (query) {
+        window.location.href = `index.html#${encodeURIComponent(query)}`;
+      }
+    }
 
     // ───────────────────────────────────────────────────────────────────────────
     // UTILITY: GET movieId FROM QUERY PARAMS

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-P08P7TYN2D"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-P08P7TYN2D');
+</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MovieFolex – Category</title>
+  <style>
+    /* ───────────────────────────────────────────────────────────────────────────
+       RESET & BOX‐SIZING
+       ────────────────────────────────────────────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      background-color: #111;
+      color: #eee;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      line-height: 1.4;
+    }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       HEADER / NAV
+       ────────────────────────────────────────────────────────────────────────── */
+    header {
+      position: sticky;
+      top: 0;
+      background-color: #1a0000; /* dark red */
+      z-index: 100;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #660000;
+    }
+    header h1 {
+      font-size: 1.6rem;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Navigation container */
+    .nav-container {
+      display: flex;
+      align-items: center;
+    }
+
+    /* Hamburger icon (hidden on desktop, shown on mobile) */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: #fff;
+    }
+
+    /* The actual navigation links */
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+    .nav-links li {
+      position: relative;
+    }
+    .nav-links a,
+    .nav-links button {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover,
+    .nav-links button:hover {
+      color: #ff3b3f;
+    }
+
+    /* DROPDOWN MENU */
+    .dropdown {
+      position: relative;
+    }
+    .dropdown-content {
+      position: absolute;
+      top: 1.8rem;
+      left: 0;
+      background-color: #222;
+      border: 1px solid #333;
+      border-radius: 4px;
+      min-width: 140px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      z-index: 200;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .dropdown:hover .dropdown-content {
+      visibility: visible;
+      opacity: 1;
+    }
+    .dropdown-content a {
+      display: block;
+      padding: 0.7rem 1rem;
+      font-size: 0.95rem;
+      color: #eee;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .dropdown-content a:hover {
+      background-color: #333;
+      color: #ff3b3f;
+    }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       MAIN / FILTERED MOVIE GRID
+       ────────────────────────────────────────────────────────────────────────── */
+    main {
+      padding: 2rem;
+    }
+    .category-title {
+      font-size: 1.75rem;
+      margin-bottom: 1.2rem;
+      color: #f5f5f5;
+      text-transform: capitalize;
+    }
+    .movie-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+    .movie-card {
+      background-color: #222;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .movie-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.7);
+    }
+    .movie-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .movie-info {
+      padding: 0.8rem 0.75rem;
+    }
+    .movie-title {
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+      color: #fff;
+    }
+    .movie-meta {
+      font-size: 0.9rem;
+      color: #bbb;
+      /* We'll append “⋅ IMDb X.X” here */
+    }
+
+    /* SMALL RED BADGE (TOP‐RIGHT) */
+    .badge {
+      position: absolute;
+      top: 0.6rem;
+      right: 0.6rem;
+      background-color: #d62828;
+      color: #fff;
+      font-size: 0.75rem;
+      padding: 0.3rem 0.5rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+      z-index: 10;
+    }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       FOOTER
+       ────────────────────────────────────────────────────────────────────────── */
+    footer {
+      background-color: #000;
+      color: #777;
+      text-align: center;
+      padding: 1rem 0;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+    }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       RESPONSIVE: PHONE VIEW (max‐width 768px)
+       ────────────────────────────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+      .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #1a0000;
+        flex-direction: column;
+        gap: 0;
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+      }
+      .nav-links.open {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .nav-links li {
+        border-top: 1px solid #660000;
+      }
+      .nav-links li:first-child {
+        border-top: none;
+      }
+      .nav-links a,
+      .nav-links button {
+        padding: 1rem 2rem;
+        width: 100%;
+        text-align: left;
+      }
+      /* Adapt dropdown contents to mobile layout */
+      .dropdown-content {
+        position: static;
+        border: none;
+        box-shadow: none;
+        background-color: #222;
+        margin-left: 1rem;
+        margin-right: 1rem;
+        border-top: 1px solid #333;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <h1>MovieFolex</h1>
+    <div class="nav-container">
+      <!-- Hamburger icon for mobile -->
+      <div class="hamburger" id="hamburger">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <!-- Navigation links -->
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+
+        <li class="dropdown">
+          <button>Genre ▾</button>
+          <div class="dropdown-content">
+            <a href="category.html#genre=Action">Action</a>
+            <a href="category.html#genre=Drama">Drama</a>
+            <a href="category.html#genre=Comedy">Comedy</a>
+            <a href="category.html#genre=Romance">Romance</a>
+            <a href="category.html#genre=Crime">Crime</a>
+          </div>
+        </li>
+
+        <li class="dropdown">
+          <button>By Year ▾</button>
+          <div class="dropdown-content">
+            <a href="category.html#year=2025">2025</a>
+            <a href="category.html#year=2024">2024</a>
+            <a href="category.html#year=2023">2023</a>
+          </div>
+        </li>
+
+        <li class="dropdown">
+          <button>By Qualities ▾</button>
+          <div class="dropdown-content">
+            <a href="category.html#quality=1080p">1080p</a>
+            <a href="category.html#quality=720p">720p</a>
+            <a href="category.html#quality=480p">480p</a>
+            <a href="category.html#quality=2160p">2160p</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- MAIN: Filtered Movies by GENRE/YEAR/QUALITY -->
+  <main>
+    <h2 class="category-title" id="categoryTitle">Category: </h2>
+    <div class="movie-grid" id="movieGrid"></div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2025 MovieFolex – All Rights Reserved
+  </footer>
+
+  <script>
+    // ───────────────────────────────────────────────────────────────────────────
+    // TOGGLE MOBILE MENU
+    // ───────────────────────────────────────────────────────────────────────────
+    const hamburger = document.getElementById("hamburger");
+    const navLinks = document.getElementById("navLinks");
+
+    hamburger.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
+    });
+
+    // ───────────────────────────────────────────────────────────────────────────
+    // MOVIES ARRAY (must match index.html & download.html)
+    // ───────────────────────────────────────────────────────────────────────────
+    const movies = [
+      {
+        id: "3",
+        title: "The Royals",
+        poster: "https://i.pinimg.com/736x/2f/6c/74/2f6c745376fe03d434cad1c58e7c67f9.jpg",
+        genres: ["Drama","Romance"],
+        year: "2025",
+        qualities: ["1080p","720p","480p"],
+        language: ["Hindi","Telugu"],
+        review: `'The Royals' follows the lives of a frictional british royal family, blending glamour, scandal, and intrigue. At the center of the story is  Queen Helena (played by Elizabeth Hurley), a cunning and image- conscious matriarch determined to preserve the monarchy's dignity amidst chaos. After the sudden death of the heir to the throne, Prince Robert, the monarchy is thrown into disarray.
+       
+His Younger brother, Prince Liam, unexpectedly becomes the next in line, and he struggles with the burden of royal expectations while also dealing with romantic entanglements and personal demons. His twin sister, Princess Eleanor, is a rebellious royal known for her wild lifestyle, constantly attracting tabloid attention.
+      
+Meanwhile, King Simon seeks to reform the monarchy and make it more transparent and democratic, but his ideals put him at odds with others  within the palace—including Helena and the manipulative Lord Chamberlain, Cyrus, who harbors ambitions of his own.
+        
+The show dives deep into palace conspiracies, secret romances, betrayal, and power plays, presenting a darker, sexier, and more tumultuous view of royalty.
+         
+.`,
+        imdb: "4.8",
+        downloads: {
+          "1080p": "https://gplinks.co/0MR82q",
+          "720p": "https://gplinks.co/VJ7awz",
+          "480p": "https://gplinks.co/dKmudBh"
+        }
+      },
+      {
+        id: "1",
+        title: "Pushpa 2: The Rule",
+        poster: "https://i.pinimg.com/736x/f5/ec/3b/f5ec3b1c4430e2bd3ebe82d6e4636464.jpg",
+        genres: ["Action","Crime","Drama","Thriller"],
+        year: "2024",
+        qualities: ["1080p","720p","480p"],
+        language: ["Hindi"],
+        review: `The film opens with a dramatic scene at the Yokohama port in Japan, where Pushpa is discovered hidden inside a red sandalwood consignment. He demands payment but is shot and falls into the sea, triggering a flashback. Having humiliated SP Bhanwar Singh Shekhawat (Fahadh Faasil) in the previous installment, Pushpa's influence in the smuggling syndicate grows. Offended by the Chief Minister's refusal to be photographed with him, Pushpa vows to install Siddappa (Rao Ramesh) as the new CM, raising ₹500 crores through smuggling operations .
+
+Pushpa strikes a deal with Central Minister Kogatam Veera Pratap Reddy (Jagapathi Babu) and plans to sell 2,000 tons of red sandalwood for ₹5,000 crores. However, internal betrayals and external threats, including from Mangalam Srinu, Dakshayani, and the vengeful Shekhawat, jeopardize his ambitions .`,
+        imdb: "6.1",
+        downloads: {
+          "1080p": "https://gplinks.co/z7cj2VX8",
+          "720p": "https://gplinks.co/hO08szA4",
+          "480p": "https://gplinks.co/5rYHW"
+        }
+      },
+      {
+        id: "2",
+        title: "Raid 2",
+        poster: "https://i.pinimg.com/736x/e5/f7/14/e5f714ad5413a632155b4561c106e196.jpg",
+        genres: ["Action","Crime","Drama","Thriller"],
+        year: "2025",
+        qualities: ["1080p","720p","480p"],
+        language: ["Hindi"],
+        review: `Following the events of the first film, Rama is recruited by an anti-corruption task force to infiltrate Jakarta's criminal underworld. To gain the trust of the Bangun crime family, he is imprisoned to befriend Uco, the son of the syndicate's leader. Upon release, Rama becomes entangled in a complex web of gang rivalries, betrayals, and escalating violence. As he delves deeper, he uncovers the extent of corruption within both the criminal organizations and his own police force. The film culminates in intense confrontations that test Rama's resolve and combat skills. 
+
+.`,
+        imdb: "7.1",
+        downloads: {
+          "1080p": "https://gplinks.co/HQwp",
+          "720p": "https://gplinks.co/iWosai",
+          "480p": "https://gplinks.co/6PjlPgn"
+        }
+      },
+      {
+        id: "4",
+        title: "Joker",
+        poster: "images/joker-2019.jpg",
+        genres: ["drama","crime"],
+        year: "2019",
+        qualities: ["1080p","720p","480p"],
+        language: ["English"],
+        review: `A raw, unsettling origin story of Arthur Fleck—a failed comedian who spirals into madness
+and becomes the infamous Joker.
+
+Key Elements:
+1) Arthur’s descent into mental illness and societal neglect.
+2) The transformation from laughter to anarchy in Gotham City.
+3) The birth of a chaotic symbol that inspires violent uprisings.`,
+        imdb: "8.5",
+        downloads: {
+          "1080p": "links/joker-2019-1080p.mp4",
+          "720p": "links/joker-2019-720p.mp4",
+          "480p": "links/joker-2019-480p.mp4"
+        }
+      }
+      /* … you can append more movie objects here … */
+    ];
+
+    // ───────────────────────────────────────────────────────────────────────────
+    // UTILITY: PARSE URL HASH (e.g. "genre=Comedy" or "year=2025" or "quality=720p")
+    // ───────────────────────────────────────────────────────────────────────────
+    function parseHash() {
+      const hash = window.location.hash.substring(1); // e.g. "genre=Comedy"
+      const [type, value] = hash.split("=");
+      return { type: type?.toLowerCase(), value: value || "" };
+    }
+
+    // ───────────────────────────────────────────────────────────────────────────
+    // CREATE A MOVIE CARD & RETURN <a> WRAPPING THE CARD
+    // ───────────────────────────────────────────────────────────────────────────
+    function createMovieCard(movie) {
+      const cardAnchor = document.createElement("a");
+      cardAnchor.href = `download.html?movieId=${movie.id}`;
+      cardAnchor.style.textDecoration = "none";
+
+      const card = document.createElement("div");
+      card.className = "movie-card";
+
+      // RED BADGE (top-right) → primary quality
+      const badge = document.createElement("div");
+      badge.className = "badge";
+      badge.innerText = movie.qualities[0].toUpperCase();
+      card.appendChild(badge);
+
+      // POSTER IMAGE
+      const img = document.createElement("img");
+      img.src = movie.poster;
+      img.alt = movie.title + " Poster";
+      card.appendChild(img);
+
+      // INFO PANEL UNDER THE POSTER
+      const info = document.createElement("div");
+      info.className = "movie-info";
+
+      const title = document.createElement("h3");
+      title.className = "movie-title";
+      title.textContent = movie.title;
+      info.appendChild(title);
+
+      const meta = document.createElement("p");
+      meta.className = "movie-meta";
+      const capGenres = movie.genres
+        .map(g => g.charAt(0).toUpperCase() + g.slice(1))
+        .join(", ");
+      const langs = movie.language
+        .map(l => l.charAt(0).toUpperCase() + l.slice(1))
+        .join(", ");
+      meta.textContent = `${capGenres} ⋅ ${movie.year} ⋅ ${langs} ⋅ IMDb ${movie.imdb}`;
+      info.appendChild(meta);
+
+      card.appendChild(info);
+      cardAnchor.appendChild(card);
+      return cardAnchor;
+    }
+
+    // ───────────────────────────────────────────────────────────────────────────
+    // RENDER FILTERED MOVIES BASED ON HASH PARAMETER
+    // ───────────────────────────────────────────────────────────────────────────
+    function renderFilteredMovies() {
+      const { type, value } = parseHash();
+      const displayTitleEl = document.getElementById("categoryTitle");
+      const grid = document.getElementById("movieGrid");
+      grid.innerHTML = "";
+
+      if (!type || !value) {
+        displayTitleEl.textContent = "Category: All";
+        movies.forEach(m => {
+          grid.appendChild(createMovieCard(m));
+        });
+        return;
+      }
+
+      let filtered = [];
+
+      if (type === "genre") {
+        displayTitleEl.textContent = `Genre: ${value}`;
+        filtered = movies.filter(m =>
+          m.genres.some(g => g.toLowerCase() === value.toLowerCase())
+        );
+      } else if (type === "year") {
+        displayTitleEl.textContent = `Year: ${value}`;
+        filtered = movies.filter(m => m.year === value);
+      } else if (type === "quality") {
+        displayTitleEl.textContent = `Quality: ${value.toUpperCase()}`;
+        filtered = movies.filter(m =>
+          m.qualities.some(q => q.toLowerCase() === value.toLowerCase())
+        );
+      } else {
+        displayTitleEl.textContent = "Category: All";
+        filtered = movies.slice();
+      }
+
+      if (filtered.length === 0) {
+        const p = document.createElement("p");
+        p.style.color = "#ccc";
+        p.textContent = "No movies found for this category.";
+        grid.appendChild(p);
+        return;
+      }
+
+      filtered.forEach(m => {
+        grid.appendChild(createMovieCard(m));
+      });
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      renderFilteredMovies();
+      window.addEventListener("hashchange", () => {
+        renderFilteredMovies();
+      });
+    });
+  </script>
+</body>
+</html>

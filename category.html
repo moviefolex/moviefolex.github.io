@@ -644,9 +644,43 @@ Pushpa strikes a deal with Central Minister Kogatam Veera Pratap Reddy (Jagapath
       });
 
       // ─── GLOBAL SEARCH ─────────────────────────────────────────────────────────
-      /* same doSearch(), eventListeners as index.html */
+     // ─── GLOBAL SEARCH ─────────────────────────────────────────────────────────
+      const searchInput = document.getElementById('globalSearch');
+      const searchBtn   = document.getElementById('searchBtn');
+  
+      function doSearch() {
+        const term = searchInput.value.trim().toLowerCase();
+        if (!term) {
+          renderMovies(movies);
+          return;
+        }
+        const filtered = movies.filter(m => {
+          // check title, year, genres, qualities, language
+          const hay = [
+            m.title,
+            m.year,
+            ...m.genres,
+            ...m.qualities,
+            ...m.language
+          ].join(' ').toLowerCase();
+          return hay.includes(term);
+        });
+        renderMovies(filtered);
+      }
+  
+      searchBtn.addEventListener('click', doSearch);
+      searchInput.addEventListener('keydown', e => {
+        if (e.key === 'Enter') doSearch();
+      });
+  
       // ───────────────────────────────────────────────────────────────────────────
   
+      // ─── MOBILE MENU TOGGLE (unchanged) ───────────────────────────────────────
+      const hamburger = document.getElementById('hamburger');
+      const navLinks  = document.getElementById('navLinks');
+      hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('open');
+      });
       // hashchange still triggers filtered rendering:
       window.addEventListener("hashchange", () => {
         if (!document.getElementById('globalSearch').value.trim()) {

@@ -294,33 +294,27 @@
       /* ─── GLOBAL SEARCH BAR ───────────────────────────────────────────────────── */
       .search-container {
         display: flex;
+        justify-content: center;
         align-items: center;
-        gap: 0.5rem;
-        flex: 1; /* allow it to grow on desktop if you like */
-        max-width: 400px;
-        margin-left: 2rem;
+        margin: 20px auto;
+        gap: 10px;
       }
       .search-container input {
-        flex: 1;
-        padding: 0.5rem 0.75rem;
-        font-size: 1rem;
-        border: 1px solid #444;
-        border-radius: 4px;
-        background: #222;
-        color: #eee;
+        padding: 8px 12px;
+        width: 250px;
+        border-radius: 20px;
+        border: 1px solid #ccc;
       }
       .search-container input::placeholder {
         color: #888;
       }
       .search-container button {
-        padding: 0.5rem 1rem;
-        font-size: 1rem;
-        background: #ffeb3b;
-        color: #000;
+        padding: 8px 16px;
         border: none;
-        border-radius: 4px;
+        border-radius: 20px;
+        background-color: #ff3c3c;
+        color: white;
         cursor: pointer;
-        white-space: nowrap;
       }
       .search-container button:hover {
         background: #fdd835;
@@ -336,8 +330,8 @@
     <h1>MovieFolex</h1>
     <!-- inside <header> just below <h1>MovieFolex</h1> -->
     <div class="search-container">
-      <input id="globalSearch" type="text" placeholder="Search …" />
-      <button id="searchBtn">Search</button>
+      <input type="text" id="indexSearchInput" placeholder="Search movies..." />
+      <button onclick="searchMovies('indexSearchInput')">Search</button>
     </div>
     <div class="nav-container">
       <!-- Hamburger icon for mobile -->

@@ -151,29 +151,74 @@
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 1rem;
     }
+    /* ─── Movie‐Card Layout ─────────────────────────────────────────────────── */
+
     .movie-card {
-     /* …all your existing props except these three… */
-      aspect-ratio: 1 / 1;
+      position: relative;
+      background-color: #222;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+
+      /* force a square poster area + content box below */
       display: flex;
       flex-direction: column;
-      border: 3px solid transparent;  /* ← new */
+      width: 200px;          /* fixed width */
     }
+
     .movie-card:hover {
-      transform: scale(1.05);
+      transform: translateY(-6px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.7);
     }
-    .movie-card img {
+
+    /* Poster takes exactly as tall as it is wide */
+    .movie-card .poster-container {
       width: 100%;
-      flex: 1 0 auto;    /* ← new */
-      object-fit: cover;  /* ← new */
+      height: 200px;         /* same as .movie-card width */
+      overflow: hidden;
     }
-    .movie-info {
-     /* keep your existing padding/background… */
-      flex: 0 0 auto;  /* ← new */
+    .movie-card .poster-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
-    .movie-title {
-      font-size: 1.05rem;
+
+    /* Content box below the poster */
+    .movie-card .card-content {
+      padding: 0.8rem;
+      background-color: #222;
+      flex: 0 0 auto;
+    }
+
+    /* Release date with icon */
+    .movie-card .card-content .date {
+      font-size: 0.85rem;
+      color: #bbb;
       margin-bottom: 0.4rem;
+    }
+    .movie-card .card-content .date::before {
+      content: '📅';
+      margin-right: 0.3rem;
+    }
+
+    /* Bold “Download [Movie Name]” title */
+    .movie-card .card-content .movie-title {
+      margin: 0 0 0.4rem;
+      font-size: 1rem;
+      font-weight: 700;
       color: #fff;
+    }
+    
+    /* Description (qualities, sizes, etc.) */
+    .movie-card .card-content .movie-desc {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #ddd;
+      line-height: 1.3;
+    }
+    ;
     }
     .movie-meta {
       font-size: 0.9rem;
@@ -436,41 +481,53 @@ Key Elements:
       '2160p': '#9C27B0'
     };
     function createMovieCard(movie) {
+      // 1) wrapper <a> (tooltip via title attr)
       const a = document.createElement('a');
-      a.href = `download.html?movieId=${movie.id}`;
-      a.title = `Download ${movie.title} (${movie.year}) — ${movie.qualities.join(' | ')}`;
-
+      a.href  = `download.html?movieId=${movie.id}`;
+      a.title = `Download ${movie.title} — ${movie.qualities.join(' | ')}`;
+    
+      // 2) card container
       const card = document.createElement('div');
       card.className = 'movie-card';
-      card.style.borderColor = borderColor[movie.qualities[0].toLowerCase()] || 'transparent';
 
-      const badge = document.createElement('div');
-      badge.className = 'badge';
-      badge.innerText = movie.qualities[0].toUpperCase();
-      card.appendChild(badge);
-
+      // 3) poster
+      const posterDiv = document.createElement('div');
+      posterDiv.className = 'poster-container';
       const img = document.createElement('img');
       img.src = movie.poster;
       img.alt = movie.title + ' Poster';
-      card.appendChild(img);
+      posterDiv.appendChild(img);
+      card.appendChild(posterDiv);
+    
+      // 4) content box
+      const content = document.createElement('div');
+      content.className = 'card-content';
+    
+      // 4a) date
+      const dateP = document.createElement('p');
+      dateP.className = 'date';
+      // assuming you have a `date` property in your movie object:
+      dateP.textContent = movie.date || '';  
+      content.appendChild(dateP);
 
-      const info = document.createElement('div');
-      info.className = 'movie-info';
-      const titleEl = document.createElement('h3');
-      titleEl.className = 'movie-title';
-      titleEl.textContent = movie.title;
-      info.appendChild(titleEl);
-
-      const meta = document.createElement('p');
-      meta.className = 'movie-meta';
-      const caps = movie.genres.map(g => g[0].toUpperCase() + g.slice(1)).join(', ');
-      const langs = movie.language.map(l => l[0].toUpperCase() + l.slice(1)).join(', ');
-      meta.textContent = `${caps} ⋅ ${movie.year} ⋅ ${langs} ⋅ IMDb ${movie.imdb}`;
-      info.appendChild(meta);
-
-      card.appendChild(info);
+      // 4b) title
+      const titleH3 = document.createElement('h3');
+      titleH3.className = 'movie-title';
+      titleH3.textContent = `Download ${movie.title}`;
+      content.appendChild(titleH3);
+    
+      // 4c) description (qualities, sizes, etc.)
+      const descP = document.createElement('p');
+      descP.className = 'movie-desc';
+      // join qualities and (if you have sizes) show them here:
+      descP.textContent = movie.qualities.join(' | ');
+      content.appendChild(descP);
+    
+      card.appendChild(content);
       a.appendChild(card);
       return a;
+    }
+
 }
 
     // ───────────────────────────────────────────────────────────────────────────

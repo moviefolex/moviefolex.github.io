@@ -423,51 +423,49 @@ Key Elements:
     // ───────────────────────────────────────────────────────────────────────────
     // UTILITY: CREATE A MOVIE CARD & APPEND TO #movieGrid
     // ───────────────────────────────────────────────────────────────────────────
+    const borderColor = {
+      '1080p': '#4CAF50',
+      '720p':  '#FFC107',
+      '480p':  '#FF5722',
+      '2160p': '#9C27B0'
+    };
     function createMovieCard(movie) {
-      const cardAnchor = document.createElement("a");
-      cardAnchor.href = `download.html?movieId=${movie.id}`;
-      cardAnchor.style.textDecoration = "none";
+      const a = document.createElement('a');
+      a.href = `download.html?movieId=${movie.id}`;
+      a.title = `Download ${movie.title} (${movie.year}) — ${movie.qualities.join(' | ')}`;
 
-      const card = document.createElement("div");
-      card.className = "movie-card";
+      const card = document.createElement('div');
+      card.className = 'movie-card';
+      card.style.borderColor = borderColor[movie.qualities[0].toLowerCase()] || 'transparent';
 
-      // 1) RED BADGE (top-right) showing primary quality
-      const badge = document.createElement("div");
-      badge.className = "badge";
+      const badge = document.createElement('div');
+      badge.className = 'badge';
       badge.innerText = movie.qualities[0].toUpperCase();
       card.appendChild(badge);
 
-      // 2) POSTER IMAGE
-      const img = document.createElement("img");
+      const img = document.createElement('img');
       img.src = movie.poster;
-      img.alt = movie.title + " Poster";
+      img.alt = movie.title + ' Poster';
       card.appendChild(img);
 
-      // 3) INFO PANEL UNDER THE POSTER
-      const info = document.createElement("div");
-      info.className = "movie-info";
+      const info = document.createElement('div');
+      info.className = 'movie-info';
+      const titleEl = document.createElement('h3');
+      titleEl.className = 'movie-title';
+      titleEl.textContent = movie.title;
+      info.appendChild(titleEl);
 
-      const title = document.createElement("h3");
-      title.className = "movie-title";
-      title.textContent = movie.title;
-      info.appendChild(title);
-
-      const meta = document.createElement("p");
-      meta.className = "movie-meta";
-      // Capitalize each genre, join them, then show year, language, and IMDb rating
-      const capGenres = movie.genres
-        .map(g => g.charAt(0).toUpperCase() + g.slice(1))
-        .join(", ");
-      const langs = movie.language
-        .map(l => l.charAt(0).toUpperCase() + l.slice(1))
-        .join(", ");
-      meta.textContent = `${capGenres} ⋅ ${movie.year} ⋅ ${langs} ⋅ IMDb ${movie.imdb}`;
+      const meta = document.createElement('p');
+      meta.className = 'movie-meta';
+      const caps = movie.genres.map(g => g[0].toUpperCase() + g.slice(1)).join(', ');
+      const langs = movie.language.map(l => l[0].toUpperCase() + l.slice(1)).join(', ');
+      meta.textContent = `${caps} ⋅ ${movie.year} ⋅ ${langs} ⋅ IMDb ${movie.imdb}`;
       info.appendChild(meta);
 
       card.appendChild(info);
-      cardAnchor.appendChild(card);
-      return cardAnchor;
-    }
+      a.appendChild(card);
+      return a;
+}
 
     // ───────────────────────────────────────────────────────────────────────────
     // RENDER ALL MOVIES INTO THE GRID (index.html)

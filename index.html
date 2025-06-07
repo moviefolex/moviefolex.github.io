@@ -146,31 +146,23 @@
       gap: 1rem;
     }
     .movie-card {
-      background-color: #1f1f1f;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      transition: transform 0.2s;
-      text-align: center;
-      /* Equal height and width */
+     /* …all your existing props except these three… */
       aspect-ratio: 1 / 1;
       display: flex;
       flex-direction: column;
+      border: 3px solid transparent;  /* ← new */
     }
     .movie-card:hover {
       transform: scale(1.05);
     }
     .movie-card img {
       width: 100%;
-      height: auto;
-      object-fit: cover;
-      flex: 1;
+      flex: 1 0 auto;    /* ← new */
+      object-fit: cover;  /* ← new */
     }
     .movie-info {
-      padding: 0.5rem;
-      background-color: #111;
-      color: #fff;
-      font-size: 0.9rem;
+     /* keep your existing padding/background… */
+      flex: 0 0 auto;  /* ← new */
     }
     .movie-title {
       font-size: 1.05rem;

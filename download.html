@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-P08P7TYN2D"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-P08P7TYN2D');
+</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MovieFolex – Download</title>
+  <style>
+    /* ───────────────────────────────────────────────────────────────────────────
+       RESET & BOX‐SIZING
+       ────────────────────────────────────────────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      background-color: #111;
+      color: #eee;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       HEADER NAVBAR
+       ────────────────────────────────────────────────────────────────────────── */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #1a0000;
+      z-index: 2;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #660000;
+    }
+    header h1 {
+      font-size: 1.6rem;
+      color: #fff;
+      text-transform: uppercase;
+    }
+
+    /* Navigation container */
+    .nav-container {
+      display: flex;
+      align-items: center;
+    }
+
+    /* Hamburger icon (hidden on desktop, shown on mobile) */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: #fff;
+    }
+
+    /* The actual navigation links */
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+    .nav-links li {
+      position: relative;
+    }
+    .nav-links a,
+    .nav-links button {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover,
+    .nav-links button:hover {
+      color: #ff3b3f;
+    }
+
+    /* DROPDOWNS */
+    .dropdown {
+      position: relative;
+    }
+    .dropdown-content {
+      position: absolute;
+      top: 1.8rem;
+      left: 0;
+      background-color: #222;
+      border: 1px solid #333;
+      border-radius: 4px;
+      min-width: 140px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      z-index: 200;
+
+      /* Hide by default, fade in/out */
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .dropdown:hover .dropdown-content {
+      visibility: visible;
+      opacity: 1;
+    }
+    .dropdown-content a {
+      display: block;
+      padding: 0.7rem 1rem;
+      font-size: 0.95rem;
+      color: #eee;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .dropdown-content a:hover {
+      background-color: #333;
+      color: #ff3b3f;
+    }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       OVERLAY + BACKGROUND
+       ────────────────────────────────────────────────────────────────────────── */
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1;
+    }
+
+    /* ───────────────────────────────────────────────────────────────────────────
+       CENTERED DOWNLOAD CONTAINER
+       ────────────────────────────────────────────────────────────────────────── */
+    .download-wrapper {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      margin: 6rem auto; /* leave room for header */
+      background-color: #222;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
+      padding-bottom: 1rem;
+    }
+
+    /* MOVIE TITLE (TOP‐CENTER) */
+    .download-wrapper h2 {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 2rem;
+      color: #fff;
+      text-transform: uppercase;
+    }
+
+    /* POSTER (CENTERED, MEDIUM SIZED) */
+    .poster-container {
+      text-align: center;
+      margin: 1rem 0;
+    }
+    .poster-container img {
+      width: 60%;           /* medium-size */
+      max-width: 400px;     /* don’t exceed 400px */
+      height: auto;
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    }
+
+    /* INFO BOX */
+    .info-box {
+      margin: 1rem auto;
+      background-color: #111;
+      padding: 1rem 1.5rem;
+      border-radius: 6px;
+      max-width: 700px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+    .info-box p {
+      margin: 0.6rem 0;
+      font-size: 1rem;
+      color: #ddd;
+    }
+    .info-box p span.label {
+      font-weight: 600;
+      color: #ff3b3f;
+      margin-right: 0.5rem;
+    }
+
+    /* REVIEW SECTION TITLE */
+    .review-heading {
+      text-align: center;
+      margin: 1rem 0 0.5rem 0;
+      font-size: 1.3rem;
+      color: #fff;
+      text-transform: uppercase;
+    }
+
+    /* OVERVIEW / PLOT */
+    .overview {
+      margin: 0 auto 1rem auto;
+      max-width: 700px;
+      padding: 0 1rem;
+      text-align: left;          /* left-align for multi-line text */
+      white-space: pre-wrap;     /* preserve line breaks */
+      color: #ccc;
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    /* DOWNLOAD BUTTONS (CENTERED) */
+    .qualities {
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+    .qualities button {
+      background-color: #ff3b3f;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.6rem 1.4rem;
+      font-size: 1rem;
+      margin: 0 0.5rem 0.5rem 0.5rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .qualities button:hover {
+      background-color: #e03235;
+    }
+
+    /* RESPONSIVE: PHONE VIEW (max‐width 768px) */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+      .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #1a0000;
+        flex-direction: column;
+        gap: 0;
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+      }
+      .nav-links.open {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .nav-links li {
+        border-top: 1px solid #660000;
+      }
+      .nav-links li:first-child {
+        border-top: none;
+      }
+      .nav-links a,
+      .nav-links button {
+        padding: 1rem 2rem;
+        width: 100%;
+        text-align: left;
+      }
+      /* Adapt dropdown contents to mobile layout */
+      .dropdown-content {
+        position: static;
+        border: none;
+        box-shadow: none;
+        background-color: #222;
+        margin-left: 1rem;
+        margin-right: 1rem;
+        border-top: 1px solid #333;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- OVERLAY -->
+  <div id="overlay"></div>
+
+  <!-- HEADER NAV -->
+  <header>
+    <h1>MovieFolex</h1>
+    <div class="nav-container">
+      <!-- Hamburger icon for mobile -->
+      <div class="hamburger" id="hamburger">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <!-- Navigation links -->
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+
+        <li class="dropdown">
+          <button>Genre ▾</button>
+          <div class="dropdown-content">
+            <a href="category.html#genre=Action">Action</a>
+            <a href="category.html#genre=Drama">Drama</a>
+            <a href="category.html#genre=Comedy">Comedy</a>
+            <a href="category.html#genre=Romance">Romance</a>
+            <a href="category.html#genre=Crime">Crime</a>
+          </div>
+        </li>
+
+        <li class="dropdown">
+          <button>By Year ▾</button>
+          <div class="dropdown-content">
+            <a href="category.html#year=2025">2025</a>
+            <a href="category.html#year=2024">2024</a>
+            <a href="category.html#year=2023">2023</a>
+          </div>
+        </li>
+
+        <li class="dropdown">
+          <button>By Qualities ▾</button>
+          <div class="dropdown-content">
+            <a href="category.html#quality=1080p">1080p</a>
+            <a href="category.html#quality=720p">720p</a>
+            <a href="category.html#quality=480p">480p</a>
+            <a href="category.html#quality=2160p">2160p</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- DOWNLOAD CONTAINER -->
+  <div class="download-wrapper" id="downloadWrapper"></div>
+
+  <script>
+    // ───────────────────────────────────────────────────────────────────────────
+    // TOGGLE MOBILE MENU
+    // ───────────────────────────────────────────────────────────────────────────
+    const hamburger = document.getElementById("hamburger");
+    const navLinks = document.getElementById("navLinks");
+
+    hamburger.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
+    });
+
+    // ───────────────────────────────────────────────────────────────────────────
+    // MOVIES ARRAY (must match index.html & category.html)
+    // ───────────────────────────────────────────────────────────────────────────
+    const movies = [
+      {
+        id: "3",
+        title: "The Royals",
+        poster: "https://i.pinimg.com/736x/2f/6c/74/2f6c745376fe03d434cad1c58e7c67f9.jpg",
+        genres: ["Drama","Romance"],
+        year: "2025",
+        qualities: ["1080p","720p","480p"],
+        language: ["Hindi","Telugu"],
+        review: `'The Royals' follows the lives of a frictional british royal family, blending glamour, scandal, and intrigue. At the center of the story is  Queen Helena (played by Elizabeth Hurley), a cunning and image- conscious matriarch determined to preserve the monarchy's dignity amidst chaos. After the sudden death of the heir to the throne, Prince Robert, the monarchy is thrown into disarray.
+       
+His Younger brother, Prince Liam, unexpectedly becomes the next in line, and he struggles with the burden of royal expectations while also dealing with romantic entanglements and personal demons. His twin sister, Princess Eleanor, is a rebellious royal known for her wild lifestyle, constantly attracting tabloid attention.
+      
+Meanwhile, King Simon seeks to reform the monarchy and make it more transparent and democratic, but his ideals put him at odds with others  within the palace—including Helena and the manipulative Lord Chamberlain, Cyrus, who harbors ambitions of his own.
+        
+The show dives deep into palace conspiracies, secret romances, betrayal, and power plays, presenting a darker, sexier, and more tumultuous view of royalty.
+         
+.`,
+        imdb: "4.8",
+        downloads: {
+          "1080p": "https://gplinks.co/0MR82q",
+          "720p": "https://gplinks.co/VJ7awz",
+          "480p": "https://gplinks.co/dKmudBh"
+        }
+      },
+      {
+        id: "1",
+        title: "Pushpa 2: The Rule",
+        poster: "https://i.pinimg.com/736x/f5/ec/3b/f5ec3b1c4430e2bd3ebe82d6e4636464.jpg",
+        genres: ["Action","Crime","Drama","Thriller"],
+        year: "2024",
+        qualities: ["1080p","720p","480p"],
+        language: ["Hindi"],
+        review: `The film opens with a dramatic scene at the Yokohama port in Japan, where Pushpa is discovered hidden inside a red sandalwood consignment. He demands payment but is shot and falls into the sea, triggering a flashback. Having humiliated SP Bhanwar Singh Shekhawat (Fahadh Faasil) in the previous installment, Pushpa's influence in the smuggling syndicate grows. Offended by the Chief Minister's refusal to be photographed with him, Pushpa vows to install Siddappa (Rao Ramesh) as the new CM, raising ₹500 crores through smuggling operations .
+
+Pushpa strikes a deal with Central Minister Kogatam Veera Pratap Reddy (Jagapathi Babu) and plans to sell 2,000 tons of red sandalwood for ₹5,000 crores. However, internal betrayals and external threats, including from Mangalam Srinu, Dakshayani, and the vengeful Shekhawat, jeopardize his ambitions .`,
+        imdb: "6.1",
+        downloads: {
+          "1080p": "https://gplinks.co/z7cj2VX8",
+          "720p": "https://gplinks.co/hO08szA4",
+          "480p": "https://gplinks.co/5rYHW"
+        }
+      },
+      {
+        id: "2",
+        title: "Raid 2",
+        poster: "https://i.pinimg.com/736x/e5/f7/14/e5f714ad5413a632155b4561c106e196.jpg",
+        genres: ["Action","Crime","Drama","Thriller"],
+        year: "2025",
+        qualities: ["1080p","720p","480p"],
+        language: ["Hindi"],
+        review: `Following the events of the first film, Rama is recruited by an anti-corruption task force to infiltrate Jakarta's criminal underworld. To gain the trust of the Bangun crime family, he is imprisoned to befriend Uco, the son of the syndicate's leader. Upon release, Rama becomes entangled in a complex web of gang rivalries, betrayals, and escalating violence. As he delves deeper, he uncovers the extent of corruption within both the criminal organizations and his own police force. The film culminates in intense confrontations that test Rama's resolve and combat skills. 
+
+.`,
+        imdb: "7.1",
+        downloads: {
+          "1080p": "https://gplinks.co/HQwp",
+          "720p": "https://gplinks.co/iWosai",
+          "480p": "https://gplinks.co/6PjlPgn"
+        }
+      },
+      {
+        id: "4",
+        title: "Joker",
+        poster: "images/joker-2019.jpg",
+        genres: ["drama","crime"],
+        year: "2019",
+        qualities: ["1080p","720p","480p"],
+        language: ["English"],
+        review: `A raw, unsettling origin story of Arthur Fleck—a failed comedian who spirals into madness
+and becomes the infamous Joker.
+
+Key Elements:
+1) Arthur’s descent into mental illness and societal neglect.
+2) The transformation from laughter to anarchy in Gotham City.
+3) The birth of a chaotic symbol that inspires violent uprisings.`,
+        imdb: "8.5",
+        downloads: {
+          "1080p": "links/joker-2019-1080p.mp4",
+          "720p": "links/joker-2019-720p.mp4",
+          "480p": "links/joker-2019-480p.mp4"
+        }
+      }
+      /* … you can append more movie objects here … */
+    ];
+
+    // ───────────────────────────────────────────────────────────────────────────
+    // UTILITY: GET movieId FROM QUERY PARAMS
+    // ───────────────────────────────────────────────────────────────────────────
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    // ───────────────────────────────────────────────────────────────────────────
+    // RENDER DOWNLOAD PAGE FOR THE SELECTED MOVIE
+    // ───────────────────────────────────────────────────────────────────────────
+    function renderDownloadPage(movie) {
+      const container = document.getElementById("downloadWrapper");
+      container.innerHTML = ""; // clear
+
+      // 1) TITLE (centered at top)
+      const h2 = document.createElement("h2");
+      h2.textContent = movie.title;
+      container.appendChild(h2);
+
+      // 2) POSTER (centered below title)
+      const posterDiv = document.createElement("div");
+      posterDiv.className = "poster-container";
+      const posterImg = document.createElement("img");
+      posterImg.src = movie.poster;
+      posterImg.alt = movie.title + " Poster";
+      posterDiv.appendChild(posterImg);
+      container.appendChild(posterDiv);
+
+      // 3) INFO BOX (IMDb-style) in the middle
+      const infoBox = document.createElement("div");
+      infoBox.className = "info-box";
+
+      // IMDb Rating
+      const ratingP = document.createElement("p");
+      ratingP.innerHTML = `<span class="label">IMDb Rating:</span> ${movie.imdb}`;
+      infoBox.appendChild(ratingP);
+
+      // Movie Name
+      const nameP = document.createElement("p");
+      nameP.innerHTML = `<span class="label">Name:</span> ${movie.title}`;
+      infoBox.appendChild(nameP);
+
+      // Genres
+      const capGenres = movie.genres
+        .map(g => g.charAt(0).toUpperCase() + g.slice(1))
+        .join(", ");
+      const genresP = document.createElement("p");
+      genresP.innerHTML = `<span class="label">Genre:</span> ${capGenres}`;
+      infoBox.appendChild(genresP);
+
+      // Qualities
+      const qualP = document.createElement("p");
+      qualP.innerHTML = `<span class="label">Quality:</span> ${movie.qualities
+        .map(q => q.toUpperCase())
+        .join(", ")}`;
+      infoBox.appendChild(qualP);
+
+      // Language
+      const langs = movie.language
+        .map(l => l.charAt(0).toUpperCase() + l.slice(1))
+        .join(", ");
+      const langP = document.createElement("p");
+      langP.innerHTML = `<span class="label">Language:</span> ${langs}`;
+      infoBox.appendChild(langP);
+
+      // Year
+      const yearP = document.createElement("p");
+      yearP.innerHTML = `<span class="label">Year:</span> ${movie.year}`;
+      infoBox.appendChild(yearP);
+
+      container.appendChild(infoBox);
+
+      // 4) REVIEW SECTION TITLE (Inserted in middle)
+      const reviewHeader = document.createElement("h3");
+      reviewHeader.className = "review-heading";
+      reviewHeader.textContent = "Review";
+      container.appendChild(reviewHeader);
+
+      // 5) OVERVIEW = Plot/Review (centered below the “Review” heading)
+      const plotDiv = document.createElement("div");
+      plotDiv.className = "overview";
+      // Use textContent so newline characters (\n) become actual line breaks (white-space: pre-wrap)
+      plotDiv.textContent = movie.review;
+      container.appendChild(plotDiv);
+
+      // 6) DOWNLOAD BUTTONS (three centered)
+      const qDiv = document.createElement("div");
+      qDiv.className = "qualities";
+      movie.qualities.forEach(q => {
+        const btn = document.createElement("button");
+        btn.textContent = `Download ${q.toUpperCase()}`;
+        btn.addEventListener("click", () => {
+          window.location.href = movie.downloads[q];
+        });
+        qDiv.appendChild(btn);
+      });
+      container.appendChild(qDiv);
+    }
+
+    // ───────────────────────────────────────────────────────────────────────────
+    // ON PAGE LOAD: FIND ?movieId=XX AND RENDER
+    // ───────────────────────────────────────────────────────────────────────────
+    window.addEventListener("DOMContentLoaded", () => {
+      const movieId = getQueryParam("movieId");
+      if (!movieId) {
+        alert("Error: No movieId specified in URL.");
+        return;
+      }
+      const movie = movies.find(m => m.id === movieId);
+      if (!movie) {
+        alert("Error: Movie not found.");
+        return;
+      }
+      renderDownloadPage(movie);
+    });
+  </script>
+</body>
+</html>

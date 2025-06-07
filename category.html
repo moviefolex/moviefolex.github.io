@@ -152,31 +152,23 @@
       gap: 1rem;
     }
     .movie-card {
-      background-color: #1f1f1f;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      transition: transform 0.2s;
-      text-align: center;
-      /* Equal height and width */
+     /* …all your existing props except these three… */
       aspect-ratio: 1 / 1;
       display: flex;
       flex-direction: column;
+      border: 3px solid transparent;  /* ← new */
     }
     .movie-card:hover {
       transform: scale(1.05);
     }
     .movie-card img {
       width: 100%;
-      height: auto;
-      object-fit: cover;
-      flex: 1;
+      flex: 1 0 auto;    /* ← new */
+      object-fit: cover;  /* ← new */
     }
     .movie-info {
-      padding: 0.5rem;
-      background-color: #111;
-      color: #fff;
-      font-size: 0.9rem;
+     /* keep your existing padding/background… */
+      flex: 0 0 auto;  /* ← new */
     }
     .movie-title {
       font-size: 1.05rem;
@@ -437,50 +429,49 @@ Key Elements:
     // ───────────────────────────────────────────────────────────────────────────
     // CREATE A MOVIE CARD & RETURN <a> WRAPPING THE CARD
     // ───────────────────────────────────────────────────────────────────────────
+    const borderColor = {
+      '1080p': '#4CAF50',
+      '720p':  '#FFC107',
+      '480p':  '#FF5722',
+      '2160p': '#9C27B0'
+    };
     function createMovieCard(movie) {
-      const cardAnchor = document.createElement("a");
-      cardAnchor.href = `download.html?movieId=${movie.id}`;
-      cardAnchor.style.textDecoration = "none";
+      const a = document.createElement('a');
+      a.href = `download.html?movieId=${movie.id}`;
+      a.title = `Download ${movie.title} (${movie.year}) — ${movie.qualities.join(' | ')}`;
 
-      const card = document.createElement("div");
-      card.className = "movie-card";
+      const card = document.createElement('div');
+      card.className = 'movie-card';
+      card.style.borderColor = borderColor[movie.qualities[0].toLowerCase()] || 'transparent';
 
-      // RED BADGE (top-right) → primary quality
-      const badge = document.createElement("div");
-      badge.className = "badge";
+      const badge = document.createElement('div');
+      badge.className = 'badge';
       badge.innerText = movie.qualities[0].toUpperCase();
       card.appendChild(badge);
 
-      // POSTER IMAGE
-      const img = document.createElement("img");
+      const img = document.createElement('img');
       img.src = movie.poster;
-      img.alt = movie.title + " Poster";
+      img.alt = movie.title + ' Poster';
       card.appendChild(img);
 
-      // INFO PANEL UNDER THE POSTER
-      const info = document.createElement("div");
-      info.className = "movie-info";
+      const info = document.createElement('div');
+      info.className = 'movie-info';
+      const titleEl = document.createElement('h3');
+      titleEl.className = 'movie-title';
+      titleEl.textContent = movie.title;
+      info.appendChild(titleEl);
 
-      const title = document.createElement("h3");
-      title.className = "movie-title";
-      title.textContent = movie.title;
-      info.appendChild(title);
-
-      const meta = document.createElement("p");
-      meta.className = "movie-meta";
-      const capGenres = movie.genres
-        .map(g => g.charAt(0).toUpperCase() + g.slice(1))
-        .join(", ");
-      const langs = movie.language
-        .map(l => l.charAt(0).toUpperCase() + l.slice(1))
-        .join(", ");
-      meta.textContent = `${capGenres} ⋅ ${movie.year} ⋅ ${langs} ⋅ IMDb ${movie.imdb}`;
+      const meta = document.createElement('p');
+      meta.className = 'movie-meta';
+      const caps = movie.genres.map(g => g[0].toUpperCase() + g.slice(1)).join(', ');
+      const langs = movie.language.map(l => l[0].toUpperCase() + l.slice(1)).join(', ');
+      meta.textContent = `${caps} ⋅ ${movie.year} ⋅ ${langs} ⋅ IMDb ${movie.imdb}`;
       info.appendChild(meta);
 
       card.appendChild(info);
-      cardAnchor.appendChild(card);
-      return cardAnchor;
-    }
+      a.appendChild(card);
+      return a;
+}
 
     // ───────────────────────────────────────────────────────────────────────────
     // RENDER FILTERED MOVIES BASED ON HASH PARAMETER

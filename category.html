@@ -634,12 +634,27 @@ Pushpa strikes a deal with Central Minister Kogatam Veera Pratap Reddy (Jagapath
       });
     }
 
-    window.addEventListener("DOMContentLoaded", () => {
-      renderFilteredMovies();
-      window.addEventListener("hashchange", () => {
-        renderFilteredMovies();
+      window.addEventListener("DOMContentLoaded", () => {
+        // if user typed something before loading:
+        if (document.getElementById('globalSearch').value.trim()) {
+          doSearch(); 
+        } else {
+          renderFilteredMovies();
+        }
       });
-    });
+
+      // ─── GLOBAL SEARCH ─────────────────────────────────────────────────────────
+      /* same doSearch(), eventListeners as index.html */
+      // ───────────────────────────────────────────────────────────────────────────
+  
+      // hashchange still triggers filtered rendering:
+      window.addEventListener("hashchange", () => {
+        if (!document.getElementById('globalSearch').value.trim()) {
+          renderFilteredMovies();
+        }
+      });
+        
+      
   </script>
 </body>
 </html>

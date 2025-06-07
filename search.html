@@ -1,0 +1,61 @@
+<body>
+  <!-- header/nav -->
+
+  <div class="search-box">
+    <input type="text" id="globalSearch" placeholder="Search ..." />
+    <button id="globalSearchBtn">Search</button>
+  </div>
+
+  <div id="searchResults"></div>
+
+  <script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const query = urlParams.get('query')?.toLowerCase();
+
+    const movies = [
+      {
+        title: "The Royals",
+        genres: ["Drama", "Crime"],
+        quality: ["1080p", "720p"],
+        year: "2024",
+        poster: "poster.jpg",
+        id: "the-royals"
+      },
+      {
+        title: "Poker Face",
+        genres: ["Crime", "Mystery"],
+        quality: ["1080p", "720p", "480p"],
+        year: "2025",
+        poster: "poker-face.jpg",
+        id: "poker-face"
+      }
+      // add more movie objects
+    ];
+
+    const resultsContainer = document.getElementById("searchResults");
+    if (query && resultsContainer) {
+      const results = movies.filter(movie =>
+        movie.title.toLowerCase().includes(query) ||
+        movie.genres.some(g => g.toLowerCase().includes(query)) ||
+        movie.quality.some(q => q.includes(query)) ||
+        movie.year.includes(query)
+      );
+
+      if (results.length > 0) {
+        resultsContainer.innerHTML = results.map(movie => `
+          <div class="movie-card">
+            <a href="download.html?movieId=${movie.id}">
+              <img src="${movie.poster}" alt="${movie.title}">
+              <h3>${movie.title}</h3>
+            </a>
+          </div>
+        `).join('');
+      } else {
+        resultsContainer.innerHTML = "<p>No results found.</p>";
+      }
+    }
+  </script>
+
+  <!-- Paste shared JS here too -->
+</body>

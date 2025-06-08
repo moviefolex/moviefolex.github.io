@@ -291,32 +291,37 @@
       }
       /* SEARCH BAR (same as index.html) */
       .search-box {
-        display: flex;
-        align-items: center;
+        position: relative;
         margin-left: 1.5rem;
       }
       .search-box input {
-        border-radius: 20px;
-        padding: 0.5rem 1rem;
-        border: none;
-        outline: none;
         width: 180px;
+        padding: 0.5rem 2.5rem 0.5rem 1rem;
+        border: 1px solid #333;
+        background-color: #1a1a1a;
+        border-radius: 40px;
         font-size: 1rem;
+        color: #eee;
+        outline: none;
+      }
+      .search-box input::placeholder {
+        color: #777;
       }
       .search-box button {
-        margin-left: 0.5rem;
-        padding: 0.6rem 1.2rem;
-        border-radius: 12px;
+        position: absolute;
+        top: 50%;
+        right: 0.75rem;
+        transform: translateY(-50%);
+        background: transparent;
         border: none;
+        padding: 0;
         cursor: pointer;
-        background-color: #d62828;
-        color: #fff;
-        font-size: 1.5rem;
+        font-size: 1.2rem;
+        color: #eee;
         line-height: 1;
-        transition: background 0.2s;
       }
       .search-box button:hover {
-        background-color: #ff3b3f;
+        color: #fff;
       }
       @media (max-width: 768px) {
         .search-box {

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag, meta, CSS… same header styling + search CSS -->
+  <style>
+    /* … copy over your global CSS … */
+
+    /* SEARCH BAR */
+    .search-box {
+      display: flex;
+      align-items: center;
+      margin-left: 1.5rem;
+    }
+    .search-box input {
+      border-radius: 20px;
+      padding: 0.5rem 1rem;
+      border: none;
+      outline: none;
+      width: 180px;
+      font-size: 1rem;
+    }
+    .search-box button {
+      margin-left: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+      background-color: #d62828;
+      color: #fff;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+    .search-box button:hover {
+      background-color: #ff3b3f;
+    }
+
+    main {
+      padding: 2rem;
+    }
+    .movie-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Search Results – MovieFolex</title>
+</head>
+<body>
+  <header>
+    <h1>MovieFolex</h1>
+    <div class="search-box">
+      <input type="text" id="siteSearchInput" placeholder="Search movies…" />
+      <button id="siteSearchBtn">Search</button>
+    </div>
+    <div class="nav-container">
+      <!-- … your nav links … -->
+    </div>
+  </header>
+
+  <main>
+    <div class="movie-grid" id="movieGrid">
+      <!-- filtered results appear here -->
+    </div>
+  </main>
+  <footer>© 2025 MovieFolex – All Rights Reserved</footer>
+
+  <script>
+    // ───────────────────────────────────────────────────────────────────────────
+    // SITE-WIDE SEARCH REDIRECT (so you can refine search from here too)
+    // ───────────────────────────────────────────────────────────────────────────
+    const searchInput = document.getElementById("siteSearchInput");
+    const searchBtn   = document.getElementById("siteSearchBtn");
+    function doSearch() {
+      const q = searchInput.value.trim();
+      if (q) window.location.href = `search.html?query=${encodeURIComponent(q)}`;
+    }
+    searchBtn.addEventListener("click", doSearch);
+    searchInput.addEventListener("keypress", e => {
+      if (e.key === "Enter") doSearch();
+    });
+
+    // ───────────────────────────────────────────────────────────────────────────
+    // MOVIES ARRAY & CREATE CARD (same as others)
+    // ───────────────────────────────────────────────────────────────────────────
+    const movies = [ /* … same array … */ ];
+    function createMovieCard(movie) { /* … same as index.html … */ }
+
+    // ───────────────────────────────────────────────────────────────────────────
+    // FILTER BY QUERY PARAM & RENDER
+    // ───────────────────────────────────────────────────────────────────────────
+    function getQueryParam(name) {
+      const params = new URLSearchParams(window.location.search);
+      return (params.get(name) || "").toLowerCase();
+    }
+
+    function renderSearchResults() {
+      const grid = document.getElementById("movieGrid");
+      const q    = getQueryParam("query");
+      searchInput.value = q;  // show current query in search box
+
+      if (!q) {
+        grid.innerHTML = "<p>Please enter a search term.</p>";
+        return;
+      }
+
+      const filtered = movies.filter(m => {
+        const hay = [
+          m.title,
+          ...m.genres,
+          m.year,
+          ...m.qualities,
+          ...m.language
+        ].join(" ").toLowerCase();
+        return hay.includes(q);
+      });
+
+      if (!filtered.length) {
+        grid.innerHTML = `<p>No movies found for “${q}”.</p>`;
+      } else {
+        grid.innerHTML = "";
+        filtered.forEach(m => grid.appendChild(createMovieCard(m)));
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", renderSearchResults);
+  </script>
+</body>
+</html>

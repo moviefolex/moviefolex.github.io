@@ -302,8 +302,48 @@
       <button id="siteSearchBtn">Search</button>
     </div>
     <div class="nav-container">
-      <!-- … your nav links … -->
+      <!-- Hamburger icon for mobile -->
+      <div class="hamburger" id="hamburger">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <!-- Navigation links -->
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+
+        <li class="dropdown">
+          <button>Genre ▾</button>
+          <div class="dropdown-content">
+            <a href="category.html#genre=Action">Action</a>
+            <a href="category.html#genre=Drama">Drama</a>
+            <a href="category.html#genre=Comedy">Comedy</a>
+            <a href="category.html#genre=Romance">Romance</a>
+            <a href="category.html#genre=Crime">Crime</a>
+          </div>
+        </li>
+
+        <li class="dropdown">
+          <button>By Year ▾</button>
+          <div class="dropdown-content">
+            <a href="category.html#year=2025">2025</a>
+            <a href="category.html#year=2024">2024</a>
+            <a href="category.html#year=2023">2023</a>
+          </div>
+        </li>
+
+        <li class="dropdown">
+          <button>By Qualities ▾</button>
+          <div class="dropdown-content">
+            <a href="category.html#quality=1080p">1080p</a>
+            <a href="category.html#quality=720p">720p</a>
+            <a href="category.html#quality=480p">480p</a>
+            <a href="category.html#quality=2160p">2160p</a>
+          </div>
+        </li>
+      </ul>
     </div>
+  
   </header>
 
   <main>

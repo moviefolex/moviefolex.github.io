@@ -469,7 +469,51 @@ Pushpa strikes a deal with Central Minister Kogatam Veera Pratap Reddy (Jagapath
       }
       /* … you can append more movie objects here … */
     ];
-    function createMovieCard(movie) { /* … same as index.html … */ }
+    function createMovieCard(movie) {
+      const cardAnchor = document.createElement("a");
+      cardAnchor.href = `download.html?movieId=${movie.id}`;
+      cardAnchor.style.textDecoration = "none";
+
+      const card = document.createElement("div");
+      card.className = "movie-card";
+
+      // 1) RED BADGE (top-right) showing primary quality
+      const badge = document.createElement("div");
+      badge.className = "badge";
+      badge.innerText = movie.qualities[0].toUpperCase();
+      card.appendChild(badge);
+
+      // 2) POSTER IMAGE
+      const img = document.createElement("img");
+      img.src = movie.poster;
+      img.alt = movie.title + " Poster";
+      card.appendChild(img);
+
+      // 3) INFO PANEL UNDER THE POSTER
+      const info = document.createElement("div");
+      info.className = "movie-info";
+
+      const title = document.createElement("h3");
+      title.className = "movie-title";
+      title.textContent = movie.title;
+      info.appendChild(title);
+
+      const meta = document.createElement("p");
+      meta.className = "movie-meta";
+      // Capitalize each genre, join them, then show year, language, and IMDb rating
+      const capGenres = movie.genres
+        .map(g => g.charAt(0).toUpperCase() + g.slice(1))
+        .join(", ");
+      const langs = movie.language
+        .map(l => l.charAt(0).toUpperCase() + l.slice(1))
+        .join(", ");
+      meta.textContent = `${capGenres} ⋅ ${movie.year} ⋅ ${langs} ⋅ IMDb ${movie.imdb}`;
+      info.appendChild(meta);
+
+      card.appendChild(info);
+      cardAnchor.appendChild(card);
+      return cardAnchor;
+    }
 
     // ───────────────────────────────────────────────────────────────────────────
     // FILTER BY QUERY PARAM & RENDER

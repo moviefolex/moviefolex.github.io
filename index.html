@@ -249,8 +249,6 @@
         margin-right: 1rem;
         border-top: 1px solid #333;
       }
-      
-  }
     }
   </style>
 </head>
@@ -259,10 +257,6 @@
   <!-- HEADER -->
   <header>
     <h1>MovieFolex</h1>
-    <div class="search-box">
-      <input type="text" id="globalSearch" placeholder="Search ..." />
-      <button id="globalSearchBtn">Search</button>
-    </div>
     <div class="nav-container">
       <!-- Hamburger icon for mobile -->
       <div class="hamburger" id="hamburger">
@@ -396,37 +390,24 @@ Pushpa strikes a deal with Central Minister Kogatam Veera Pratap Reddy (Jagapath
       },
       {
         id: "4",
-        title: "Do Patti",
-        poster: "https://i.pinimg.com/736x/d4/2e/3c/d42e3ce421f06816598e2bc91d01d35c.jpg",
-        genres: ["Drama","Thriller","Mystery"],
-        year: "2024",
+        title: "Joker",
+        poster: "images/joker-2019.jpg",
+        genres: ["drama","crime"],
+        year: "2019",
         qualities: ["1080p","720p","480p"],
-        language: ["Hindi"],
-        review: `'Do Patti'  is a suspense thriller set in the misty hills of northern India. The story revolves around a gripping mystery that intertwines two strong female leads in a high-stakes cat-and-mouse game. As secrets unravel and hidden motives surface, the narrative explores justice, betrayal, and the dark sides of human ambition. With a backdrop of crime and emotional intensity, Do Patti keeps viewers guessing till the very end.
+        language: ["English"],
+        review: `A raw, unsettling origin story of Arthur Fleck—a failed comedian who spirals into madness
+and becomes the infamous Joker.
 
-.`,
-        imdb: "6.3",
+Key Elements:
+1) Arthur’s descent into mental illness and societal neglect.
+2) The transformation from laughter to anarchy in Gotham City.
+3) The birth of a chaotic symbol that inspires violent uprisings.`,
+        imdb: "8.5",
         downloads: {
-          "1080p": "https://gplinks.co/6fis",
-          "720p": "https://gplinks.co/60rWC",
-          "480p": "https://gplinks.co/8pOBq"
-        }
-      },
-      {
-        id: "5",
-        title: "Sex Education",
-        poster: "https://i.pinimg.com/736x/0f/e9/99/0fe999fe923e403d95766f093a02b9fc.jpg",
-        genres: ["Drama","Comedy","Teen","Coming-of-age"],
-        year: "2024",
-        qualities: ["1080p","720p","480p"],
-        language: ["Hindi"],
-        review: `"Sex Education" is a British coming-of-age comedy-drama series that follows Otis Milburn, a socially awkward teenager who lives with his sex therapist mother. Despite his inexperience, Otis teams up with his sharp and rebellious classmate Maeve Wiley to start an underground sex therapy clinic at their school.
-`,
-        imdb: "8.2",
-        downloads: {
-          "1080p": "https://gplinks.co/6fis",
-          "720p": "https://gplinks.co/60rWC",
-          "480p": "https://gplinks.co/8pOBq"
+          "1080p": "links/joker-2019-1080p.mp4",
+          "720p": "links/joker-2019-720p.mp4",
+          "480p": "links/joker-2019-480p.mp4"
         }
       }
       /* … you can append more movie objects here … */
@@ -491,8 +472,7 @@ Pushpa strikes a deal with Central Minister Kogatam Veera Pratap Reddy (Jagapath
         const card = createMovieCard(m);
         grid.appendChild(card);
       });
-
-     
+    }
 
     window.addEventListener("DOMContentLoaded", () => {
       renderAllMovies();

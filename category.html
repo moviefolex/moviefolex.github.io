@@ -258,10 +258,11 @@
       /* SEARCH BAR (same) */
       .search-box {
         position: relative;
-        margin-left: 1.5rem;
+        width: 180px;
+        margin: 2rem auto;       /* centers + adds space above/below */
       }
       .search-box input {
-        width: 180px;
+        width: 100%;
         padding: 0.5rem 2.5rem 0.5rem 1rem;
         border: 1px solid #333;
         background-color: #1a1a1a;
@@ -269,9 +270,6 @@
         font-size: 1rem;
         color: #eee;
         outline: none;
-      }
-      .search-box input::placeholder {
-        color: #777;
       }
       .search-box button {
         position: absolute;
@@ -291,9 +289,6 @@
       }
       @media (max-width: 768px) {
         .search-box {
-          margin: 1rem 2rem;
-        }
-        .search-box input {
           width: 140px;
         }
     }
